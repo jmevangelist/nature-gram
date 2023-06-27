@@ -1,0 +1,24 @@
+<div class="card" *ngIf="observation">
+    <div class="card-block">
+        <div class="clr-row clr-align-items-center">
+            <div class="clr-col-auto">
+                <img [src]="observation.user.icon" class="user_icon">
+            </div>
+            <div class="clr-col">
+                <p><strong>{{observation.user.login ?? observation.user.name}}</strong></p>
+                <p *ngIf="observation.place_guess">{{observation.place_guess}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-img" *ngIf="observation.photos">
+        <img [src]="observation.photos[0].url" loading="lazy" 
+        [width]="observation.photos[0].original_dimensions.width" 
+        [height]="observation.photos[0].original_dimensions.height">
+    </div>
+    <div class="card-block">
+        <p class="card-text"><em>{{ observation.taxon?.name ?? 'unknown' }}</em><br/>
+            {{observation.taxon?.preferred_common_name}}<br/>
+            {{observation.time_observed_at | dateTimeAgo}}
+        </p>
+    </div>
+</div>

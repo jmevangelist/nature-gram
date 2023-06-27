@@ -1,0 +1,11 @@
+.branding{
+    max-width: fit-content !important;
+}
+
+.content-area{
+    padding: 0 !important;
+}
+
+.main-container{
+    max-height: 100vh !important;
+}

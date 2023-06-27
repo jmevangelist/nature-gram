@@ -1,0 +1,21 @@
+.card{
+    max-width: 500px;
+    box-shadow: unset !important;
+    margin-top: .6rem !important;
+    margin-bottom: .6rem;
+}
+
+.user_icon{
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+}
+
+p{
+    margin: 0 !important;
+}
+
+.clr-col-auto{
+    padding: 0;
+}
