@@ -4,8 +4,9 @@ export interface Observation {
     user: User;
     place_guess?: string;
     taxon?: Taxon;
-    photos: Photos[];
+    photos: Photo[] | [];
     time_observed_at: string;
+    faves_count: number;
 }
 
 export interface User {
@@ -22,7 +23,7 @@ export interface Taxon {
     preferred_common_name?: string;
 }
 
-export interface Photos {
+export interface Photo {
     id: number;
     url: string;
     original_dimensions: {height: number, width: number}; 
