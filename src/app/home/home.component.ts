@@ -1,6 +1,6 @@
 import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observation } from '../inaturalist';
+import { Observation } from '../inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
 import { InaturalistService } from '../inaturalist.service';
 import { ClarityModule } from '@clr/angular';

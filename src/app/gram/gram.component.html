@@ -2,7 +2,7 @@
     <div class="card-block">
         <div class="clr-row clr-align-items-center">
             <div class="clr-col-auto">
-                <img [src]="observation.user.icon" class="user_icon">
+                <img [src]="observation.user.icon || 'assets/default.png'" class="user_icon">
             </div>
             <div class="clr-col">
                 <p><strong>{{observation.user.login ?? observation.user.name}}</strong></p>
@@ -10,15 +10,11 @@
             </div>
         </div>
     </div>
-    <div class="card-img" *ngIf="observation.photos">
-        <img [src]="observation.photos[0].url" loading="lazy" 
-        [width]="observation.photos[0].original_dimensions.width" 
-        [height]="observation.photos[0].original_dimensions.height">
-    </div>
+    <app-carousel class="card-img" [photos]="observation.photos"></app-carousel>
     <div class="card-block">
-        <p class="card-text"><em>{{ observation.taxon?.name ?? 'unknown' }}</em><br/>
-            {{observation.taxon?.preferred_common_name}}<br/>
-            {{observation.time_observed_at | dateTimeAgo}}
-        </p>
+        <p class="card-text" *ngIf="observation.faves_count">{{observation.faves_count}} fave<ng-container *ngIf="observation.faves_count == 1">s</ng-container></p>
+        <p class="card-text"><em>{{ observation.taxon?.name ?? 'unknown' }}</em></p>
+        <p class="card-text">{{observation.taxon?.preferred_common_name}}</p>
+        <p class="card-text">{{observation.time_observed_at | dateTimeAgo}}</p>
     </div>
 </div>

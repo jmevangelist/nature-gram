@@ -3,6 +3,7 @@
     box-shadow: unset !important;
     margin-top: .6rem !important;
     margin-bottom: .6rem;
+    border-style: unset !important;
 }
 
 .user_icon{
@@ -18,4 +19,14 @@ p{
 
 .clr-col-auto{
     padding: 0;
+}
+
+.card-img {
+    position: relative;
+    width: inherit;
+    display: inline-block;
+}
+
+.clr-row {
+    margin-left: 0 !important;
 }

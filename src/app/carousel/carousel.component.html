@@ -1,0 +1,14 @@
+<img [src]="photos[index].url" loading="lazy" 
+[width]="photos[index].original_dimensions.width" 
+[height]="photos[index].original_dimensions.height">
+<div *ngIf="photos.length>1" class="index">{{index+1}}/{{photos.length}}</div>
+<div *ngIf="photos.length>1" class="buttons clr-row clr-justify-content-between">
+    <button type="button" class="btn btn-icon btn-primary left" (click)="index=index-1" 
+        [disabled]="index==0" aria-label="left">
+        <cds-icon shape="angle" direction="left"></cds-icon>
+    </button>
+    <button type="button" class="btn btn-icon btn-primary right" (click)="index=index+1" 
+        [disabled]="index==photos.length-1" aria-label="right">
+        <cds-icon shape="angle" direction="right"></cds-icon>
+    </button>
+</div>
