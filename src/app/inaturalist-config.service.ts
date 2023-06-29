@@ -21,7 +21,17 @@ export class InaturalistConfigService {
     Photos = {
         id: true,
         url: true,
-        original_dimensions: {height: true, width: true}
+        original_dimensions: {height: true, width: true},
+        attribution: true
+    }
+
+    Identification = {
+        id: true,
+        uuid: true,
+        created_at: true,
+        current: true,
+        taxon: this.Taxon,
+        user: this.User
     }
 
     Observation =  {
@@ -32,6 +42,8 @@ export class InaturalistConfigService {
         taxon: this.Taxon,
         photos: this.Photos,
         time_observed_at: true,
-        faves_count: true
+        faves_count: true,
+        identifications: this.Identification,
+        description: true
     }
 }

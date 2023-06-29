@@ -57,7 +57,6 @@ export class HomeComponent implements AfterViewInit {
     this.loading = true;
     this.inaturalistService.getObservations(this.extraParams)
       .then( (observations:Observation[])=>{
-        console.log(this.inaturalistService.counter)
         this.observations.push(...observations)
       })
   }
