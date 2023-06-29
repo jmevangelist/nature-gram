@@ -7,6 +7,8 @@ export interface Observation {
     photos: Photo[] | [];
     time_observed_at: string;
     faves_count: number;
+    identifications: Identification[] | [];
+    description: string | null;
 }
 
 export interface User {
@@ -27,9 +29,19 @@ export interface Photo {
     id: number;
     url: string;
     original_dimensions: {height: number, width: number}; 
+    attribution: string;
 }
 
 export interface Geojson {
     coordinates: number[];
     type: string;
+}
+
+export interface Identification {
+    id: number;
+    uuid: string;
+    created_at: string;
+    current: boolean;
+    taxon: Taxon,
+    user: User
 }

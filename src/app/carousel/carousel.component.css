@@ -29,4 +29,5 @@
 img{
     height: 100vw !important;
     object-fit: cover;
+    max-height: 500px;
 }
