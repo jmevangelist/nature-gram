@@ -33,7 +33,7 @@
               "node_modules/@clr/ui/clr-ui.min.css",
               "src/styles.css"
             ],
-            "scripts": ["src/assets/rison.js"]
+            "scripts": ["node_modules/rison/js/rison.js"]
           },
           "configurations": {
             "production": {
@@ -96,7 +96,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": ["src/assets/rison.js"]
+            "scripts": ["node_modules/rison/js/rison.js"]
           }
         }
       }
