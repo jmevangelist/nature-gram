@@ -11,7 +11,7 @@ PODMAN_ARGS=(
 	--volume "${ROOT}:/home/node/${PROJECT}"
 	--workdir "/home/node/${PROJECT}"
 	--init
-	--tty
+	-it
 )
 
 POST_ARGS=()
