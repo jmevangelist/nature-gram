@@ -1,14 +1,26 @@
-<img [src]="photos[index].url" loading="lazy" 
-[width]="photos[index].original_dimensions.width" 
-[height]="photos[index].original_dimensions.height">
-<div *ngIf="photos.length>1" class="index">{{index+1}}/{{photos.length}}</div>
+<div class="carousel-container" #carousel>
+    <ul id="carousel" [ngStyle]="{'width.%':100*photos.length}">
+        <li class="slide" *ngFor="let photo of photos; let i=index;" 
+        [ngStyle]="{'width.%':100/photos.length}">
+            <div *ngIf="photos.length>1" class="index">{{i+1}}/{{photos.length}}</div>
+            <img #img [src]="photo.url" loading="lazy" 
+            [width]="photo.original_dimensions.width" 
+            [height]="photo.original_dimensions.height"
+            (click)="img.classList.toggle('contain')" >
+        </li>
+    </ul>
+</div>
+
 <div *ngIf="photos.length>1" class="buttons clr-row clr-justify-content-between">
-    <button type="button" class="btn btn-icon btn-primary left" (click)="index=index-1" 
-        [disabled]="index==0" aria-label="left">
+    <button type="button" class="btn btn-icon btn-primary left" 
+        (click)="carousel.scrollTo({left:carousel.scrollLeft - carousel.offsetWidth})" 
+        aria-label="left">
         <cds-icon shape="angle" direction="left"></cds-icon>
     </button>
-    <button type="button" class="btn btn-icon btn-primary right" (click)="index=index+1" 
-        [disabled]="index==photos.length-1" aria-label="right">
+    <button type="button" class="btn btn-icon btn-primary right"
+        (click)="carousel.scrollTo({left:carousel.scrollLeft + carousel.offsetWidth })" 
+        aria-label="right">
         <cds-icon shape="angle" direction="right"></cds-icon>
     </button>
 </div>
+

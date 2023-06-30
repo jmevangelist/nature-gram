@@ -12,9 +12,8 @@ import { ClarityIcons, angleIcon } from '@cds/core/icon';
   styleUrls: ['./carousel.component.css']
 })
 export class CarouselComponent {
-  @Input() photos!: Photo[]
-  index: number = 0
-  
+  @Input() photos!: Photo[]  
+
 }
 ClarityIcons.addIcons(angleIcon)
 

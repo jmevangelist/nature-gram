@@ -30,4 +30,40 @@ img{
     height: 100vw !important;
     object-fit: cover;
     max-height: 500px;
+    width: 100%;
+}
+
+.contain {
+    object-fit: contain !important;
+}
+
+.carousel-container{
+    height: 100vw !important;
+    max-height: 500px;
+    overflow-x: scroll;
+    width: inherit;
+    padding: 0;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+
+.slide {
+    scroll-snap-align: start;
+}
+
+
+li{
+    list-style-position: initial !important;
+    position: relative;
+}
+
+#carousel{
+    display: flex;
+    -webkit-overflow-scrolling: touch
+}
+
+@media screen and (max-width: 768px) {
+    .buttons{
+        display: none !important;
+    }   
 }
