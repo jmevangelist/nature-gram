@@ -13,7 +13,7 @@
     object-fit: cover;
 }
 
-p{
+.card-text{
     margin: 0 !important;
 }
 
@@ -29,4 +29,13 @@ p{
 
 .clr-row {
     margin-left: 0 !important;
+    margin-bottom: 0.3rem;
+}
+
+.top-block {
+    padding: .3rem .9rem !important;
+}   
+
+a{
+    text-decoration: unset;
 }

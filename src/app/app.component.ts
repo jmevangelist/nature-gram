@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ClarityIcons } from '@cds/core/icon';
+import { ClarityIcons, homeIcon } from '@cds/core/icon';
 import { palmTreeIcon } from '@cds/core/icon/shapes/palm-tree';
 import { ClarityModule } from '@clr/angular';
 
@@ -21,5 +21,5 @@ export class AppComponent {
   title = 'natureGram';
 }
 
-ClarityIcons.addIcons(['my-icon','<svg src="assets/logo.svg"></svg>'])
 ClarityIcons.addIcons(palmTreeIcon)
+ClarityIcons.addIcons(homeIcon)

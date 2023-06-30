@@ -1,0 +1,40 @@
+.card-img > img {
+    height: 33vw !important;
+    object-fit: cover;
+}
+
+.clr-col-4{
+    padding: 0.1rem !important;
+}
+
+.clr-row{
+    margin: 0!important;
+}
+
+.card{
+    box-shadow: unset !important;
+    border-style: unset !important;
+    margin: 0 !important;
+}
+
+.user{
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.user-icon{
+    border-radius: 50%;
+    width: 3rem !important;
+    height: 3rem !important;
+    object-fit: cover;
+}
+
+h4{
+    margin:0 !important;
+}
+
+p{
+    margin:0 !important;
+}
+
+

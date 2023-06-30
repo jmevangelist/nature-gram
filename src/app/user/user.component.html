@@ -1,0 +1,22 @@
+<div class="clr-row clr-align-items-center user" *ngIf="observations">
+    <div class="clr-col-auto">
+        <img [src]="observations[0].user.icon || 'assets/default.png'" 
+        class="user-icon">
+    </div>
+    <div class="clr-col">
+        <h4>{{user_login}}</h4>
+        <p>{{observations[0].user.name}}</p>
+    </div>
+</div>
+
+<div class="clr-row" *ngIf="observations">
+    <div *ngFor="let observation of observations" class="clr-col-4">
+        <div class="card">
+            <div class="card-img">
+                <img [src]="observation.photos[0].url" loading="lazy" 
+                [width]="observation.photos[0].original_dimensions.width" 
+                [height]="observation.photos[0].original_dimensions.height">
+            </div>
+        </div>
+    </div>
+</div>

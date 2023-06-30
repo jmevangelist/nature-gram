@@ -1,0 +1,25 @@
+#!/bin/bash
+
+ROOT=$(dirname $(realpath $0))
+PROJECT=$(basename $ROOT)
+IMAGE=${IMAGE:-angular:alpine}
+
+PODMAN_ARGS=(
+	--rm
+	--security-opt label=disable
+	--userns keep-id
+	--volume "${ROOT}:/home/node/${PROJECT}"
+	--workdir "/home/node/${PROJECT}"
+	--init
+	--tty
+)
+
+POST_ARGS=()
+
+if [[ x"$1" = x"ng" ]] && [[ x"$2" = x"serve" ]]; then
+	PODMAN_ARGS+=( -p "4200:4200" )
+	POST_ARGS+=( --host "0.0.0.0" )
+	POST_ARGS+=( --disable-host-check )
+fi
+
+podman run "${PODMAN_ARGS[@]}" "${IMAGE}" $@ "${POST_ARGS[@]}"

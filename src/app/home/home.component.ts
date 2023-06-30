@@ -30,6 +30,13 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(private changeDetectorRef: ChangeDetectorRef){
     this.createObserver()
+    let now = Date();
+    let createdD1 = new Date(Date.now() - (3*24*60*60*1000))
+    this.extraParams = [
+      ['popular','true'],
+      ['created_d1',createdD1.toString()],
+      ['created_d2',now],
+      ['order_by','votes']]
     this.moreObservations()
   }
 
@@ -45,7 +52,11 @@ export class HomeComponent implements AfterViewInit {
     this.loading = false;
     this.changeDetectorRef.detectChanges();
     let lastId = t.last.observation.id.toString();
-    this.extraParams = [['id_below', lastId]]
+    if(this.inaturalistService.counter == 1){
+      this.extraParams = undefined
+    }else if (this.inaturalistService.counter == 2){
+      this.extraParams = [['id_below', lastId]]
+    }
     let lastElement = document.querySelector('.last');
     if(lastElement){
       this.observer?.observe(lastElement);
