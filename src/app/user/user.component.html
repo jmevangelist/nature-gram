@@ -1,16 +1,24 @@
-<div class="clr-row clr-align-items-center user" *ngIf="observations">
-    <div class="clr-col-auto">
-        <img [src]="observations[0].user.icon || 'assets/default.png'" 
-        class="user-icon">
+<div class="user">
+    <div class="clr-row clr-align-items-center">
+        <div class="clr-col-auto">
+            <img [src]="user?.icon_url || 'assets/default.png'" 
+            class="user-icon">
+        </div>
+        <div class="clr-col">
+            <h4>{{user_login}}</h4>
+            <ng-container *ngIf="user else loading">
+                <p>{{user.name}}</p>
+                <p>{{user.observations_count}} Observations</p>
+            </ng-container>
+        </div>
     </div>
-    <div class="clr-col">
-        <h4>{{user_login}}</h4>
-        <p>{{observations[0].user.name}}</p>
-    </div>
+    <ng-container *ngIf="user else loading">
+        <p class="user-description" [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')"></p>
+    </ng-container>
 </div>
 
-<div class="clr-row">
-    <div *ngFor="let observation of observations" class="clr-col-4">
+<div class="clr-row" *ngIf="observations else loading">
+    <div #obs *ngFor="let observation of observations" class="clr-col-4">
         <div class="card">
             <div class="card-img">
                 <img [src]="observation.photos[0].url" loading="lazy" 
@@ -20,3 +28,7 @@
         </div>
     </div>
 </div>
+
+<ng-template #loading>
+    <clr-progress-bar clrLoop></clr-progress-bar>
+</ng-template>
