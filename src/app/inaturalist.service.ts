@@ -15,8 +15,10 @@ export class InaturalistService {
   async getObservations(opt_params?:string[][]): Promise<Observation[]>{
     const url = new URL('v2/observations',this.base_url);
     const fields = rison.encode(this.inaturalistConfig.Observation)
-    const params = [['photos', 'true'],
-              ['fields', fields ]]
+    const params = [
+              ['photos', 'true'],
+              ['fields', fields ]
+            ];
     
     if(opt_params){
       params.push(...opt_params)

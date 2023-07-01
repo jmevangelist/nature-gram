@@ -1,10 +1,12 @@
-import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { Observation } from '../inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
 import { InaturalistService } from '../inaturalist.service';
 import { ClarityModule } from '@clr/angular';
-
+import { HomeService } from './home.service';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -20,24 +22,25 @@ import { ClarityModule } from '@clr/angular';
 export class HomeComponent implements AfterViewInit {
 
   observations: Observation[] = [];
+  homeService: HomeService = inject(HomeService);
   inaturalistService: InaturalistService = inject(InaturalistService);
-  loading: boolean = false;
+  loading: boolean = true;
 
   private observer: IntersectionObserver | undefined;  
-  private extraParams: string[][] | undefined = undefined;
+  private initLoad = false;
 
   @ViewChildren('grams') grams!: QueryList<any>;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef){
+  constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router){
     this.createObserver()
-    let now = Date();
-    let createdD1 = new Date(Date.now() - (3*24*60*60*1000))
-    this.extraParams = [
-      ['popular','true'],
-      ['created_d1',createdD1.toString()],
-      ['created_d2',now],
-      ['order_by','votes']]
-    this.moreObservations()
+    let sub = this.router.events.pipe(
+      filter((e): e is NavigationStart => e instanceof NavigationStart))
+      .subscribe((e)=>{
+        if(e.navigationTrigger == 'imperative'){
+          this.homeService.prev_scroll = document.querySelector('.content-area')?.scrollTop
+        }
+        sub.unsubscribe();
+      })
   }
 
   trackByItems(index: number, obs: Observation): number { return obs.id; }
@@ -46,19 +49,21 @@ export class HomeComponent implements AfterViewInit {
     this.grams.changes.subscribe(t=>{
       this.ngForRendered(t)
     })
+    this.observations = this.homeService.Observations;
+    
+    if(this.observations.length == 0){
+      this.moreObservations()
+    }else{
+      this.changeDetectorRef.detectChanges();
+      document.querySelector('.content-area')?.scrollTo({top: this.homeService.prev_scroll})
+    }
   }
 
   ngForRendered(t:any){
     this.loading = false;
     this.changeDetectorRef.detectChanges();
-    if(this.inaturalistService.counter == 1){
-      this.extraParams = undefined
-    }else if (this.inaturalistService.counter > 2){
-      let lastId = t.last.observation.id.toString();
-      this.extraParams = [['id_below', lastId]]
-    }
     let lastElement = document.querySelector('.last');
-    if(lastElement){
+    if(lastElement){  
       this.observer?.observe(lastElement);
     }
     
@@ -66,9 +71,14 @@ export class HomeComponent implements AfterViewInit {
 
   private moreObservations(){
     this.loading = true;
-    this.inaturalistService.getObservations(this.extraParams)
+    const params = this.homeService.extraParams();
+    this.inaturalistService.getObservations(params)
       .then( (observations:Observation[])=>{
-        this.observations.push(...observations)
+        if(observations){
+          this.observations.push(...observations)
+        }else{
+          this.loading = false;
+        }
       }).catch(e => {
         console.log(e)
         this.loading = false;

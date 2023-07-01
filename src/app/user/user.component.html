@@ -12,9 +12,13 @@
             </ng-container>
         </div>
     </div>
-    <ng-container *ngIf="user else loading">
-        <p class="user-description" [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')"></p>
-    </ng-container>
+    <div class="user-description" >
+        <ng-container *ngIf="user else loading">
+            <span #span [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')"
+                (click)="span.classList.toggle('display-inline')">
+            </span>
+        </ng-container>
+    </div>
 </div>
 
 <div class="clr-row" *ngIf="observations else loading">

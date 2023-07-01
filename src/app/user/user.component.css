@@ -1,6 +1,7 @@
 .card-img > img {
     height: 33vw !important;
     object-fit: cover;
+    border-radius: 0% !important;
 }
 
 .clr-col-4{
@@ -39,4 +40,17 @@ p{
 
 .user-description{
     margin-top: 0.6rem !important;
+    height: min-content;
+    width: 100%;
+}
+
+.user-description > span {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.display-inline {
+    display: inline !important;
 }

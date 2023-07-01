@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observation } from '../inaturalist.interface';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe'
