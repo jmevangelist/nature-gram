@@ -46,4 +46,15 @@ export class InaturalistConfigService {
         identifications: this.Identification,
         description: true
     }
+
+    UserAll = {
+        id: true,
+        name: true,
+        login: true,
+        icon: true,
+        icon_url: true,
+        observations_count: true,
+        description: true
+    }
+
 }

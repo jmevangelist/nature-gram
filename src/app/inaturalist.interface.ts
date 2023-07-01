@@ -16,6 +16,11 @@ export interface User {
     name?: string;
     login?: string;
     icon?: string;
+    icon_url?: string;
+    observations_count?: number;
+    description?: string;
+    roles?: string[];
+    species_count?: number;
 }
 
 export interface Taxon {

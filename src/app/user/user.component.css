@@ -15,17 +15,17 @@
     box-shadow: unset !important;
     border-style: unset !important;
     margin: 0 !important;
+    border-radius: 0%;
 }
 
 .user{
-    margin-top: 1rem !important;
-    margin-bottom: 1rem !important;
+    margin: 0.6rem !important;
 }
 
 .user-icon{
     border-radius: 50%;
-    width: 3rem !important;
-    height: 3rem !important;
+    width: 5rem !important;
+    height: 5rem !important;
     object-fit: cover;
 }
 
@@ -37,4 +37,6 @@ p{
     margin:0 !important;
 }
 
-
+.user-description{
+    margin-top: 0.6rem !important;
+}

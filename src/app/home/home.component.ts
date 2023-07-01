@@ -51,10 +51,10 @@ export class HomeComponent implements AfterViewInit {
   ngForRendered(t:any){
     this.loading = false;
     this.changeDetectorRef.detectChanges();
-    let lastId = t.last.observation.id.toString();
     if(this.inaturalistService.counter == 1){
       this.extraParams = undefined
-    }else if (this.inaturalistService.counter == 2){
+    }else if (this.inaturalistService.counter > 2){
+      let lastId = t.last.observation.id.toString();
       this.extraParams = [['id_below', lastId]]
     }
     let lastElement = document.querySelector('.last');
@@ -69,13 +69,16 @@ export class HomeComponent implements AfterViewInit {
     this.inaturalistService.getObservations(this.extraParams)
       .then( (observations:Observation[])=>{
         this.observations.push(...observations)
+      }).catch(e => {
+        console.log(e)
+        this.loading = false;
       })
   }
 
   private createObserver(){
     const options = {
       rootMargin: '0px',
-      threshold: 0.25
+      threshold: 0.05
     }
     
     this.observer = new IntersectionObserver((entries,observer)=>{
