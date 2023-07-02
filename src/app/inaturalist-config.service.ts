@@ -34,6 +34,13 @@ export class InaturalistConfigService {
         user: this.User
     }
 
+    Faves = {
+        id: true,
+        user_id: true,
+        vote_flag: true,
+        vote_scope: true
+    }
+
     Observation =  {
         uuid: true,
         id: true,
@@ -44,7 +51,8 @@ export class InaturalistConfigService {
         time_observed_at: true,
         faves_count: true,
         identifications: this.Identification,
-        description: true
+        description: true,
+        faves: this.Faves
     }
 
     UserAll = {

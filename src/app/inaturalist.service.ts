@@ -1,6 +1,7 @@
 import { Injectable,inject } from '@angular/core';
 import { Observation, User } from './inaturalist.interface';
 import { InaturalistConfigService } from './inaturalist-config.service'
+import { AuthorizationService } from './authorization/authorization.service';
 declare const rison: any; 
 
 @Injectable({
@@ -11,6 +12,7 @@ export class InaturalistService {
   base_url = 'https://api.inaturalist.org'  
   counter:number = 0 
   inaturalistConfig: InaturalistConfigService = inject(InaturalistConfigService)
+  authService: AuthorizationService = inject(AuthorizationService)
 
   async getObservations(opt_params?:string[][]): Promise<Observation[]>{
     const url = new URL('v2/observations',this.base_url);
@@ -68,6 +70,46 @@ export class InaturalistService {
       return undefined
     }
 
+  }
+
+  async getMe(token:string): Promise<User | undefined>{
+
+    const url = new URL('v2/users/me',this.base_url);
+    url.search = new URLSearchParams([['fields','all']]).toString();
+    
+    let response = await fetch(url, { 
+      headers: { "Authorization": token }
+    })
+
+    if(!response.ok){
+      throw response.status
+    }
+
+    let data = await response.json() ?? {}
+    if(data){
+      const user: User = data.results[0]
+      return user
+    }else{
+      return undefined
+    }
+
+    
+  }
+
+  async fave(uuid:string,toFave:boolean){
+    const url = new URL(`v2/observations/${uuid}/fave`,this.base_url);
+    let token = this.authService.token
+
+    let response = await fetch(url,{
+      method: toFave ? "POST": "DELETE",
+      headers: { "Authorization": token }
+    })
+
+    if(!response.ok){
+      throw response.status
+    }
+
+    return true
   }
 
 }

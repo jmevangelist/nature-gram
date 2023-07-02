@@ -7,6 +7,7 @@ export interface Observation {
     photos: Photo[] | [];
     time_observed_at: string;
     faves_count: number;
+    faves: Vote[];
     identifications: Identification[] | [];
     description: string | null;
 }
@@ -21,6 +22,13 @@ export interface User {
     description?: string;
     roles?: string[];
     species_count?: number;
+}
+
+export interface Vote {
+    id: number;
+    user_id: number;
+    vote_flag?: boolean;
+    vote_scope?: string;
 }
 
 export interface Taxon {

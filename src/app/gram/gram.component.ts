@@ -1,9 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observation } from '../inaturalist.interface';
+import { Observation, Vote } from '../inaturalist.interface';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe'
 import { CarouselComponent } from '../carousel/carousel.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { ClarityModule, ClrLoadingState } from '@clr/angular';
+import { ClarityIcons, starIcon } from '@cds/core/icon';
+import { InaturalistService } from '../inaturalist.service';
+import { AuthorizationService } from '../authorization/authorization.service';
+import { HomeService } from '../home/home.service';
 
 @Component({
   selector: 'app-gram',
@@ -14,10 +19,51 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     CarouselComponent,
     RouterLink, 
     RouterOutlet,
+    ClarityModule,
   ],
   templateUrl: './gram.component.html',
   styleUrls: ['./gram.component.css'],
 })
-export class GramComponent {
+export class GramComponent implements OnInit {
   @Input() observation!: Observation;
+  isFaved: boolean = false;
+  inatService: InaturalistService = inject(InaturalistService);
+  authService: AuthorizationService = inject(AuthorizationService);
+  homeService: HomeService = inject(HomeService);
+  authorized: boolean = false;
+  faveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+
+  ngOnInit(){
+    this.isFaved = Boolean(this.observation.faves.filter((f)=> f.user_id == this.authService.me?.id).length)
+    this.authorized = Boolean(this.authService.me)
+  }
+
+  fave(){
+    if(this.authorized){
+      this.faveBtnState = ClrLoadingState.LOADING;
+      this.inatService.fave(this.observation.uuid,!this.isFaved).then(()=>{
+        let i = this.homeService.Observations.findIndex((o)=> o.id == this.observation.id )
+        if(this.isFaved){
+          let k = this.homeService.Observations[i].faves.findIndex((f)=> f.user_id == this.authService.me?.id)
+          if(k || k==0){
+            this.homeService.Observations[i].faves?.splice(k,1)
+            this.homeService.Observations[i].faves_count--
+          }
+        }else{
+          if(this.homeService.Observations[i].faves){
+            let tempVote: Vote = {id: 0, user_id: this.authService.me?.id || 0}
+            this.homeService.Observations[i].faves.push(tempVote)
+            this.homeService.Observations[i].faves_count++
+          }
+        }
+        this.isFaved = !this.isFaved;
+      }).catch((e)=>{
+        console.log(e)
+      }).finally(()=>{
+        this.faveBtnState = ClrLoadingState.DEFAULT;
+      })
+    }
+  }
 }
+
+ClarityIcons.addIcons(starIcon)

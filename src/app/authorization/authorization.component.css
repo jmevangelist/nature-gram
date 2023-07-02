@@ -1,0 +1,27 @@
+.container{
+    max-width: 500px;
+    width:100%;
+    padding: 1rem;
+}
+
+.clr-control-container{
+    width: 100% !important;
+}
+
+.textarea{
+    width: 100% !important;
+    height: 4rem;
+}
+
+.json{
+    /* display: -webkit-box; */
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: scroll;
+    white-space: pre-wrap;
+    display: none;
+}
+
+.auth-button{
+    margin-top: 0.5rem;
+}
