@@ -1,0 +1,28 @@
+<div class="container">
+    
+    <p>Your api token will enable the fave and unfave observations feature until it expires(24 hours). 
+        <strong>natureGram</strong> is purely a client side application, 
+        your information is only stored locally on your computer.</p>
+
+    <form clrForm clrLayout="vertical" [formGroup]="authForm">
+        <clr-textarea-container>
+            <label for="token" class="clr-required-mark">API Token</label>
+            <textarea class="textarea" clrTextarea id="token" 
+                name="token" formControlName="token" required>
+            </textarea>
+            <clr-control-helper>Get your token 
+                <a href="https://www.inaturalist.org/users/api_token" target="_blank"> here</a>
+            </clr-control-helper>
+            <clr-control-error>Invalid token</clr-control-error>
+        </clr-textarea-container>
+
+        <button class="btn btn-primary auth-button" 
+            [clrLoading]="authBtnState" type="button" 
+            (click)="auth()">{{ me ? 'Logout': 'Authorize'}}</button>
+    </form>
+
+    <div *ngIf="me">
+        <h1>Hello {{ me.login }}</h1>
+        <pre class="json">{{ me | json }}</pre>
+    </div>
+</div>

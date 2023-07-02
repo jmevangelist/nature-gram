@@ -6,6 +6,11 @@
           <span class="title">{{title}}</span>
         </a>
       </div>
+      <div class="header-actions">
+        <a [routerLink]="['/authorize']" class="nav-link nav-icon">
+          <cds-icon shape="key"></cds-icon>
+        </a>
+      </div>
   </clr-header>
   <div class="content-container">
     <clr-vertical-nav [clr-nav-level]="2">

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ClarityIcons, homeIcon } from '@cds/core/icon';
+import { ClarityIcons, homeIcon, cogIcon, keyIcon } from '@cds/core/icon';
 import { palmTreeIcon } from '@cds/core/icon/shapes/palm-tree';
 import { ClarityModule } from '@clr/angular';
-
+import { AuthorizationComponent } from './authorization/authorization.component'
 
 @Component({
   selector: 'app-root',
@@ -14,12 +14,13 @@ import { ClarityModule } from '@clr/angular';
   imports: [
     HomeComponent,
     RouterModule,
-    ClarityModule
+    ClarityModule,
+    AuthorizationComponent
   ]
 })
 export class AppComponent {
   title = 'natureGram';
+  authorize: boolean = false;
 }
 
-ClarityIcons.addIcons(palmTreeIcon)
-ClarityIcons.addIcons(homeIcon)
+ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon)

@@ -18,7 +18,12 @@
         <p class="card-text">{{observation.description}}</p>
     </div>
     <app-carousel class="card-img" [photos]="observation.photos"></app-carousel>
-    <div class="card-block">
+    <div class="card-block bottom-block">
+        <div class="card-actions">
+            <button type="button" [disabled]="!authorized" [clrLoading]="faveBtnState" class="btn btn-icon btn-link" (click)="fave()" aria-label="fave">
+                <cds-icon shape="star" [attr.solid]="isFaved" size="md"></cds-icon>
+            </button>
+        </div>
         <p class="card-text" *ngIf="observation.faves_count">{{observation.faves_count}} fave<ng-container *ngIf="observation.faves_count > 1">s</ng-container></p>
         <div *ngIf="observation.identifications?.length; else elseBlock">
             <p class="card-text"><strong>{{observation.identifications[0].user.login}}</strong>
