@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-html{
+/* html{
     font-size: 16.666667px !important;
-}
+} */
 
 .clr-control-container{
     width: 100% !important;
+}
+
+.header-overflow-trigger{
+    display: none !important;
 }

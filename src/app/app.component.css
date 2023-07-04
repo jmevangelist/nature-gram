@@ -9,7 +9,3 @@
 .main-container{
     max-height: 100vh !important;
 }
-
-.header-overflow-trigger{
-    display: none !important;
-}

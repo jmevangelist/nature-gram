@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { Observation } from '../inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
@@ -27,36 +27,29 @@ export class HomeComponent implements AfterViewInit {
   loading: boolean = true;
 
   private observer: IntersectionObserver | undefined;  
-  private initLoad = false;
 
   @ViewChildren('grams') grams!: QueryList<any>;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router){
     this.createObserver()
-    let sub = this.router.events.pipe(
-      filter((e): e is NavigationStart => e instanceof NavigationStart))
-      .subscribe((e)=>{
-        if(e.navigationTrigger == 'imperative'){
-          this.homeService.prev_scroll = document.querySelector('.content-area')?.scrollTop
-        }
-        sub.unsubscribe();
-      })
+    this.observations = this.homeService.Observations;
+
+    if(this.router.getCurrentNavigation()?.trigger == 'imperative'){
+      this.homeService.refresh();
+      this.moreObservations();
+    }
+
   }
 
   trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   ngAfterViewInit(){
-    this.grams.changes.subscribe(t=>{
-      this.ngForRendered(t)
-    })
-    this.observations = this.homeService.Observations;
-    
-    if(this.observations.length == 0){
-      this.moreObservations()
-    }else{
-      this.changeDetectorRef.detectChanges();
-      document.querySelector('.content-area')?.scrollTo({top: this.homeService.prev_scroll})
+    let lastElement = document.querySelector('.last');
+    if(lastElement){  
+      this.observer?.observe(lastElement);
     }
+
+    this.grams.changes.subscribe(this.ngForRendered.bind(this))
   }
 
   ngForRendered(t:any){
@@ -74,10 +67,12 @@ export class HomeComponent implements AfterViewInit {
     const params = this.homeService.extraParams();
     this.inaturalistService.getObservations(params)
       .then( (observations:Observation[])=>{
-        if(observations){
+        if(observations.length){
           this.observations.push(...observations)
         }else{
           this.loading = false;
+          this.homeService.pushBackDateRange()
+          this.moreObservations()
         }
       }).catch(e => {
         console.log(e)

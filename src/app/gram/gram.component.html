@@ -15,19 +15,34 @@
                 <p class="card-text p7">{{observation.time_observed_at | dateTimeAgo}}</p>
             </div>
         </div>
-        <p class="card-text">{{observation.description}}</p>
+        <p class="card-text p3">{{observation.description}}</p>
     </div>
     <app-carousel class="card-img" [photos]="observation.photos"></app-carousel>
     <div class="card-block bottom-block">
-        <div class="card-actions">
-            <button type="button" [disabled]="!authorized" [clrLoading]="faveBtnState" class="btn btn-icon btn-link" (click)="fave()" aria-label="fave">
+        <div class="card-actions clr-row">
+            <button type="button" [disabled]="!authorized" [clrLoading]="faveBtnState" 
+                class="btn btn-icon btn-link" (click)="fave()" aria-label="fave">
                 <cds-icon shape="star" [attr.solid]="isFaved" size="md"></cds-icon>
             </button>
+            <button class="btn btn-sm quality-grade" 
+            [class]="{'btn-success': observation.quality_grade=='research grade',
+            'btn-warning': observation.quality_grade=='needs id'}">{{observation.quality_grade}}</button>
+            <button type="button" [disabled]="!authorized" 
+                class="btn btn-icon btn-link bell" aria-label="fave">
+                <cds-icon shape="bell" size="md"></cds-icon>
+            </button>
         </div>
-        <p class="card-text" *ngIf="observation.faves_count">{{observation.faves_count}} fave<ng-container *ngIf="observation.faves_count > 1">s</ng-container></p>
-        <div *ngIf="observation.identifications?.length; else elseBlock">
-            <p class="card-text"><strong>{{observation.identifications[0].user.login}}</strong>
-            <em> {{observation.identifications[0].taxon.name}}</em></p>
+        <div class="clr-row clr-align-items-center">
+            <div class="clr-col-auto">
+                <p class="card-text p2" *ngIf="observation.faves_count">{{observation.faves_count}} fave<ng-container *ngIf="observation.faves_count > 1">s</ng-container></p>
+            </div>
+        </div>
+        <div *ngIf="currentIdentification; else elseBlock">
+            <p class="card-text"><strong>
+                <a [routerLink]="['',currentIdentification.user.login]">
+                    {{currentIdentification.user.login}}</a></strong>
+            <em> {{currentIdentification.taxon.name}}</em></p>
+            <p class="card-text p7">{{currentIdentification.created_at | dateTimeAgo }}</p>
         </div>
         <ng-template class="card-text" #elseBlock>
             <p class="card-text"><em>unknown</em></p>

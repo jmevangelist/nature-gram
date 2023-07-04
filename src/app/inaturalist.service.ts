@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User } from './inaturalist.interface';
+import { Observation, User, Taxon } from './inaturalist.interface';
 import { InaturalistConfigService } from './inaturalist-config.service'
 import { AuthorizationService } from './authorization/authorization.service';
 declare const rison: any; 
@@ -110,6 +110,29 @@ export class InaturalistService {
     }
 
     return true
+  }
+
+  async taxaAutoComplete(q:string):Promise<Taxon|undefined>{
+    const url = new URL('/v2/taxa/autocomplete',this.base_url);
+    url.search = new URLSearchParams([
+      ['fields',rison.encode(this.inaturalistConfig.Taxon)],
+      ['q',q],
+      ['per_page',1]
+    ]).toString();
+
+    let response = await fetch(url)
+
+    if(!response.ok){
+      throw response.status 
+    }
+
+    let data = await response.json()
+    if(data.results){
+      return data.results[0]
+    }
+
+    return undefined
+
   }
 
 }
