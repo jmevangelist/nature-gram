@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observation, Vote } from '../inaturalist.interface';
+import { Observation, Vote, Identification } from '../inaturalist.interface';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe'
 import { CarouselComponent } from '../carousel/carousel.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
-import { ClarityIcons, starIcon } from '@cds/core/icon';
+import { ClarityIcons, starIcon, bellIcon } from '@cds/core/icon';
 import { InaturalistService } from '../inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { HomeService } from '../home/home.service';
@@ -32,10 +32,18 @@ export class GramComponent implements OnInit {
   homeService: HomeService = inject(HomeService);
   authorized: boolean = false;
   faveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+  currentIdentification!: Identification | undefined;
 
   ngOnInit(){
     this.isFaved = Boolean(this.observation.faves.filter((f)=> f.user_id == this.authService.me?.id).length)
     this.authorized = Boolean(this.authService.me)
+    this.currentIdentification = this.observation.identifications
+    .filter((i) => ((i.category=="leading"||i.category=='improving')&&i.current) )
+    .sort((a,b) => ( Date.parse(a.created_at) - Date.parse(b.created_at) )  ).pop()
+    this.observation.quality_grade = this.observation.quality_grade.replace('_',' ')
+    if(this.observation.quality_grade == 'research'){
+      this.observation.quality_grade+=' grade'
+    }
   }
 
   fave(){
@@ -66,4 +74,4 @@ export class GramComponent implements OnInit {
   }
 }
 
-ClarityIcons.addIcons(starIcon)
+ClarityIcons.addIcons(starIcon,bellIcon)

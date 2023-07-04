@@ -29,6 +29,7 @@
 
 .clr-row {
     margin-left: 0 !important;
+    margin-right: 0 !important;
     margin-bottom: 0.3rem;
 }
 
@@ -46,4 +47,16 @@
 
 a{
     text-decoration: unset;
+}
+
+.p3{
+    line-height: 1rem !important;
+}
+
+.quality-grade{
+    margin: auto;
+}
+
+.bell{
+    margin: 0 0 0 0.6rem !important;
 }

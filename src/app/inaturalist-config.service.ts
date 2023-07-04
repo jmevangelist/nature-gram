@@ -16,6 +16,7 @@ export class InaturalistConfigService {
         name: true,
         iconic_taxon_name: true,
         preferred_common_name: true,
+        rank: true
     }
 
     Photos = {
@@ -31,7 +32,8 @@ export class InaturalistConfigService {
         created_at: true,
         current: true,
         taxon: this.Taxon,
-        user: this.User
+        user: this.User,
+        category: true
     }
 
     Faves = {
@@ -52,7 +54,8 @@ export class InaturalistConfigService {
         faves_count: true,
         identifications: this.Identification,
         description: true,
-        faves: this.Faves
+        faves: this.Faves,
+        quality_grade: true
     }
 
     UserAll = {

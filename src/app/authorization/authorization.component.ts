@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthorizationService } from './authorization.service';
 import { inject } from '@angular/core';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
+import { ClarityIcons, timesIcon } from '@cds/core/icon';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { User } from '../inaturalist.interface';
+import { Taxon, User } from '../inaturalist.interface';
 import { InaturalistService } from '../inaturalist.service';
 
 @Component({
@@ -18,12 +19,16 @@ import { InaturalistService } from '../inaturalist.service';
   templateUrl: './authorization.component.html',
   styleUrls: ['./authorization.component.css']
 })
-export class AuthorizationComponent {
+export class AuthorizationComponent implements OnDestroy {
   authService: AuthorizationService = inject(AuthorizationService)
   inatService: InaturalistService = inject(InaturalistService)
   authForm: FormGroup = new FormGroup({
     token: new FormControl('')    
   })
+
+  taxaControl:FormControl = new FormControl('')
+  taxa:Taxon[];
+  taxaBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
 
   me?: User;
   authBtnState: ClrLoadingState = ClrLoadingState.DEFAULT
@@ -31,6 +36,8 @@ export class AuthorizationComponent {
   constructor(){
     this.authForm.controls['token'].setValue(this.authService.token)
     this.me = this.authService.me;
+    this.taxa = this.authService.taxa ?? [];
+    this.taxaControl.valueChanges.subscribe(this.taxaChange)
   }
 
   auth(){
@@ -59,5 +66,38 @@ export class AuthorizationComponent {
       })
     }
   }
+
+  addTaxa(event:Event){
+    event.preventDefault();
+
+    this.taxaBtnState = ClrLoadingState.LOADING;
+    console.log(this.taxaControl.value)
+    this.inatService.taxaAutoComplete(this.taxaControl.value)
+    .then((taxon:Taxon|undefined)=>{
+      if(taxon){
+        this.taxa.push(taxon)
+        this.taxaControl.reset()
+      }else{
+        this.taxaControl.setErrors({'invalid':true})
+      }
+    }).finally(()=>{
+      this.taxaBtnState = ClrLoadingState.DEFAULT;
+    })
+  }
+
+  removeTaxa(taxon:Taxon){
+    let i = this.taxa.findIndex(t=> t.id == taxon.id)
+    this.taxa.splice(i,1)
+  }
+
+  taxaChange(v:string){
+    // console.log(v)
+  }
+
+  ngOnDestroy(){
+    this.authService.updateTaxa(this.taxa)
+  }
   
 }
+
+ClarityIcons.addIcons(timesIcon)

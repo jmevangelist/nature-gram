@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../inaturalist.interface';
+import { Taxon, User } from '../inaturalist.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -8,12 +8,19 @@ import { User } from '../inaturalist.interface';
 export class AuthorizationService{
     api_token: string = localStorage.getItem('api_token') ?? ''
     authorized_user?: User;
+    taxa?: Taxon[]
 
     constructor(){
         let local_storage_auth_user = localStorage.getItem('authorized_user');
         if(local_storage_auth_user){
             this.authorized_user = JSON.parse(local_storage_auth_user)
         }
+
+        let local_storage_taxa = localStorage.getItem('taxa');
+        if(local_storage_taxa){
+            this.taxa = JSON.parse(local_storage_taxa)
+        }
+
     }
 
     get token(){
@@ -33,6 +40,15 @@ export class AuthorizationService{
     setMe(me:User){
         this.authorized_user = me;
         localStorage.setItem('authorized_user',JSON.stringify(me))
+    }
+
+    updateTaxa(taxa:Taxon[]){
+        this.taxa = taxa;
+        localStorage.setItem('taxa',JSON.stringify(taxa))
+    }
+
+    getTaxaID():number[]{
+        return this.taxa?.map(t => t.id) ?? []
     }
 
     logout(){

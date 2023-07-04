@@ -10,6 +10,7 @@ export interface Observation {
     faves: Vote[];
     identifications: Identification[] | [];
     description: string | null;
+    quality_grade: string;
 }
 
 export interface User {
@@ -36,6 +37,7 @@ export interface Taxon {
     name?: string;
     iconic_taxon_name?: string;
     preferred_common_name?: string;
+    rank?: string;
 }
 
 export interface Photo {
@@ -56,5 +58,6 @@ export interface Identification {
     created_at: string;
     current: boolean;
     taxon: Taxon,
-    user: User
+    user: User,
+    category?: string;
 }
