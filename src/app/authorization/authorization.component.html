@@ -29,9 +29,9 @@
     <h4>Preference</h4>
 
     <h5>Taxa</h5>
-    <form  (submit)="addTaxa($event)">
+    <form  (ngSubmit)="addTaxa($event)" [formGroup]="prefForm">
         <clr-input-container>
-            <input clrInput placeholder="Taxa Name/id" name="taxaControl" [formControl]="taxaControl" />
+            <input clrInput placeholder="Taxa Name/id" name="taxaControl" formControlName="taxaControl" />
             <clr-control-error>No matching taxa</clr-control-error>
         </clr-input-container>
         <button class="btn btn-primary btn-sm" [clrLoading]="taxaBtnState" type="submit">Add Taxa</button>

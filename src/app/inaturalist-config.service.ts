@@ -43,6 +43,15 @@ export class InaturalistConfigService {
         vote_scope: true
     }
 
+    Comment =  {
+        id: true,
+        uuid: true,
+        body: true,
+        created_at: true,
+        user: this.User,
+        html: true
+    }
+
     Observation =  {
         uuid: true,
         id: true,

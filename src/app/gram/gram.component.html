@@ -24,12 +24,21 @@
                 class="btn btn-icon btn-link" (click)="fave()" aria-label="fave">
                 <cds-icon shape="star" [attr.solid]="isFaved" size="md"></cds-icon>
             </button>
-            <button class="btn btn-sm quality-grade" 
+            <button type="button" 
+                class="btn btn-icon btn-link" aria-label="fave">
+                <cds-icon shape="chat-bubble" size="md"></cds-icon>
+            </button>
+            <button type="button" 
+                class="btn btn-icon btn-link" aria-label="fave">
+                <cds-icon shape="info-standard" size="md"></cds-icon>
+            </button>
+            <span class="margin-auto"></span>
+            <!-- <button class="btn btn-sm quality-grade" 
             [class]="{'btn-success': observation.quality_grade=='research grade',
-            'btn-warning': observation.quality_grade=='needs id'}">{{observation.quality_grade}}</button>
+            'btn-warning': observation.quality_grade=='needs id'}">{{observation.quality_grade}}</button> -->
             <button type="button" [disabled]="!authorized" 
-                class="btn btn-icon btn-link bell" aria-label="fave" (click)="b.setAttribute('solid','true')">
-                <cds-icon shape="bell" size="md" #b></cds-icon>
+                class="btn btn-icon btn-link bookmark" aria-label="fave" (click)="b.setAttribute('solid','true')">
+                <cds-icon shape="bookmark" size="md" #b></cds-icon>
             </button>
         </div>
         <div class="clr-row clr-align-items-center">
@@ -38,12 +47,32 @@
             </div>
         </div>
         <div *ngIf="currentIdentification; else elseBlock">
-            <p class="card-text"><strong>
+            <p class="card-text p3"><strong>
                 <a [routerLink]="['',currentIdentification.user.login]">
                     {{currentIdentification.user.login}}</a></strong>
-            <em> {{currentIdentification.taxon.name}}</em></p>
-            <p class="card-text p7">{{currentIdentification.created_at | dateTimeAgo }}</p>
+            <em> {{currentIdentification.taxon.name}}</em>
+            <!-- <button type="button" [disabled]="!authorized" class="btn btn-sm btn-outline-success agree" aria-label="fave">
+                <cds-icon shape="check-circle" size="sm"></cds-icon> Agree
+            </button> -->
+            </p>
+            <!-- <p class="card-text p7">{{currentIdentification.created_at | dateTimeAgo }} </p>-->
         </div>
+        <div *ngIf="comment">
+            <p class="card-text p3"><strong>
+                <a [routerLink]="['',comment.user.login]">
+                    {{comment.user.login}}</a></strong> {{comment.body}}
+            <!-- <button type="button" [disabled]="!authorized" class="btn btn-sm btn-outline-success agree" aria-label="fave">
+                <cds-icon shape="check-circle" size="sm"></cds-icon> Agree
+            </button> -->
+            </p>
+            <!-- <p class="card-text p7">{{currentIdentification.created_at | dateTimeAgo }} </p>-->
+        </div>
+        <ng-container *ngIf="authorized">
+            <div class="clr-row clr-align-items-center">
+                <img [src]="authService.me?.icon || 'assets/default.png'" class="user_icon user_icon-sm">
+                <p class="p7 card-text">Add a comment or suggest ID</p>
+            </div>
+        </ng-container>
         <ng-template class="card-text" #elseBlock>
             <p class="card-text"><em>unknown</em></p>
         </ng-template>

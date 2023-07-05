@@ -11,6 +11,7 @@ export interface Observation {
     identifications: Identification[] | [];
     description: string | null;
     quality_grade: string;
+    comments?: Comment[] | [];
 }
 
 export interface User {
@@ -60,4 +61,13 @@ export interface Identification {
     taxon: Taxon,
     user: User,
     category?: string;
+}
+
+export interface Comment {
+    id: number;
+    uuid: string;
+    body?: string;
+    created_at: string;
+    user: User;
+    html?: string;
 }
