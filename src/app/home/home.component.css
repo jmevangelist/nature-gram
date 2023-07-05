@@ -1,3 +1,10 @@
 .progress{
     height: 6px !important;
 }
+
+.spinner-container{
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    padding: 1rem;
+}

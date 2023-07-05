@@ -55,6 +55,7 @@ img{
 li{
     list-style-position: initial !important;
     position: relative;
+    list-style: none;
 }
 
 #carousel{

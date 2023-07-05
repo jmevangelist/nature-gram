@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ClarityIcons, homeIcon, cogIcon, keyIcon } from '@cds/core/icon';
+import { ClarityIcons, homeIcon, cogIcon, keyIcon, searchIcon, imageGalleryIcon, briefcaseIcon } from '@cds/core/icon';
 import { palmTreeIcon } from '@cds/core/icon/shapes/palm-tree';
 import { ClarityModule } from '@clr/angular';
 import { AuthorizationComponent } from './authorization/authorization.component'
@@ -26,15 +26,16 @@ export class AppComponent implements AfterViewChecked{
   restoredScroll:number = 0;
 
   constructor(private router: Router){
-
     this.router.events.pipe(
       filter((e):e is NavigationStart => e instanceof NavigationStart)
-    ).subscribe((e)=>{
-        this.scrollVal.push(this.contentArea.nativeElement.scrollTop)
-        if(e.navigationTrigger == 'popstate'){
-          this.restoredScroll = this.scrollVal[(e.restoredState?.navigationId ?? 0) ];
-        }
-      })
+    ).subscribe(this.onNavigationStart.bind(this))
+  }
+
+  onNavigationStart(e:NavigationStart){
+    this.scrollVal.push(this.contentArea.nativeElement.scrollTop)
+    if(e.navigationTrigger == 'popstate'){
+      this.restoredScroll = this.scrollVal[(e.restoredState?.navigationId ?? 0) ];
+    }
   }
 
   ngAfterViewChecked(): void {
@@ -45,4 +46,4 @@ export class AppComponent implements AfterViewChecked{
   }
 }
 
-ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon)
+ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon,searchIcon,briefcaseIcon,imageGalleryIcon)

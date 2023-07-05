@@ -5,8 +5,9 @@ import { GramComponent } from '../gram/gram.component';
 import { InaturalistService } from '../inaturalist.service';
 import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
-import { NavigationStart, Router } from '@angular/router';
+import { Navigation, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   observations: Observation[] = [];
   homeService: HomeService = inject(HomeService);
@@ -27,21 +28,23 @@ export class HomeComponent implements AfterViewInit {
   loading: boolean = true;
 
   private observer: IntersectionObserver | undefined;  
+  private currentNavigation: Navigation | null;
+  private sub?: SubscriptionLike;
 
   @ViewChildren('grams') grams!: QueryList<any>;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router){
-    this.createObserver()
     this.observations = this.homeService.Observations;
+    this.currentNavigation = this.router.getCurrentNavigation();
+    this.createObserver()
+  }
 
-    if(this.router.getCurrentNavigation()?.trigger == 'imperative'){
+  ngOnInit(): void {
+    if(this.currentNavigation?.trigger == 'imperative'){
       this.homeService.refresh();
       this.moreObservations();
     }
-
   }
-
-  trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   ngAfterViewInit(){
     let lastElement = document.querySelector('.last');
@@ -49,7 +52,7 @@ export class HomeComponent implements AfterViewInit {
       this.observer?.observe(lastElement);
     }
 
-    this.grams.changes.subscribe(this.ngForRendered.bind(this))
+    this.sub = this.grams.changes.subscribe(this.ngForRendered.bind(this))
   }
 
   ngForRendered(t:any){
@@ -61,6 +64,13 @@ export class HomeComponent implements AfterViewInit {
     }
     
   }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+    this.observer?.disconnect();
+  }
+
+  trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   private moreObservations(){
     this.loading = true;
@@ -94,7 +104,6 @@ export class HomeComponent implements AfterViewInit {
         }
       })
     },options)
-
   }
 
 }
