@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({name: 'dateTimeAgo',standalone:true})
 export class DateTimeAgoPipe implements PipeTransform{
-    transform(dateTimeString: string):string {
+    transform(dateTimeString: string, format?:string):string {
         if(!dateTimeString){
             return ''
         }
@@ -38,7 +38,11 @@ export class DateTimeAgoPipe implements PipeTransform{
         }
 
         unit = unit + ( (diff > 1) ? 's' : '' )
+        let datetimeAgoString = `${diff} ${unit} ago`
+        if(format == 'short'){
+            datetimeAgoString = `${diff}${unit.charAt(0)}`
+        }
 
-        return diff + ' ' + unit + ' ago'
+        return datetimeAgoString
     }
 }

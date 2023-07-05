@@ -1,12 +1,11 @@
 import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Observation } from '../inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
 import { InaturalistService } from '../inaturalist.service';
 import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
-import { Navigation, NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Navigation, Router } from '@angular/router';
 import { SubscriptionLike } from 'rxjs';
 
 @Component({
@@ -78,7 +77,12 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.inaturalistService.getObservations(params)
       .then( (observations:Observation[])=>{
         if(observations.length){
-          this.observations.push(...observations)
+          let newObs = observations.filter(o => this.observations.findIndex( ob => ob.id == o.id) == -1 )
+          if(newObs.length){
+            this.observations.push(...newObs)
+          }else{
+            this.moreObservations();
+          }
         }else{
           this.loading = false;
           this.homeService.pushBackDateRange()

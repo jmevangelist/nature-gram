@@ -37,6 +37,7 @@ export class HomeService {
             params.push(...page)
             params[0][1] = 'true'
             params[3][1] = 'votes'
+            params[4][1] = '5'
             this.popular_page++
         }
         

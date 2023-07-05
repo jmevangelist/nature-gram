@@ -7,6 +7,7 @@ import { ClarityIcons, timesIcon } from '@cds/core/icon';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Taxon, User } from '../inaturalist.interface';
 import { InaturalistService } from '../inaturalist.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-authorization',
@@ -29,6 +30,10 @@ export class AuthorizationComponent implements OnDestroy {
   taxaControl:FormControl = new FormControl('')
   taxa:Taxon[];
   taxaBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+
+  prefForm: FormGroup = new FormGroup({
+    taxaControl: this.taxaControl
+  })
 
   me?: User;
   authBtnState: ClrLoadingState = ClrLoadingState.DEFAULT

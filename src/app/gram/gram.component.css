@@ -13,6 +13,12 @@
     object-fit: cover;
 }
 
+.user_icon-sm{
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.5rem;
+}
+
 .card-text{
     margin: 0 !important;
 }
@@ -30,19 +36,18 @@
 .clr-row {
     margin-left: 0 !important;
     margin-right: 0 !important;
-    margin-bottom: 0.3rem;
 }
 
-.top-block {
+/* .top-block {
     padding: .3rem .9rem !important;
-}   
+}    */
 
 .bottom-block{
     padding-top: 0;
 }
 
-.card-actions{
-    margin-bottom: 0.5rem;
+.card-block{
+    padding: 0 .6rem .3rem !important;
 }
 
 a{
@@ -53,10 +58,15 @@ a{
     line-height: 1rem !important;
 }
 
-.quality-grade{
+.margin-auto{
     margin: auto;
 }
 
-.bell{
+.bookmark{
     margin: 0 0 0 0.6rem !important;
+}
+
+.agree{
+    padding: 0 !important;
+    margin-left: 0.3rem;
 }
