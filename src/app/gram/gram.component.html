@@ -28,8 +28,8 @@
             [class]="{'btn-success': observation.quality_grade=='research grade',
             'btn-warning': observation.quality_grade=='needs id'}">{{observation.quality_grade}}</button>
             <button type="button" [disabled]="!authorized" 
-                class="btn btn-icon btn-link bell" aria-label="fave">
-                <cds-icon shape="bell" size="md"></cds-icon>
+                class="btn btn-icon btn-link bell" aria-label="fave" (click)="b.setAttribute('solid','true')">
+                <cds-icon shape="bell" size="md" #b></cds-icon>
             </button>
         </div>
         <div class="clr-row clr-align-items-center">

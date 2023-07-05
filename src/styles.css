@@ -10,3 +10,7 @@
 .header-overflow-trigger{
     display: none !important;
 }
+
+body{
+    height: 100% !important;
+}

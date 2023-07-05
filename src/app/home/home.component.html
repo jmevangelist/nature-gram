@@ -2,4 +2,9 @@
     [class.last]="isLast" 
     [observation]="observation">
 </app-gram>
-<clr-progress-bar clrLoop [hidden]="!loading"></clr-progress-bar>
+
+<div class="spinner-container">
+    <span class="spinner spinner-md" [hidden]="!loading">
+        Loading...
+    </span>
+</div>
