@@ -16,10 +16,15 @@ PODMAN_ARGS=(
 
 POST_ARGS=()
 
-if [[ x"$1" = x"ng" ]] && [[ x"$2" = x"serve" ]]; then
-	PODMAN_ARGS+=( -p "4200:4200" )
-	POST_ARGS+=( --host "0.0.0.0" )
-	POST_ARGS+=( --disable-host-check )
+if [[ x"$1" = x"ng" ]] then
+	if [[ x"$2" = x"serve" ]]; then
+		PODMAN_ARGS+=( -p "4200:4200" )
+		POST_ARGS+=( --host "0.0.0.0" )
+		POST_ARGS+=( --disable-host-check )
+	elif [[ x"$2" = x"test" ]]; then
+		PODMAN_ARGS+=( -p "9876:9876" )
+		PODMAN_ARGS+=( --env 'CHROME_BIN=/usr/bin/chromium-browser')
+	fi
 fi
 
 podman run "${PODMAN_ARGS[@]}" "${IMAGE}" $@ "${POST_ARGS[@]}"

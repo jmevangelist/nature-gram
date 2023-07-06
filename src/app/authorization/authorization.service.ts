@@ -1,16 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Taxon, User } from '../inaturalist.interface';
+import { Injectable, Injector, inject } from '@angular/core';
+import { Taxon, User } from '../inaturalist/inaturalist.interface';
+import { InaturalistService } from '../inaturalist/inaturalist.service';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class AuthorizationService{
-    api_token: string = localStorage.getItem('api_token') ?? ''
-    authorized_user?: User;
+    private api_token: string = localStorage.getItem('api_token') ?? ''
+    private authorized_user?: User;
     taxa?: Taxon[]
 
-    constructor(){
+    constructor(private injector: Injector){
         let local_storage_auth_user = localStorage.getItem('authorized_user');
         if(local_storage_auth_user){
             this.authorized_user = JSON.parse(local_storage_auth_user)
@@ -20,7 +21,6 @@ export class AuthorizationService{
         if(local_storage_taxa){
             this.taxa = JSON.parse(local_storage_taxa)
         }
-
     }
 
     get token(){
@@ -28,7 +28,6 @@ export class AuthorizationService{
     }
 
     get me(){
-        if(!this.authorized_user){ return undefined }
         return this.authorized_user
     }
 
@@ -49,6 +48,24 @@ export class AuthorizationService{
 
     getTaxaID():number[]{
         return this.taxa?.map(t => t.id) ?? []
+    }
+
+    async auth(token:string):Promise<Boolean>{
+        const inatService = this.injector.get(InaturalistService)
+        let success = false;
+
+        try{
+            let user = await inatService.getMe(token)
+            if(user){
+                this.setMe(user)
+                this.setToken(token)
+                success = true
+            }
+        }catch(e){
+            console.log(e)
+        }finally{
+            return success
+        }
     }
 
     logout(){

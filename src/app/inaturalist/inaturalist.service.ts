@@ -1,7 +1,7 @@
 import { Injectable,inject } from '@angular/core';
 import { Observation, User, Taxon } from './inaturalist.interface';
-import { InaturalistConfigService } from './inaturalist-config.service'
-import { AuthorizationService } from './authorization/authorization.service';
+import { InaturalistFieldsService } from './inaturalist-fields.service'
+import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
 
 @Injectable({
@@ -10,8 +10,7 @@ declare const rison: any;
 
 export class InaturalistService {
   base_url = 'https://api.inaturalist.org'  
-  counter:number = 0 
-  inaturalistConfig: InaturalistConfigService = inject(InaturalistConfigService)
+  inaturalistConfig: InaturalistFieldsService = inject(InaturalistFieldsService)
   authService: AuthorizationService = inject(AuthorizationService)
 
   async getObservations(opt_params?:string[][]): Promise<Observation[]>{
@@ -39,7 +38,6 @@ export class InaturalistService {
         }
       }
     }
-    this.counter++
 
     return observations
   }

@@ -1,5 +1,5 @@
 .card{
-    max-width: 500px;
+    max-width: 700px;
     box-shadow: unset !important;
     margin-top: .6rem !important;
     margin-bottom: .6rem;
@@ -50,6 +50,10 @@
     padding: 0 .6rem .3rem !important;
 }
 
+.card-actions > .btn{
+    width: 26px !important;
+}
+
 a{
     text-decoration: unset;
 }
@@ -69,4 +73,8 @@ a{
 .agree{
     padding: 0 !important;
     margin-left: 0.3rem;
+}
+
+.add-comment{
+    margin-bottom: 0.3rem;
 }

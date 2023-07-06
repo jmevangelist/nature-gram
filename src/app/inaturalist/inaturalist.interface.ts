@@ -6,6 +6,7 @@ export interface Observation {
     taxon?: Taxon;
     photos: Photo[] | [];
     time_observed_at: string;
+    created_at: string;
     faves_count: number;
     faves: Vote[];
     identifications: Identification[] | [];
@@ -29,6 +30,7 @@ export interface User {
 export interface Vote {
     id: number;
     user_id: number;
+    user?: User;
     vote_flag?: boolean;
     vote_scope?: string;
 }

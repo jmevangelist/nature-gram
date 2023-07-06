@@ -96,7 +96,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": ["node_modules/rison/js/rison.js"]
+            "scripts": [
+              "node_modules/rison/js/rison.js"
+            ],
+            "karmaConfig": "karma.conf.js"
           }
         }
       }

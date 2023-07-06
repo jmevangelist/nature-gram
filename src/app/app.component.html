@@ -18,6 +18,22 @@
         <cds-icon clrVerticalNavIcon shape="home"></cds-icon>
         Home
       </a>
+      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="search"></cds-icon>
+        Search
+      </a>
+      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="image-gallery"></cds-icon>
+        Following
+      </a>
+      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="briefcase"></cds-icon>
+        Projects
+      </a>
+      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="bookmark"></cds-icon>
+        Bookmarks
+      </a>
     </clr-vertical-nav>
     <div class="content-area" #contentArea>
       <router-outlet></router-outlet>
