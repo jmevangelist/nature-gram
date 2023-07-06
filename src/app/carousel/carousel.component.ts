@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Photo } from '../inaturalist.interface';
+import { Photo } from '../inaturalist/inaturalist.interface';
 import { ClarityModule } from '@clr/angular';
 import { ClarityIcons, angleIcon } from '@cds/core/icon';
 

@@ -8,3 +8,10 @@
     align-content: center;
     padding: 1rem;
 }
+
+.home{
+    max-width: 768px;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}

@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observation, Vote, Identification, Comment } from '../inaturalist.interface';
+import { Observation, Vote, Identification, Comment } from '../inaturalist/inaturalist.interface';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe'
 import { CarouselComponent } from '../carousel/carousel.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon, checkCircleIcon } from '@cds/core/icon';
-import { InaturalistService } from '../inaturalist.service';
+import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { HomeService } from '../home/home.service';
 
@@ -26,17 +26,28 @@ import { HomeService } from '../home/home.service';
 })
 export class GramComponent implements OnInit {
   @Input() observation!: Observation;
+
   isFaved: boolean = false;
+  isBookmarked: boolean = false;
   inatService: InaturalistService = inject(InaturalistService);
   authService: AuthorizationService = inject(AuthorizationService);
-  homeService: HomeService = inject(HomeService);
   authorized: boolean = false;
   faveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
   currentIdentification!: Identification | undefined;
   comment!: Comment | undefined;
+  faveText: string = '';
 
   ngOnInit(){
     this.isFaved = Boolean(this.observation.faves.filter((f)=> f.user_id == this.authService.me?.id).length)
+    if(this.observation.faves.length){
+      this.faveText = `Faved by ${this.observation.faves[0].user?.login}`
+      if(this.observation.faves.length == 2){
+        this.faveText = `${this.faveText} and ${this.observation.faves[1].user?.login}`
+      }else if(this.observation.faves.length > 2){
+        this.faveText = `${this.faveText} and ${this.observation.faves_count-1} others`
+      }
+    }
+
     this.authorized = Boolean(this.authService.me)
     this.currentIdentification = this.observation.identifications
     .filter((i) => ((i.category=="leading"||i.category=='improving')&&i.current) )
@@ -72,6 +83,10 @@ export class GramComponent implements OnInit {
         this.faveBtnState = ClrLoadingState.DEFAULT;
       })
     }
+  }
+
+  bookmark(){
+    this.isBookmarked = !this.isBookmarked
   }
 }
 

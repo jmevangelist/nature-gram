@@ -5,9 +5,8 @@ import { inject } from '@angular/core';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, timesIcon } from '@cds/core/icon';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Taxon, User } from '../inaturalist.interface';
-import { InaturalistService } from '../inaturalist.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Taxon, User } from '../inaturalist/inaturalist.interface';
+import { InaturalistService } from '../inaturalist/inaturalist.service';
 
 @Component({
   selector: 'app-authorization',
@@ -53,21 +52,15 @@ export class AuthorizationComponent implements OnDestroy {
       this.authService.logout();
       this.authBtnState = ClrLoadingState.DEFAULT;
     }else{
-      this.inatService.getMe(this.authForm.value.token).then((user:User|undefined)=>{
-        if(user){ 
-          this.me = user;
-          this.authService.setMe(user); 
-          this.authService.setToken(this.authForm.value.token)
-          this.authBtnState = ClrLoadingState.DEFAULT;
+      this.authService.auth(this.authForm.value.token).then((s)=>{
+        if(s){
+          this.me = this.authService.me;
         }else{
-          this.authBtnState = ClrLoadingState.ERROR;
           this.authForm.controls['token'].setErrors({'invalid':true})
+          this.authBtnState = ClrLoadingState.ERROR;
         }
-      }).catch((e)=>{
-        this.authForm.controls['token'].setErrors({'invalid':true})
-        this.authBtnState = ClrLoadingState.ERROR;
       }).finally(()=>{
-        
+        this.authBtnState = ClrLoadingState.DEFAULT;
       })
     }
   }

@@ -1,7 +1,7 @@
 <div class="container">
 
     <ng-container *ngIf="me else enterToken">
-        <h1>Hello {{ me.login }}</h1>
+        <h1 class="greeting">Hello {{ me.login }}</h1>
         <pre class="json">{{ me | json }}</pre>
     </ng-container>
 

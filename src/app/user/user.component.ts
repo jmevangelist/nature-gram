@@ -1,8 +1,8 @@
 import { Component, Input, QueryList, ViewChildren, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { InaturalistService } from '../inaturalist.service';
-import { Observation, User } from '../inaturalist.interface';
+import { InaturalistService } from '../inaturalist/inaturalist.service';
+import { Observation, User } from '../inaturalist/inaturalist.interface';
 import { ClarityModule } from '@clr/angular'
 
 @Component({

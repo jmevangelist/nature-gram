@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root'
 })
-export class InaturalistConfigService {
+export class InaturalistFieldsService {
     User = {
         id: true,
         name: true,
@@ -39,8 +39,7 @@ export class InaturalistConfigService {
     Faves = {
         id: true,
         user_id: true,
-        vote_flag: true,
-        vote_scope: true
+        user: {login: true}
     }
 
     Comment =  {
@@ -60,6 +59,7 @@ export class InaturalistConfigService {
         taxon: this.Taxon,
         photos: this.Photos,
         time_observed_at: true,
+        created_at: true,
         faves_count: true,
         identifications: this.Identification,
         description: true,

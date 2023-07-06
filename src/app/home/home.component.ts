@@ -1,8 +1,8 @@
 import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observation } from '../inaturalist.interface';
+import { Observation } from '../inaturalist/inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
-import { InaturalistService } from '../inaturalist.service';
+import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
 import { Navigation, Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
+  standalone: true, 
   imports: [
     CommonModule,
     GramComponent,
@@ -32,7 +32,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChildren('grams') grams!: QueryList<any>;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router){
+  constructor(private router: Router){
     this.observations = this.homeService.Observations;
     this.currentNavigation = this.router.getCurrentNavigation();
     this.createObserver()
@@ -55,8 +55,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngForRendered(t:any){
-    this.loading = false;
-    this.changeDetectorRef.detectChanges();
     let lastElement = document.querySelector('.last');
     if(lastElement){  
       this.observer?.observe(lastElement);
@@ -83,6 +81,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
           }else{
             this.moreObservations();
           }
+          this.loading = false;
         }else{
           this.loading = false;
           this.homeService.pushBackDateRange()
