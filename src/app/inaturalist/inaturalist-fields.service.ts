@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+declare const rison: any; 
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,15 @@ export class InaturalistFieldsService {
         iconic_taxon_name: true,
         preferred_common_name: true,
         rank: true
+    }
+
+    Taxon_search = {
+        id: true,
+        name: true,
+        iconic_taxon_name: true,
+        preferred_common_name: true,
+        rank: true,
+        matched_term: true
     }
 
     Photos = {
@@ -64,7 +74,8 @@ export class InaturalistFieldsService {
         identifications: this.Identification,
         description: true,
         faves: this.Faves,
-        quality_grade: true
+        quality_grade: true,
+        comments: this.Comment
     }
 
     UserAll = {
@@ -75,6 +86,10 @@ export class InaturalistFieldsService {
         icon_url: true,
         observations_count: true,
         description: true
+    }
+
+    fields = {
+        observation: rison.encode(this.Observation),
     }
 
 }

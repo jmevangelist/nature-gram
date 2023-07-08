@@ -1,11 +1,11 @@
 <div class="container">
 
-    <ng-container *ngIf="me else enterToken">
+    <ng-container *ngIf="me">
         <h1 class="greeting">Hello {{ me.login }}</h1>
         <pre class="json">{{ me | json }}</pre>
     </ng-container>
 
-    <ng-template #enterToken>
+    <ng-container *ngIf="authService.isExpired">
         <p>Your api token will enable the fave and unfave observations feature until it expires(24 hours). 
             <strong>natureGram</strong> is purely a client side application, 
             your information is only stored locally on your computer.</p>
@@ -20,44 +20,11 @@
                 <clr-control-error>Invalid token</clr-control-error>
             </clr-textarea-container>
         </form>
-    </ng-template>
+    </ng-container>
 
     <button class="btn btn-primary auth-button" 
     [clrLoading]="authBtnState" type="button" 
-    (click)="auth()">{{ me ? 'Logout': 'Authorize'}}</button>
-
-    <h4>Preference</h4>
-
-    <h5>Taxa</h5>
-    <form  (ngSubmit)="addTaxa($event)" [formGroup]="prefForm">
-        <clr-input-container>
-            <input clrInput placeholder="Taxa Name/id" name="taxaControl" formControlName="taxaControl" />
-            <clr-control-error>No matching taxa</clr-control-error>
-        </clr-input-container>
-        <button class="btn btn-primary btn-sm" [clrLoading]="taxaBtnState" type="submit">Add Taxa</button>
-        <button class="btn btn-danger btn-sm" (click)="taxa=[]">Clear Taxa</button>
-    </form>
-
-    <div>
-        <clr-checkbox-container clrInline>
-            <clr-checkbox-wrapper>
-                <input type="checkbox" clrCheckbox name="rank" value="rank" #rank />
-                <label>Rank</label>
-            </clr-checkbox-wrapper>
-            <clr-checkbox-wrapper>
-                <input type="checkbox" clrCheckbox name="name" value="name" #name checked/>
-                <label>Name</label>
-            </clr-checkbox-wrapper>
-            <clr-checkbox-wrapper>
-                <input type="checkbox" clrCheckbox name="common" value="common" #common/>
-                <label>Common Name</label>
-            </clr-checkbox-wrapper>
-        </clr-checkbox-container>
-
-        <span *ngFor="let t of taxa" class="label clickable" (click)="removeTaxa(t)">
-            {{rank.checked ? '('+t.rank+') ' : ''}} <em>{{name.checked ? t.name : '' }}</em> {{ common.checked ? t.preferred_common_name : ''}}
-            <cds-icon shape="close"></cds-icon>
-        </span>        
-    </div>
+    (click)="auth()">{{ authService.isExpired ? 'Authorize': 'Logout'}}</button>
+ 
 
 </div>

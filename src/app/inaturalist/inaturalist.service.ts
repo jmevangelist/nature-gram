@@ -15,7 +15,7 @@ export class InaturalistService {
 
   async getObservations(opt_params?:string[][]): Promise<Observation[]>{
     const url = new URL('v2/observations',this.base_url);
-    const fields = rison.encode(this.inaturalistConfig.Observation)
+    const fields = this.inaturalistConfig.fields.observation;
     const params = [
               ['photos', 'true'],
               ['fields', fields ]
@@ -104,18 +104,21 @@ export class InaturalistService {
     })
 
     if(!response.ok){
-      throw response.status
+      if(response.status == 401){
+        this.authService.setExpired();
+      }
+      throw response.statusText
     }
 
     return true
   }
 
-  async taxaAutoComplete(q:string):Promise<Taxon|undefined>{
+  async taxaAutoComplete(q:string):Promise<Taxon[]>{
     const url = new URL('/v2/taxa/autocomplete',this.base_url);
     url.search = new URLSearchParams([
-      ['fields',rison.encode(this.inaturalistConfig.Taxon)],
+      ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
       ['q',q],
-      ['per_page',1]
+      ['per_page',5]
     ]).toString();
 
     let response = await fetch(url)
@@ -125,11 +128,8 @@ export class InaturalistService {
     }
 
     let data = await response.json()
-    if(data.results){
-      return data.results[0]
-    }
 
-    return undefined
+    return data.results
 
   }
 

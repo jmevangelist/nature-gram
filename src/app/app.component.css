@@ -23,3 +23,17 @@
 .mobile-footer > .btn{
     width: 20%;
 }
+
+.clr-vertical-nav{
+    background-color: white;
+}
+
+.nav-dropdown {
+    display: grid;
+}
+
+.nav-dropdown-btn{
+    color: white;
+    align-self: center;
+}
+

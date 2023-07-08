@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { GramComponent } from './gram/gram.component';
 import { UserComponent } from './user/user.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
+import { PreferenceComponent } from './preference/preference.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
 
-const routes: Routes = [
+const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
@@ -16,10 +17,20 @@ const routes: Routes = [
     title: 'Authorize'
   },
   {
-    path:':user_login',
+    path:'bookmark',
+    component: BookmarkComponent,
+    title: 'Bookmarks'
+  },
+  {
+    path:'preference',
+    component: PreferenceComponent,
+    title: 'Preference'
+  },
+  {
+    path:'naturalist/:user_login',
     component: UserComponent,
     title:'User'
-  }
+  },
 ];
 
-export default routes;
+export default appRoutes;

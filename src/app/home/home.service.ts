@@ -1,25 +1,38 @@
 import { Injectable, inject } from '@angular/core';
 import { Observation } from '../inaturalist/inaturalist.interface'
-import { AuthorizationService } from '../authorization/authorization.service';
+import { InaturalistService } from '../inaturalist/inaturalist.service';
+import { BehaviorSubject, InteropObservable, Observable, ObservableLike } from 'rxjs';
+import { PreferenceService } from '../preference/preference.service';
+import { objectsIcon } from '@cds/core/icon';
 
 @Injectable({
     providedIn: 'root'
   })
 
 export class HomeService {
-    Observations: Observation[] = [];
-    calls: number = 0
+    loading$: Observable<boolean>;
+    observations$: Observable<Observation[]>;
 
+    private observations: Observation[];
+    private observationsSubject: BehaviorSubject<Observation[]>;
+    private busy: BehaviorSubject<boolean>;
+
+    private calls: number = 0
+    private inatService: InaturalistService = inject(InaturalistService)
     private timeDiff = (1*24*60*60*1000)
-
-    private authService: AuthorizationService = inject(AuthorizationService)
-
+    private prefservice = inject(PreferenceService)
     private popular_timeDiff = this.timeDiff;
     private recent_timeDiff = this.timeDiff;
     private popular_params: any;
     private recent_params: any;
 
     constructor(){
+        this.busy = new BehaviorSubject<boolean>(true);
+        this.observations = []
+        this.observationsSubject = new BehaviorSubject<Observation[]>([]);
+        this.loading$ = this.busy.asObservable();
+        this.observations$ = this.observationsSubject.asObservable();
+
         let createdD1 = new Date(Date.now() - this.timeDiff)
         let now = Date();
         this.popular_params = {
@@ -43,7 +56,7 @@ export class HomeService {
     }
 
     extraParams():string[][]|undefined{
-        let taxaPref = this.authService.getTaxaID();
+        let pref = this.prefservice.getPreferences();
         let paramsArray: string[][] = []
 
         if(this.calls%2){
@@ -54,9 +67,14 @@ export class HomeService {
             this.popular_params.page = (parseInt(this.popular_params.page)+1).toString();
         }
         
-        if(taxaPref.length){
-            let taxon_id = [['taxon_id',taxaPref.join(',')]]
-            paramsArray.push(...taxon_id)
+        if(pref.length){
+
+            pref.forEach( (v)=>{ 
+                if(v[1]){
+                    paramsArray.push(...[v]) 
+                }
+            })
+
         }
 
         this.calls++
@@ -91,6 +109,68 @@ export class HomeService {
         this.recent_params.created_d2 = Date();
         this.recent_params.page = '1'
 
-        this.Observations.length = 0;
+        this.observations.length = 0;
+        this.observationsSubject.next([]);
     }
+
+    private paramsValidator (calls?:number):any {
+        if(!calls){ calls = 1}
+        if(calls>2){ return false }
+
+        let params = this.extraParams();
+        let sd2:string = params?.filter(p => p[0] == 'created_d2')[0][1] ?? ''
+
+        let pd2 = new Date(Date.parse(sd2))
+        if(pd2.getFullYear() < 2005){
+            calls++
+            return this.paramsValidator(calls)
+        }
+        return params
+    }
+
+    async loadObservations():Promise<boolean>{
+        this.busy.next(true);
+        let params = this.paramsValidator();
+
+        if(!params){
+            this.busy.next(false)
+            console.log('reached 2005')
+            return false 
+        }
+
+        console.log(params)
+
+        let obs:Observation[] = [] 
+        
+        try{
+            obs = await this.inatService.getObservations(params)
+        }catch(e){
+            console.log(e)
+            this.busy.next(false)
+            this.observationsSubject.next(this.observations)
+            return false
+        }
+
+        if(obs.length){
+            if(obs.length < 5){
+                this.pushBackDateRange()
+            }
+
+            let newObs = obs.filter(o => this.observations.findIndex( ob => ob.id == o.id) == -1 )
+
+            if(newObs.length){
+                this.observations.push(...newObs)
+                this.observationsSubject.next(this.observations)
+            }else{
+                return await this.loadObservations();
+            }
+        }else{
+            this.pushBackDateRange()
+            return await this.loadObservations()
+        }
+
+        this.busy.next(false)
+        return true                                                                         
+    }
+
 }

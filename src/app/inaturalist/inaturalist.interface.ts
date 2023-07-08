@@ -41,6 +41,7 @@ export interface Taxon {
     iconic_taxon_name?: string;
     preferred_common_name?: string;
     rank?: string;
+    matched_term?: string;
 }
 
 export interface Photo {

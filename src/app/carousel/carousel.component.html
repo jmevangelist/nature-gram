@@ -12,12 +12,12 @@
 </div>
 
 <div *ngIf="photos.length>1" class="buttons clr-row clr-justify-content-between">
-    <button type="button" class="btn btn-icon btn-primary left" 
+    <button type="button" class="btn btn-icon btn-primary" 
         (click)="carousel.scrollTo({left:carousel.scrollLeft - carousel.offsetWidth})" 
         aria-label="left">
         <cds-icon shape="angle" direction="left"></cds-icon>
     </button>
-    <button type="button" class="btn btn-icon btn-primary right"
+    <button type="button" class="btn btn-icon btn-primary"
         (click)="carousel.scrollTo({left:carousel.scrollLeft + carousel.offsetWidth })" 
         aria-label="right">
         <cds-icon shape="angle" direction="right"></cds-icon>
