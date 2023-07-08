@@ -9,7 +9,7 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 export class AuthorizationService{
     private api_token: string = localStorage.getItem('api_token') ?? ''
     private authorized_user?: User;
-    taxa?: Taxon[]
+    private expired: boolean = true;
 
     constructor(private injector: Injector){
         let local_storage_auth_user = localStorage.getItem('authorized_user');
@@ -17,9 +17,8 @@ export class AuthorizationService{
             this.authorized_user = JSON.parse(local_storage_auth_user)
         }
 
-        let local_storage_taxa = localStorage.getItem('taxa');
-        if(local_storage_taxa){
-            this.taxa = JSON.parse(local_storage_taxa)
+        if(this.api_token){
+            this.expired = false;
         }
     }
 
@@ -31,23 +30,24 @@ export class AuthorizationService{
         return this.authorized_user
     }
 
-    setToken(token:string){
+    get isExpired(){
+        return this.expired
+    }
+
+    setExpired(){
+        this.api_token = '';
+        this.expired = true;
+    }
+
+    private setToken(token:string){
         this.api_token = token
+        this.expired = false
         localStorage.setItem('api_token',token)
     }
 
-    setMe(me:User){
+    private setMe(me:User){
         this.authorized_user = me;
         localStorage.setItem('authorized_user',JSON.stringify(me))
-    }
-
-    updateTaxa(taxa:Taxon[]){
-        this.taxa = taxa;
-        localStorage.setItem('taxa',JSON.stringify(taxa))
-    }
-
-    getTaxaID():number[]{
-        return this.taxa?.map(t => t.id) ?? []
     }
 
     async auth(token:string):Promise<Boolean>{
@@ -73,5 +73,6 @@ export class AuthorizationService{
         localStorage.removeItem('authorized_user');
         this.api_token = ''
         this.authorized_user = undefined;
+        this.expired = true
     }
 }

@@ -8,7 +8,6 @@ import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon, checkCircleIcon } from '@cds/core/icon';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
-import { HomeService } from '../home/home.service';
 
 @Component({
   selector: 'app-gram',
@@ -34,21 +33,12 @@ export class GramComponent implements OnInit {
   authorized: boolean = false;
   faveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
   currentIdentification!: Identification | undefined;
-  comment!: Comment | undefined;
-  faveText: string = '';
+  comment!: Comment;
 
   ngOnInit(){
     this.isFaved = Boolean(this.observation.faves.filter((f)=> f.user_id == this.authService.me?.id).length)
-    if(this.observation.faves.length){
-      this.faveText = `Faved by ${this.observation.faves[0].user?.login}`
-      if(this.observation.faves.length == 2){
-        this.faveText = `${this.faveText} and ${this.observation.faves[1].user?.login}`
-      }else if(this.observation.faves.length > 2){
-        this.faveText = `${this.faveText} and ${this.observation.faves_count-1} others`
-      }
-    }
 
-    this.authorized = Boolean(this.authService.me)
+    this.authorized = !this.authService.isExpired;
     this.currentIdentification = this.observation.identifications
     .filter((i) => ((i.category=="leading"||i.category=='improving')&&i.current) )
     .sort((a,b) => ( Date.parse(a.created_at) - Date.parse(b.created_at) )  ).pop()
@@ -57,8 +47,21 @@ export class GramComponent implements OnInit {
       this.observation.quality_grade+=' grade'
     }
     if(this.observation.comments?.length){
-      this.comment = this.observation.comments?.pop()
+      this.comment = this.observation.comments[0]
     }
+  }
+
+  faveText(){
+    let text = ''
+    if(this.observation.faves.length){
+      text = `Faved by ${this.observation.faves[0].user?.login}`
+      if(this.observation.faves.length == 2){
+        text = `${text} and ${this.observation.faves[1].user?.login}`
+      }else if(this.observation.faves.length > 2){
+        text = `${text} and ${this.observation.faves_count-1} others`
+      }
+    }
+    return text
   }
 
   fave(){
@@ -72,7 +75,7 @@ export class GramComponent implements OnInit {
             this.observation.faves_count--
           }
         }else{
-          let tempVote: Vote = {id: 0, user_id: this.authService.me?.id || 0}
+          let tempVote: Vote = {id: 0, user_id: this.authService.me?.id || 0, user: {id:0, login:this.authService.me?.login}}
           this.observation.faves.push(tempVote)
           this.observation.faves_count++
         }

@@ -2,7 +2,7 @@
 
 ROOT=$(dirname $(realpath $0))
 PROJECT=$(basename $ROOT)
-IMAGE=${IMAGE:-angular:alpine}
+IMAGE=${IMAGE:-localhost/angular:alpine}
 
 PODMAN_ARGS=(
 	--rm

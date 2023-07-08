@@ -14,8 +14,7 @@ authServiceStub = {
   token: 'token',
   me: { id: 123, login: 'USER' },
   updateTaxa: ()=>{},
-  logout: ()=>{ },
-  setMe: (_me)=>{ me = _me }
+  logout: ()=>{ }
 }
 
 describe ('AuthorizationComponent', ()=>{

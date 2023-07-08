@@ -8,7 +8,7 @@
                 </a>
             </div>
             <div class="clr-col">
-                <a [routerLink]="['',observation.user.login]">
+                <a [routerLink]="['naturalist',observation.user.login]">
                     <h6 class="card-text">{{observation.user.login}}</h6>
                 </a>
                 <p class="card-text p7">{{observation.place_guess}}</p>
@@ -42,11 +42,11 @@
             </button>
         </div>
 
-        <p class="card-text p5">{{faveText}}</p>
+        <p class="card-text p5">{{faveText()}}</p>
 
         <div *ngIf="currentIdentification">
             <p class="card-text p5"><strong>
-                <a [routerLink]="['',currentIdentification.user.login]">
+                <a [routerLink]="['naturalist',currentIdentification.user.login]">
                     {{currentIdentification.user.login}}</a></strong>
             <em> {{currentIdentification.taxon.name}}</em>
             <!-- <button type="button" [disabled]="!authorized" class="btn btn-sm btn-outline-success agree" aria-label="fave">
@@ -57,7 +57,7 @@
         </div>
         <div *ngIf="comment">
             <p class="card-text p5"><strong>
-                <a [routerLink]="['',comment.user.login]">
+                <a [routerLink]="['naturalist',comment.user.login]">
                     {{comment.user.login}}</a></strong> {{comment.body}}
             <!-- <button type="button" [disabled]="!authorized" class="btn btn-sm btn-outline-success agree" aria-label="fave">
                 <cds-icon shape="check-circle" size="sm"></cds-icon> Agree

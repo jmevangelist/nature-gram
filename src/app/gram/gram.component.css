@@ -1,9 +1,15 @@
 .card{
-    max-width: 700px;
+    max-width: 100%;
+    width:700px;
     box-shadow: unset !important;
-    margin-top: .6rem !important;
-    margin-bottom: .6rem;
     border-style: unset !important;
+    margin: .6rem auto;
+}
+
+@media screen and (min-width: 768px) {
+    .card{
+        border-style: solid !important;
+    }   
 }
 
 .user_icon{
@@ -29,7 +35,7 @@
 
 .card-img {
     position: relative;
-    width: inherit;
+    width: 100%; 
     display: inline-block;
 }
 
@@ -48,6 +54,7 @@
 
 .card-block{
     padding: 0 .6rem .3rem !important;
+    border: none !important;
 }
 
 .card-actions > .btn{

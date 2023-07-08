@@ -12,6 +12,10 @@
 .home{
     max-width: 768px;
     width: 100%;
-    display: grid;
-    justify-content: center;
+    /* display: grid;
+    justify-content: center; */
+}
+
+.end{
+    text-align: center;
 }

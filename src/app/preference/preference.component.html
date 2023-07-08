@@ -1,0 +1,25 @@
+<div class="preference-container">
+    <h3>Your Preferences</h3>
+
+    <form [formGroup]="prefForm" (submit)="onSubmit()">
+
+        <div class="search-container">
+            <label>Taxa</label>
+            <input type="search" list="taxaList" 
+                placeholder="Taxon name or commmon name" 
+                name="taxon" formControlName="taxon"/>
+            <datalist id="taxaList" >
+                <option *ngFor="let t of taxa_search;" [value]="t.matched_term">
+                    {{t.matched_term}}
+                </option>
+            </datalist>
+            <p class="p7 search-error">{{prefForm.controls['taxon'].getError('invalid')}}</p>
+
+        </div>
+
+        <span *ngFor="let t of taxa" class="label clickable" (click)="removeTaxa(t)">
+            {{t.matched_term}} <cds-icon shape="close"></cds-icon>
+        </span>
+        
+    </form>
+</div>

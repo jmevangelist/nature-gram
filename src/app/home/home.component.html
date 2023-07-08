@@ -1,12 +1,16 @@
 <div class="home">
 
-    <app-gram #grams *ngFor="let observation of observations; let isLast = last; trackBy: trackByItems" 
+    <app-gram #grams *ngFor="let observation of observations | async; let isLast = last; trackBy: trackByItems" 
         [class.last]="isLast" 
         [observation]="observation">
     </app-gram>
 
+    <ng-container *ngIf="end">
+        <p class="end">Oh hi! You've scrolled through all observations!</p>
+    </ng-container>
+
     <div class="spinner-container">
-        <span class="spinner spinner-md" [hidden]="!loading">
+        <span class="spinner spinner-md" [hidden]="!(loading|async)">
             Loading...
         </span>
     </div>

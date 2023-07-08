@@ -2,11 +2,10 @@ import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetect
 import { CommonModule } from '@angular/common';
 import { Observation } from '../inaturalist/inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
-import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
 import { Navigation, Router } from '@angular/router';
-import { SubscriptionLike } from 'rxjs';
+import { Observable, SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -21,10 +20,10 @@ import { SubscriptionLike } from 'rxjs';
 })
 export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  observations: Observation[] = [];
+  observations: Observable<Observation[]>; //= [];
   homeService: HomeService = inject(HomeService);
-  inaturalistService: InaturalistService = inject(InaturalistService);
-  loading: boolean = true;
+  loading: Observable<boolean>;
+  end: boolean;
 
   private observer: IntersectionObserver | undefined;  
   private currentNavigation: Navigation | null;
@@ -33,9 +32,11 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChildren('grams') grams!: QueryList<any>;
 
   constructor(private router: Router){
-    this.observations = this.homeService.Observations;
+    this.observations = this.homeService.observations$;
+    this.loading = this.homeService.loading$;
     this.currentNavigation = this.router.getCurrentNavigation();
     this.createObserver()
+    this.end = false;
   }
 
   ngOnInit(): void {
@@ -70,27 +71,9 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   private moreObservations(){
-    this.loading = true;
-    const params = this.homeService.extraParams();
-    this.inaturalistService.getObservations(params)
-      .then( (observations:Observation[])=>{
-        if(observations.length){
-          let newObs = observations.filter(o => this.observations.findIndex( ob => ob.id == o.id) == -1 )
-          if(newObs.length){
-            this.observations.push(...newObs)
-          }else{
-            this.moreObservations();
-          }
-          this.loading = false;
-        }else{
-          this.loading = false;
-          this.homeService.pushBackDateRange()
-          this.moreObservations()
-        }
-      }).catch(e => {
-        console.log(e)
-        this.loading = false;
-      })
+    this.homeService.loadObservations().then((b)=>{
+      this.end = !b;
+    })
   }
 
   private createObserver(){

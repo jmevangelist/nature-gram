@@ -3,8 +3,18 @@
       <div class="branding">
         <a [routerLink]="['/']">
           <cds-icon shape="palmTree"></cds-icon>
-          <span class="title">{{title}}</span>
+          <span class="title">{{title}}
+          </span>
         </a>
+        <clr-dropdown class="nav-dropdown">
+          <button clrDropdownTrigger class="btn btn-link btn-sm btn-icon nav-dropdown-btn">
+              <cds-icon shape="angle" direction="down"></cds-icon>
+          </button>
+          <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+              <a [routerLink]="['preference']" clrDropdownItem>Preferences</a>
+              <a [routerLink]="['authorize']" clrDropdownItem>Authorize</a>
+          </clr-dropdown-menu>
+        </clr-dropdown>
       </div>
       <div class="header-actions">
         <a [routerLink]="['/authorize']" class="nav-link nav-icon">
@@ -18,19 +28,19 @@
         <cds-icon clrVerticalNavIcon shape="home"></cds-icon>
         Home
       </a>
-      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+      <a clrVerticalNavLink [routerLink]="['']" disabled routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="search"></cds-icon>
         Search
       </a>
-      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+      <a clrVerticalNavLink [routerLink]="['']" disabled routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="image-gallery"></cds-icon>
         Following
       </a>
-      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+      <a clrVerticalNavLink [routerLink]="['/']" disabled routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="briefcase"></cds-icon>
         Projects
       </a>
-      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+      <a clrVerticalNavLink [routerLink]="['bookmark']" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="bookmark"></cds-icon>
         Bookmarks
       </a>

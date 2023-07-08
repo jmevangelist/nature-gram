@@ -1,0 +1,22 @@
+.search-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 1rem 0;
+}
+
+.search-error{
+    margin: 0 !important;
+    color: hsl(9, 100%, 43%) !important;
+}
+
+input{
+    border-style: solid;
+}
+
+.preference-container{
+    width: 100%;
+    max-width: 768px;
+    padding: 1rem;
+}
+
