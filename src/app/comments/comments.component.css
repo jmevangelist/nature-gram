@@ -1,0 +1,67 @@
+.user_icon{
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+}
+
+p{
+    margin-top: 0 !important;
+}
+
+.taxon-common{
+    line-height: 0.8rem !important;
+}
+
+.taxon-container {
+    display: flex;
+    margin: 0.3rem 0;
+}
+
+.card-text > .p5 {
+    line-height: 0.8rem !important;
+}
+
+.taxon-img{
+    width: 1.8rem;
+    height: 1.8rem;
+    align-self: center;
+}
+
+.taxon-taxon{
+    margin-left: 0.3rem !important;
+}
+
+.taxon-name{
+    margin-top: 0 !important;
+}
+
+.clr-row{
+    margin: 0.3rem 0 !important;
+}
+
+.clr-col-auto{
+    padding: 0;
+}
+
+a {
+    text-decoration: unset;
+}
+
+input {
+    border-radius: .2rem;
+    border-style: hidden;
+    background-color: hsl(198, 0%, 91%);
+    margin-top: 0 !important;
+    width: 100%;
+}
+
+
+
+.your-input{
+    margin-top: 1rem;
+}
+
+.comment-btn{
+    padding: 0 !important;
+    min-width: 0;
+}

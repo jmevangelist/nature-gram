@@ -93,3 +93,17 @@ a{
 .add-comment{
     margin: 0.3rem 0;
 }
+
+.modal-content{
+    max-height: 80dvh;
+    overflow-y: scroll;
+}
+
+.modal{
+    padding: 0 !important;
+    justify-content: end;
+}
+
+.modal-header{
+    padding: 0 !important;
+}

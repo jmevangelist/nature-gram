@@ -12,12 +12,21 @@ export class InaturalistFieldsService {
         icon: true,
     }
 
+    Photos = {
+        id: true,
+        url: true,
+        original_dimensions: {height: true, width: true},
+        attribution: true,
+        license_code: true
+    }
+
     Taxon = {
         id: true,
         name: true,
         iconic_taxon_name: true,
         preferred_common_name: true,
-        rank: true
+        rank: true,
+        default_photo: this.Photos
     }
 
     Taxon_search = {
@@ -30,14 +39,6 @@ export class InaturalistFieldsService {
         
     }
 
-    Photos = {
-        id: true,
-        url: true,
-        original_dimensions: {height: true, width: true},
-        attribution: true,
-        license_code: true
-    }
-
     Identification = {
         id: true,
         uuid: true,
@@ -45,7 +46,8 @@ export class InaturalistFieldsService {
         current: true,
         taxon: this.Taxon,
         user: this.User,
-        category: true
+        category: true,
+        body: true
     }
 
     Faves = {
