@@ -26,7 +26,15 @@
 }
 
 .card-text{
-    margin: 0 !important;
+    margin: 0.15rem 0 !important;
+}
+
+.card-text > .p7{
+    margin: 0;
+}
+
+h6{
+    margin: 0;
 }
 
 .clr-col-auto{
@@ -65,8 +73,8 @@ a{
     text-decoration: unset;
 }
 
-.p3{
-    line-height: 1rem !important;
+.p5{
+    line-height: .8rem !important;
 }
 
 .margin-auto{
@@ -83,5 +91,19 @@ a{
 }
 
 .add-comment{
-    margin-bottom: 0.3rem;
+    margin: 0.3rem 0;
+}
+
+.modal-content{
+    max-height: 80dvh;
+    overflow-y: scroll;
+}
+
+.modal{
+    padding: 0 !important;
+    justify-content: end;
+}
+
+.modal-header{
+    padding: 0 !important;
 }

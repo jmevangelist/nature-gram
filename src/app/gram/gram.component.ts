@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild, ViewContainerRef, createComponent, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observation, Vote, Identification, Comment } from '../inaturalist/inaturalist.interface';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe'
@@ -8,6 +8,7 @@ import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon, checkCircleIcon } from '@cds/core/icon';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
+import { CommentsComponent } from '../comments/comments.component';
 
 @Component({
   selector: 'app-gram',
@@ -19,6 +20,7 @@ import { AuthorizationService } from '../authorization/authorization.service';
     RouterLink, 
     RouterOutlet,
     ClarityModule,
+    CommentsComponent
   ],
   templateUrl: './gram.component.html',
   styleUrls: ['./gram.component.css'],
@@ -34,6 +36,8 @@ export class GramComponent implements OnInit {
   faveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
   currentIdentification!: Identification | undefined;
   comment!: Comment;
+  isCommentsOpen: boolean = false;
+  commentsComponent!: any;
 
   ngOnInit(){
     this.isFaved = Boolean(this.observation.faves.filter((f)=> f.user_id == this.authService.me?.id).length)
@@ -86,6 +90,10 @@ export class GramComponent implements OnInit {
         this.faveBtnState = ClrLoadingState.DEFAULT;
       })
     }
+  }
+
+  async comments(){
+    this.isCommentsOpen = true
   }
 
   bookmark(){

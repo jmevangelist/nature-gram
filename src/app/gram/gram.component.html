@@ -8,14 +8,16 @@
                 </a>
             </div>
             <div class="clr-col">
-                <a [routerLink]="['naturalist',observation.user.login]">
-                    <h6 class="card-text">{{observation.user.login}}</h6>
-                </a>
-                <p class="card-text p7">{{observation.place_guess}}</p>
-                <p class="card-text p7">{{observation.time_observed_at | dateTimeAgo}}</p>
+                <div class="card-text">
+                    <a [routerLink]="['naturalist',observation.user.login]">
+                        <h6>{{observation.user.login}}</h6>
+                    </a>
+                    <p class="p7">{{observation.place_guess}} 
+                    <span><br>{{observation.time_observed_at | dateTimeAgo}}</span></p>
+                </div>
             </div>
         </div>
-        <p class="card-text p3">{{observation.description}}</p>
+        <p class="card-text p5">{{observation.description}}</p>
     </div>
     <app-carousel class="card-img" [photos]="observation.photos"></app-carousel>
     <div class="card-block bottom-block">
@@ -24,14 +26,16 @@
                 class="btn btn-icon btn-link" (click)="fave()" aria-label="fave">
                 <cds-icon shape="star" [attr.solid]="isFaved" size="md"></cds-icon>
             </button>
-            <button type="button"
-                class="btn btn-icon btn-link" aria-label="fave">
+            <button type="button" (click)="comments()"
+                class="btn btn-icon btn-link">
                 <cds-icon shape="chat-bubble" size="md"></cds-icon>
             </button>
-            <button type="button" 
-                class="btn btn-icon btn-link" aria-label="fave">
-                <cds-icon shape="info-standard" size="md"></cds-icon>
-            </button>
+            <a [href]="observation.uri">
+                <button type="button" 
+                    class="btn btn-icon btn-link" href="">
+                    <cds-icon shape="info-standard" size="md"></cds-icon>
+                </button>
+            </a>
             <span class="margin-auto"></span>
             <button type="button" [disabled]="!authorized" 
                 class="btn btn-icon btn-link bookmark" aria-label="fave" (click)="bookmark()">
@@ -51,11 +55,12 @@
         <div *ngIf="comment">
             <p class="card-text p5"><strong>
                 <a [routerLink]="['naturalist',comment.user.login]">
-                    {{comment.user.login}}</a></strong> {{comment.body}}
+                    {{comment.user.login}} </a></strong>
+                <span [innerHtml]="comment.body"></span>
             </p>
         </div>
         <ng-container *ngIf="authorized">
-            <div class="clr-row clr-align-items-center add-comment">
+            <div class="clr-row clr-align-items-center add-comment" (click)="comments()">
                 <img [src]="authService.me?.icon || 'assets/default.png'" class="user_icon user_icon-sm">
                 <p class="p5 card-text">Add a comment or suggest an ID</p>
             </div>
@@ -63,3 +68,24 @@
         <p class="card-text p7">{{observation.created_at | dateTimeAgo}}</p>
     </div>
 </div>
+
+<div class="modal" [hidden]="!isCommentsOpen">
+    <div class="modal-dialog modal-lg fadeDown in" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" (click)="isCommentsOpen=false" class="close" type="button">
+                    <cds-icon shape="close"></cds-icon>
+                </button>
+                <h6>{{observation.quality_grade}}</h6>
+            </div>
+            <app-comments [identifications]="observation.identifications" 
+                [comments]="observation.comments"
+                [uuid]="observation.uuid">
+            </app-comments>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -12,7 +12,8 @@ export interface Observation {
     identifications: Identification[] | [];
     description: string | null;
     quality_grade: string;
-    comments?: Comment[] | [];
+    comments: Comment[] | [];
+    uri?: string;
 }
 
 export interface User {
@@ -42,6 +43,7 @@ export interface Taxon {
     preferred_common_name?: string;
     rank?: string;
     matched_term?: string;
+    default_photo?: Photo;
 }
 
 export interface Photo {
@@ -49,6 +51,7 @@ export interface Photo {
     url: string;
     original_dimensions: {height: number, width: number}; 
     attribution: string;
+    licence_code: string;
 }
 
 export interface Geojson {
@@ -64,6 +67,7 @@ export interface Identification {
     taxon: Taxon,
     user: User,
     category?: string;
+    body?: string;
 }
 
 export interface Comment {
@@ -78,4 +82,13 @@ export interface Comment {
 export interface Place {
     id: number,
     display_name: string
+}
+
+export interface CommentsCreate {
+    fields: string,
+    comment: { 
+        parent_type: 'Observation' | 'Post'; 
+        parent_id: string; /*uuid*/
+        body: string;
+    }
 }
