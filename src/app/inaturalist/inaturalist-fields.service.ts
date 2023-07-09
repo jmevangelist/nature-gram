@@ -34,7 +34,8 @@ export class InaturalistFieldsService {
         id: true,
         url: true,
         original_dimensions: {height: true, width: true},
-        attribution: true
+        attribution: true,
+        license_code: true
     }
 
     Identification = {
@@ -76,7 +77,8 @@ export class InaturalistFieldsService {
         description: true,
         faves: this.Faves,
         quality_grade: true,
-        comments: this.Comment
+        comments: this.Comment,
+        uri: true
     }
 
     UserAll = {

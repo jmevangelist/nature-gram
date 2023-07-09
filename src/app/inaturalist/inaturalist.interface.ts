@@ -13,6 +13,7 @@ export interface Observation {
     description: string | null;
     quality_grade: string;
     comments?: Comment[] | [];
+    uri?: string;
 }
 
 export interface User {
@@ -49,6 +50,7 @@ export interface Photo {
     url: string;
     original_dimensions: {height: number, width: number}; 
     attribution: string;
+    licence_code: string;
 }
 
 export interface Geojson {
