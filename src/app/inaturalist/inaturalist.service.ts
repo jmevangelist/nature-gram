@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User, Taxon } from './inaturalist.interface';
+import { Observation, User, Taxon, Place } from './inaturalist.interface';
 import { InaturalistFieldsService } from './inaturalist-fields.service'
 import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
@@ -119,6 +119,26 @@ export class InaturalistService {
       ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
       ['q',q],
       ['per_page',5]
+    ]).toString();
+
+    let response = await fetch(url)
+
+    if(!response.ok){
+      throw response.status 
+    }
+
+    let data = await response.json()
+
+    return data.results
+
+  }
+
+  async searchPlaces(q:string):Promise<Place[]>{
+    const url = new URL('/v2/places',this.base_url);
+    url.search = new URLSearchParams([
+      ['fields','id,display_name'],
+      ['q',q],
+      ['per_page','5']
     ]).toString();
 
     let response = await fetch(url)

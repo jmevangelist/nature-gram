@@ -5,6 +5,19 @@
     margin: 1rem 0;
 }
 
+.search-list{
+    list-style: none;
+}
+
+.card {
+    box-shadow: none !important;
+    margin: 0;
+}
+
+.card-block > .p7 {
+    margin: 0;
+} 
+
 .search-error{
     margin: 0 !important;
     color: hsl(9, 100%, 43%) !important;
@@ -12,6 +25,8 @@
 
 input{
     border-style: solid;
+    border-radius: 2%;
+    border-width: 1px;
 }
 
 .preference-container{
@@ -20,3 +35,6 @@ input{
     padding: 1rem;
 }
 
+.progress {
+    height: 0.1rem;
+}
