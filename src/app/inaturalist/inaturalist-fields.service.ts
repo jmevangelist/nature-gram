@@ -26,7 +26,8 @@ export class InaturalistFieldsService {
         iconic_taxon_name: true,
         preferred_common_name: true,
         rank: true,
-        matched_term: true
+        matched_term: true,
+        
     }
 
     Photos = {

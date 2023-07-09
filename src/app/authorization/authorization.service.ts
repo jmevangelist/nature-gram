@@ -34,6 +34,16 @@ export class AuthorizationService{
         return this.expired
     }
 
+    getStatus():'none'|'expired'|'authorized'{
+        if(!this.token){
+            return 'none'
+        }else if(this.expired){
+            return 'expired'
+        }else{
+            return 'authorized'
+        }
+    }
+
     setExpired(){
         this.api_token = '';
         this.expired = true;

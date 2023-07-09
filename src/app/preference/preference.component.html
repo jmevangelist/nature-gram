@@ -4,21 +4,45 @@
     <form [formGroup]="prefForm" (submit)="onSubmit()">
 
         <div class="search-container">
-            <label>Taxa</label>
-            <input type="search" list="taxaList" 
-                placeholder="Taxon name or commmon name" 
-                name="taxon" formControlName="taxon"/>
-            <datalist id="taxaList" >
-                <option *ngFor="let t of taxa_search;" [value]="t.matched_term">
-                    {{t.matched_term}}
-                </option>
-            </datalist>
+            <label for="taxon">Taxa</label>
+            <input placeholder="Taxon name or commmon name" name="taxon" formControlName="taxon"/>
+            <clr-progress-bar clrLoop [ngStyle]="{'visibility': isSearchingTaxa ? 'visible':'hidden' }"></clr-progress-bar>
+            <ul class="search-list">
+                <li *ngFor="let t of taxa_search;" [value]="t.matched_term">
+                    <div class="card clickable" (click)="selectTaxon(t)">
+                        <div class="card-block">
+                            <p class="p7">{{t.matched_term}}<br>
+                            ({{t.rank}})<em>{{t.name}}</em></p>
+                        </div>
+                    </div>
+                </li>
+            </ul>     
             <p class="p7 search-error">{{prefForm.controls['taxon'].getError('invalid')}}</p>
-
         </div>
 
         <span *ngFor="let t of taxa" class="label clickable" (click)="removeTaxa(t)">
-            {{t.matched_term}} <cds-icon shape="close"></cds-icon>
+            {{t.name}} <cds-icon shape="close"></cds-icon>
+        </span>
+
+
+        <div class="search-container">
+            <label for="place">Places</label>
+            <input placeholder="Place" name="place" formControlName="place"/>
+            <clr-progress-bar clrLoop [ngStyle]="{'visibility': isSearchingPlace ? 'visible':'hidden' }"></clr-progress-bar>
+            <ul class="search-list">
+                <li *ngFor="let t of place_search;">
+                    <div class="card clickable" (click)="selectPlace(t)">
+                        <div class="card-block">
+                            <p class="p7">{{t.display_name}}<br>
+                        </div>
+                    </div>
+                </li>
+            </ul>     
+            <p class="p7 search-error">{{prefForm.controls['place'].getError('invalid')}}</p>
+        </div>
+
+        <span *ngFor="let t of places" class="label clickable" (click)="removePlace(t)">
+            {{t.display_name}} <cds-icon shape="close"></cds-icon>
         </span>
         
     </form>

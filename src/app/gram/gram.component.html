@@ -33,9 +33,6 @@
                 <cds-icon shape="info-standard" size="md"></cds-icon>
             </button>
             <span class="margin-auto"></span>
-            <!-- <button class="btn btn-sm quality-grade" 
-            [class]="{'btn-success': observation.quality_grade=='research grade',
-            'btn-warning': observation.quality_grade=='needs id'}">{{observation.quality_grade}}</button> -->
             <button type="button" [disabled]="!authorized" 
                 class="btn btn-icon btn-link bookmark" aria-label="fave" (click)="bookmark()">
                 <cds-icon shape="bookmark" size="md" [attr.solid]="isBookmarked"></cds-icon>
@@ -48,22 +45,14 @@
             <p class="card-text p5"><strong>
                 <a [routerLink]="['naturalist',currentIdentification.user.login]">
                     {{currentIdentification.user.login}}</a></strong>
-            <em> {{currentIdentification.taxon.name}}</em>
-            <!-- <button type="button" [disabled]="!authorized" class="btn btn-sm btn-outline-success agree" aria-label="fave">
-                <cds-icon shape="check-circle" size="sm"></cds-icon> Agree
-            </button> -->
+                <em> {{currentIdentification.taxon.name}}</em>
             </p>
-            <!-- <p class="card-text p7">{{currentIdentification.created_at | dateTimeAgo }} </p>-->
         </div>
         <div *ngIf="comment">
             <p class="card-text p5"><strong>
                 <a [routerLink]="['naturalist',comment.user.login]">
                     {{comment.user.login}}</a></strong> {{comment.body}}
-            <!-- <button type="button" [disabled]="!authorized" class="btn btn-sm btn-outline-success agree" aria-label="fave">
-                <cds-icon shape="check-circle" size="sm"></cds-icon> Agree
-            </button> -->
             </p>
-            <!-- <p class="card-text p7">{{currentIdentification.created_at | dateTimeAgo }} </p>-->
         </div>
         <ng-container *ngIf="authorized">
             <div class="clr-row clr-align-items-center add-comment">

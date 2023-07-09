@@ -1,10 +1,10 @@
-import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ClarityIcons, homeIcon, cogIcon, keyIcon, searchIcon, imageGalleryIcon, briefcaseIcon } from '@cds/core/icon';
 import { palmTreeIcon } from '@cds/core/icon/shapes/palm-tree';
 import { ClarityModule } from '@clr/angular';
-import { AuthorizationComponent } from './authorization/authorization.component'
+import { AuthorizationService } from './authorization/authorization.service';
 import { filter } from 'rxjs'
 
 @Component({
@@ -15,8 +15,7 @@ import { filter } from 'rxjs'
   imports: [
     HomeComponent,
     RouterModule,
-    ClarityModule,
-    AuthorizationComponent
+    ClarityModule
   ]
 })
 export class AppComponent implements AfterViewChecked{
@@ -24,6 +23,7 @@ export class AppComponent implements AfterViewChecked{
   scrollVal:number[] = []
   @ViewChild('contentArea') contentArea!: ElementRef
   restoredScroll:number = 0;
+  authServ:AuthorizationService = inject(AuthorizationService);
 
   constructor(private router: Router){
     this.router.events.pipe(

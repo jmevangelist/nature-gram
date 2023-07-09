@@ -74,3 +74,8 @@ export interface Comment {
     user: User;
     html?: string;
 }
+
+export interface Place {
+    id: number,
+    display_name: string
+}
