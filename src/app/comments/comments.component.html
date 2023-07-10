@@ -10,7 +10,7 @@
             <div class="clr-col">
                 <div class="card-text">
                     <p class="user-name"><a [routerLink]="['naturalist',com.user.login]" class="p4">{{com.user.login}}</a>
-                    ・ <span class="p7">{{com.created_at | dateTimeAgo:'short'}}</span> ・ <span class="p7">{{com.category}}</span></p>
+                    ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
                     <ng-container *ngIf="com.taxon">
                         <div class="taxon-container">
                             <img [src]="com.taxon.default_photo?.url || 'assets/default.png'" class="taxon-img">

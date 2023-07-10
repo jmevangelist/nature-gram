@@ -13,7 +13,7 @@
                         <h6>{{observation.user.login}}</h6>
                     </a>
                     <p class="p7">{{observation.place_guess}} 
-                    <span><br>{{observation.time_observed_at | dateTimeAgo}}</span></p>
+                    <span><br>{{observation.time_observed_at | dateTimeAgo | async}}</span></p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                 <p class="p5 card-text">Add a comment or suggest an ID</p>
             </div>
         </ng-container>
-        <p class="card-text p7">{{observation.created_at | dateTimeAgo}}</p>
+        <p class="card-text p7">{{observation.created_at | dateTimeAgo | async}}</p>
     </div>
 </div>
 
