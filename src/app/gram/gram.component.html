@@ -78,10 +78,7 @@
                 </button>
                 <h6>{{observation.quality_grade}}</h6>
             </div>
-            <app-comments [identifications]="observation.identifications" 
-                [comments]="observation.comments"
-                [uuid]="observation.uuid">
-            </app-comments>
+            <ng-template #temp></ng-template>
         </div>
     </div>
 </div>

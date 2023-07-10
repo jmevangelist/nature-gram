@@ -138,8 +138,6 @@ export class HomeService {
             return false 
         }
 
-        console.log(params)
-
         let obs:Observation[] = [] 
         
         try{

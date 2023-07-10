@@ -42,13 +42,11 @@ export class CommentsComponent implements OnInit {
   ngOnInit(): void {
     this.combination = this.comments.concat(...this.identifications)
     .sort((a,b)=> Date.parse(a.created_at) - Date.parse(b.created_at))
-    console.log(this.combination)
   }
 
 
   onSubmit(){
     if(this.newComment){
-      console.log(this.newComment)
       this.submitBtnState = ClrLoadingState.LOADING
       let comment: CommentsCreate = {
         fields: 'string',

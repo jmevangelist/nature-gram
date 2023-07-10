@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild, ViewContainerRef, createComponent, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, createComponent, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observation, Vote, Identification, Comment } from '../inaturalist/inaturalist.interface';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe'
@@ -8,7 +8,6 @@ import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon, checkCircleIcon } from '@cds/core/icon';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
-import { CommentsComponent } from '../comments/comments.component';
 
 @Component({
   selector: 'app-gram',
@@ -19,14 +18,16 @@ import { CommentsComponent } from '../comments/comments.component';
     CarouselComponent,
     RouterLink, 
     RouterOutlet,
-    ClarityModule,
-    CommentsComponent
+    ClarityModule
   ],
   templateUrl: './gram.component.html',
   styleUrls: ['./gram.component.css'],
 })
 export class GramComponent implements OnInit {
   @Input() observation!: Observation;
+
+  @ViewChildren('temp',{read: ViewContainerRef})
+  private temp!: QueryList<ViewContainerRef>
 
   isFaved: boolean = false;
   isBookmarked: boolean = false;
@@ -37,7 +38,6 @@ export class GramComponent implements OnInit {
   currentIdentification!: Identification | undefined;
   comment!: Comment;
   isCommentsOpen: boolean = false;
-  commentsComponent!: any;
 
   ngOnInit(){
     this.isFaved = Boolean(this.observation.faves.filter((f)=> f.user_id == this.authService.me?.id).length)
@@ -94,6 +94,13 @@ export class GramComponent implements OnInit {
 
   async comments(){
     this.isCommentsOpen = true
+    if (!this.temp.first.get(0)){
+      const { CommentsComponent } = await import('../comments/comments.component');
+      let commentsComponent = this.temp.first.createComponent(CommentsComponent)
+      commentsComponent.instance.uuid = this.observation.uuid
+      commentsComponent.instance.comments = this.observation.comments
+      commentsComponent.instance.identifications = this.observation.identifications
+    }
   }
 
   bookmark(){
