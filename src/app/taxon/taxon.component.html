@@ -1,0 +1,8 @@
+<div class="taxon-container">
+    <img [src]="taxon.default_photo?.url || 'assets/default.png'" class="taxon-img">
+    <div class="taxon-taxon">
+        <h6 class="taxon-name"><em>{{taxon.name}}</em></h6>
+        <p class="p5 taxon-common">{{taxon.preferred_common_name}}</p>
+        <p class="p7 taxon-match">{{taxon.matched_term}}</p>
+    </div>
+</div>

@@ -12,6 +12,7 @@
 .card {
     box-shadow: none !important;
     margin: 0;
+    padding: 0 0.5rem;
 }
 
 .card-block > .p7 {

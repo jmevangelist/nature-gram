@@ -1,0 +1,27 @@
+.taxon-container {
+    display: flex;
+    padding: 0.3rem 0;
+}
+
+.taxon-img{
+    width: 1.8rem;
+    height: 1.8rem;
+    align-self: center;
+    object-fit: cover;
+}
+
+.taxon-taxon{
+    margin-left: 0.3rem !important;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.taxon-name{
+    margin-top: 0 !important;
+}
+
+p{
+    line-height: 0.8rem !important;
+    margin-top: 0 !important;
+}

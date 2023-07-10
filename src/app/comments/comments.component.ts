@@ -8,6 +8,7 @@ import { ClarityIcons, checkIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { FormsModule } from '@angular/forms';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
+import { TaxonComponent } from '../taxon/taxon.component';
 
 @Component({
   selector: 'app-comments',
@@ -17,7 +18,8 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
     RouterLink,
     DateTimeAgoPipe,
     ClarityModule,
-    FormsModule
+    FormsModule,
+    TaxonComponent
   ],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']

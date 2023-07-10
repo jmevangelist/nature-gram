@@ -12,13 +12,7 @@
                     <p class="user-name"><a [routerLink]="['naturalist',com.user.login]" class="p4">{{com.user.login}}</a>
                     ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
                     <ng-container *ngIf="com.taxon">
-                        <div class="taxon-container">
-                            <img [src]="com.taxon.default_photo?.url || 'assets/default.png'" class="taxon-img">
-                            <div class="taxon-taxon">
-                                <h6 class="taxon-name"><em>{{com.taxon?.name}}</em></h6>
-                                <p class="p5 taxon-common">{{com.taxon?.preferred_common_name}}</p>
-                            </div>
-                        </div>
+                        <app-taxon [taxon]="com.taxon"></app-taxon>
                         <button *ngIf="com.category!='supporting'" class="btn btn-sm btn-success-outline btn-icon">
                             <cds-icon shape="check"></cds-icon>agree</button>
                     </ng-container>

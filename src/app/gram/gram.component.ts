@@ -26,8 +26,7 @@ import { AuthorizationService } from '../authorization/authorization.service';
 export class GramComponent implements OnInit {
   @Input() observation!: Observation;
 
-  @ViewChildren('temp',{read: ViewContainerRef})
-  private temp!: QueryList<ViewContainerRef>
+  @ViewChildren('temp',{read: ViewContainerRef}) temp!: QueryList<ViewContainerRef>
 
   isFaved: boolean = false;
   isBookmarked: boolean = false;
