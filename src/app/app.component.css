@@ -26,6 +26,28 @@
     }    
 }
 
+.custom-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.2rem 0.5rem;
+    background-color: hsl(198, 0%, 98%);
+}
+
+.header-actions {
+    align-self: center;
+}
+
+clr-dropdown > .btn{
+    padding: 0; 
+    margin: 0;
+}
+
+clr-dropdown > .btn > cds-icon{
+    position: relative !important;
+    right: unset;
+}
+
 .mobile-footer{
     display: none;
 }
