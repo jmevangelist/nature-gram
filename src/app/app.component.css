@@ -2,6 +2,16 @@
     max-width: fit-content !important;
 }
 
+.brand {
+    height: 2rem !important;
+    width: 8rem !important;
+}
+
+.brand > svg {
+    height: 2rem;
+    width: 8rem;
+}
+
 .content-area{
     padding: 0 !important;
 }
