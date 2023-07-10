@@ -14,3 +14,9 @@
 body{
     height: 100% !important;
 }
+
+
+:root{
+    --clr-header-2-bg-color: hsl(198, 0%, 98%);
+    --clr-header-font-color: hsl(198, 0%, 20%);
+}

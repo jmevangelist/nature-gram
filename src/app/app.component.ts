@@ -7,6 +7,7 @@ import { ClarityModule } from '@clr/angular';
 import { AuthorizationService } from './authorization/authorization.service';
 import { filter } from 'rxjs'
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -45,5 +46,13 @@ export class AppComponent implements AfterViewChecked{
     }
   }
 }
+
+
+fetch('/assets/logo.svg').then((res)=>{
+  res.text().then((svg)=>{
+    ClarityIcons.addIcons(['brand',svg])
+  })
+})
+
 
 ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon,searchIcon,briefcaseIcon,imageGalleryIcon)
