@@ -65,3 +65,11 @@ input {
     padding: 0 !important;
     min-width: 0;
 }
+
+.activity-container {
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    max-height: 65dvh;
+    width: 100%;
+}

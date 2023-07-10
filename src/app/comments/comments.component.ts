@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Comment, CommentsCreate, Identification } from '../inaturalist/inaturalist.interface';
 import { RouterLink } from '@angular/router';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe';
-import { ClarityModule } from '@clr/angular';
+import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, checkIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { FormsModule } from '@angular/forms';
@@ -30,11 +30,13 @@ export class CommentsComponent implements OnInit {
   authServ: AuthorizationService;
   inatServ: InaturalistService;
   newComment: string;
+  submitBtnState: ClrLoadingState;
 
   constructor(){
     this.authServ = inject(AuthorizationService);
     this.inatServ = inject(InaturalistService);
     this.newComment = ''
+    this.submitBtnState = ClrLoadingState.DEFAULT;
   }
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class CommentsComponent implements OnInit {
   onSubmit(){
     if(this.newComment){
       console.log(this.newComment)
+      this.submitBtnState = ClrLoadingState.LOADING
       let comment: CommentsCreate = {
         fields: 'string',
         comment: {
@@ -56,7 +59,10 @@ export class CommentsComponent implements OnInit {
         }
       }
       this.inatServ.comment(comment).then((comments:Comment[])=>{
-        this.combination.push(...comments)
+        this.combination.push(...comments)  
+      }).finally(()=>{
+        this.newComment = ''
+        this.submitBtnState = ClrLoadingState.DEFAULT;
       })
     }
 
