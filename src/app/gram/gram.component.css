@@ -96,7 +96,7 @@ a{
 
 .modal-content{
     max-height: 80dvh;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .modal{
