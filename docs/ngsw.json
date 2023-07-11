@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1689042737163,
+  "timestamp": 1689043119960,
   "index": "/nature-gram/index.html",
   "assetGroups": [
     {
@@ -59,7 +59,7 @@
     "/nature-gram/assets/icons/icon-96x96.png": "d26c6f8c9ecded8fe4aac4c0abb5a53ef831df55",
     "/nature-gram/assets/logo.svg": "cefddea519f431d7cf4b6b062cfe19d7b18ee9e7",
     "/nature-gram/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/nature-gram/index.html": "d399cff388ef7837767547a38029b1e3e9a448e2",
+    "/nature-gram/index.html": "b6cf4b2a5ed73ffa2945201ef9366c6abc913ae5",
     "/nature-gram/main.dd87bd0a1da09116.js": "f4c65963e5956b0221c7710f60a452bdac0310f9",
     "/nature-gram/manifest.webmanifest": "de730ee5fd804b0328d1060955c518bacdcf58ef",
     "/nature-gram/polyfills.2017c4f5c37bc885.js": "002c49fd15baf3c646c64abd10f3fdb43cc76430",
