@@ -25,9 +25,9 @@
 }
 
 input{
-    border-style: solid;
-    border-radius: 2%;
-    border-width: 1px;
+    border: none;
+    border-radius: 0.2rem;
+    background-color: hsl(198, 0%, 91%);
 }
 
 .preference-container{

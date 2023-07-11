@@ -1,7 +1,7 @@
 .container{
-    max-width: 500px;
+    max-width: 768px;
     width:100%;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .clr-control-container{

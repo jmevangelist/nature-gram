@@ -13,7 +13,9 @@
                     ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
                     <ng-container *ngIf="com.taxon">
                         <app-taxon [taxon]="com.taxon"></app-taxon>
-                        <button *ngIf="com.category!='supporting'" class="btn btn-sm btn-success-outline btn-icon">
+                        <button *ngIf="com.category!='supporting'" 
+                            [disabled]="authServ.isExpired"
+                            class="btn btn-sm btn-success-outline btn-icon">
                             <cds-icon shape="check"></cds-icon>agree</button>
                     </ng-container>
                     <p class="p5" [innerHTML]="com.body"></p>
