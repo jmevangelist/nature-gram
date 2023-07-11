@@ -80,15 +80,26 @@ export interface Comment {
 }
 
 export interface Place {
-    id: number,
-    display_name: string
+    id: number;
+    display_name: string;
 }
 
 export interface CommentsCreate {
-    fields: string,
+    fields?: string;
     comment: { 
         parent_type: 'Observation' | 'Post'; 
         parent_id: string; /*uuid*/
         body: string;
+    }
+}
+
+export interface IdentificationsCreate {
+    fields?: string;
+    identification: {
+        body?: string;
+        observation_id: string; /*uuid*/
+        taxon_id: number;
+        vision?: boolean;
+        disagreement?: boolean;
     }
 }

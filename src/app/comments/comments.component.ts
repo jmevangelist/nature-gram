@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Comment, CommentsCreate, Identification } from '../inaturalist/inaturalist.interface';
+import { Comment, CommentsCreate, Identification, IdentificationsCreate, Taxon } from '../inaturalist/inaturalist.interface';
 import { RouterLink } from '@angular/router';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe';
-import { ClarityModule, ClrLoadingState } from '@clr/angular';
+import { ClarityModule, ClrLoadingButton, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, checkIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { FormsModule } from '@angular/forms';
@@ -33,12 +33,14 @@ export class CommentsComponent implements OnInit {
   inatServ: InaturalistService;
   newComment: string;
   submitBtnState: ClrLoadingState;
+  identBtnState: ClrLoadingState;
 
   constructor(){
     this.authServ = inject(AuthorizationService);
     this.inatServ = inject(InaturalistService);
     this.newComment = ''
     this.submitBtnState = ClrLoadingState.DEFAULT;
+    this.identBtnState = ClrLoadingState.DEFAULT;
   }
 
   ngOnInit(): void {
@@ -46,6 +48,17 @@ export class CommentsComponent implements OnInit {
     .sort((a,b)=> Date.parse(a.created_at) - Date.parse(b.created_at))
   }
 
+  agree(taxon:Taxon,ref:ClrLoadingButton): void {
+    ref.loadingStateChange(ClrLoadingState.LOADING)
+    let identification: IdentificationsCreate = {
+      identification: { taxon_id: taxon.id, observation_id: this.uuid }
+    }
+    this.inatServ.identification(identification).then((identifications:Identification[])=>{
+      this.combination.push(...identifications)
+    }).finally(()=>{
+      ref.loadingStateChange(ClrLoadingState.DEFAULT) 
+    })
+  }
 
   onSubmit(){
     if(this.newComment){

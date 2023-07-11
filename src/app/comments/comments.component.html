@@ -13,8 +13,10 @@
                     ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
                     <ng-container *ngIf="com.taxon">
                         <app-taxon [taxon]="com.taxon"></app-taxon>
-                        <button *ngIf="com.category!='supporting'" 
+                        <button #b *ngIf="com.category!='supporting'" 
                             [disabled]="authServ.isExpired"
+                            (click)="agree(com.taxon,b)"
+                            [clrLoading]="identBtnState"
                             class="btn btn-sm btn-success-outline btn-icon">
                             <cds-icon shape="check"></cds-icon>agree</button>
                     </ng-container>
@@ -32,7 +34,10 @@
         </a>
     </div>
     <div class="clr-col">
-        <input type="text" class="p5" [(ngModel)]="newComment" name="newcomment" placeholder="comment">
+        <textarea type="text" class="p5" #textarea 
+            [ngStyle]="{'height.px': textarea.scrollHeight }"
+            [(ngModel)]="newComment" name="newcomment" rows="1" placeholder="comment">
+        </textarea>
     </div>
     <div class="clr-col-auto">
         <button class="btn btn-link btn-sm comment-btn" [clrLoading]="submitBtnState" (click)="onSubmit()" [disabled]="!newComment">Add</button>
