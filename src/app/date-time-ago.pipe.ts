@@ -55,7 +55,7 @@ function convert(dateTimeString:string, format?:string){
     unit = unit + ( (diff > 1) ? 's' : '' )
     let datetimeAgoString = `${diff} ${unit} ago`
     if(format == 'short'){
-        datetimeAgoString = `${diff}${unit.charAt(0)}`
+        datetimeAgoString = `${diff}${unit}`
     }
 
     return datetimeAgoString
