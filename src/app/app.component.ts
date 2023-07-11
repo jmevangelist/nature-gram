@@ -54,5 +54,4 @@ fetch('/assets/logo.svg').then((res)=>{
   })
 })
 
-
 ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon,searchIcon,briefcaseIcon,imageGalleryIcon)

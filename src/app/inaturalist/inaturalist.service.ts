@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User, Taxon, Place, CommentsCreate, Comment } from './inaturalist.interface';
+import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification } from './inaturalist.interface';
 import { InaturalistFieldsService } from './inaturalist-fields.service'
 import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
@@ -138,6 +138,33 @@ export class InaturalistService {
     let res = await response.json()
 
     return res.results
+  }
+
+  async identification(identification:IdentificationsCreate):Promise<Identification[]>{
+    const url = new URL('v2/identifications',this.base_url);
+    let token = this.authService.token 
+
+    identification.fields = rison.encode(this.inaturalistConfig.Identification)
+
+    let response = await fetch(url,{
+      method: "POST",
+      headers: { 
+        "Authorization": token,
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify(identification)
+    })
+
+    if(!response.ok){
+      if(response.status == 401){
+        this.authService.setExpired();
+      }
+      throw response.statusText
+    }
+    let res = await response.json()
+
+    return res.results
+
   }
 
   async taxaAutoComplete(q:string):Promise<Taxon[]>{

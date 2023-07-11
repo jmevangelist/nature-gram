@@ -6,11 +6,17 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { SubscriptionLike, debounceTime, from } from 'rxjs';
+import { TaxonComponent } from '../taxon/taxon.component';
 
 @Component({
   selector: 'app-preference',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,ClarityModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ClarityModule,
+    TaxonComponent,
+  ],
   templateUrl: './preference.component.html',
   styleUrls: ['./preference.component.css']
 })

@@ -13,7 +13,7 @@ let me: User;
 authServiceStub = {
   token: 'token',
   me: { id: 123, login: 'USER' },
-  updateTaxa: ()=>{},
+  // updateTaxa: ()=>{},
   logout: ()=>{ }
 }
 

@@ -3,7 +3,7 @@
     width:700px;
     box-shadow: unset !important;
     border-style: unset !important;
-    margin: .6rem auto;
+    margin: 0 auto 1rem auto;
 }
 
 @media screen and (min-width: 768px) {
@@ -100,6 +100,7 @@ a{
 }
 
 .modal{
+    top: unset;
     padding: 0 !important;
     justify-content: end;
 }

@@ -47,15 +47,13 @@ a {
     text-decoration: unset;
 }
 
-input {
+textarea {
     border-radius: .2rem;
     border-style: hidden;
     background-color: hsl(198, 0%, 91%);
     margin-top: 0 !important;
     width: 100%;
 }
-
-
 
 .your-input{
     margin-top: 1rem;

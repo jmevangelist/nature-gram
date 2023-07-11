@@ -2,13 +2,16 @@
 
     <ng-container *ngIf="me">
         <h1 class="greeting">Hello {{ me.login }}</h1>
-        <pre class="json">{{ me | json }}</pre>
     </ng-container>
 
     <ng-container *ngIf="authService.isExpired">
-        <p>Your api token will enable the fave and unfave observations feature until it expires(24 hours). 
-            <strong>natureGram</strong> is purely a client side application, 
-            your information is only stored locally on your computer.</p>
+        <p>Your api token will enable the app to send fave, comment and identify requests to iNaturalist via the 
+            publicly available <a href="https://api.inaturalist.org/v2/">API</a>. All requests are only sent upon
+            your direct action on the app (tapping the fave button, adding a comment, etc.) </p>
+
+        <p><strong>natureGram</strong> is purely a client side application, 
+            your information is only stored locally on your device.</p>
+        
         <p>Get your token <a href="https://www.inaturalist.org/users/api_token" target="_blank"> here</a></p>
 
         <form clrForm clrLayout="vertical" [formGroup]="authForm">
@@ -26,5 +29,14 @@
     [clrLoading]="authBtnState" type="button" 
     (click)="auth()">{{ authService.isExpired ? 'Authorize': 'Logout'}}</button>
  
+    <h5>About natureGram</h5>
+    <p>natureGram is iNaturalist revisualized as a generic social media site.</p>
+
+    <p>Made by Joan Evangelista<br>
+    @bearbeer on <a href="https://www.inaturalist.org/people/bearbeer/">iNaturalist</a> and Discord</p>
+
+    <p><a href="https://github.com/jmevangelist/nature-gram">Source Code</a></p>
+
+
 
 </div>

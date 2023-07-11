@@ -36,6 +36,7 @@ export class InaturalistFieldsService {
         preferred_common_name: true,
         rank: true,
         matched_term: true,
+        default_photo: this.Photos
         
     }
 

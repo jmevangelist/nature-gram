@@ -10,10 +10,7 @@
             <ul class="search-list">
                 <li *ngFor="let t of taxa_search;" [value]="t.matched_term">
                     <div class="card clickable" (click)="selectTaxon(t)">
-                        <div class="card-block">
-                            <p class="p7">{{t.matched_term}}<br>
-                            ({{t.rank}})<em>{{t.name}}</em></p>
-                        </div>
+                        <app-taxon [taxon]="t"></app-taxon>
                     </div>
                 </li>
             </ul>     

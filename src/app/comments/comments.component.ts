@@ -1,13 +1,14 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Comment, CommentsCreate, Identification } from '../inaturalist/inaturalist.interface';
+import { Comment, CommentsCreate, Identification, IdentificationsCreate, Taxon } from '../inaturalist/inaturalist.interface';
 import { RouterLink } from '@angular/router';
 import { DateTimeAgoPipe } from '../date-time-ago.pipe';
-import { ClarityModule, ClrLoadingState } from '@clr/angular';
+import { ClarityModule, ClrLoadingButton, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, checkIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { FormsModule } from '@angular/forms';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
+import { TaxonComponent } from '../taxon/taxon.component';
 
 @Component({
   selector: 'app-comments',
@@ -17,7 +18,8 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
     RouterLink,
     DateTimeAgoPipe,
     ClarityModule,
-    FormsModule
+    FormsModule,
+    TaxonComponent
   ],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
@@ -31,24 +33,35 @@ export class CommentsComponent implements OnInit {
   inatServ: InaturalistService;
   newComment: string;
   submitBtnState: ClrLoadingState;
+  identBtnState: ClrLoadingState;
 
   constructor(){
     this.authServ = inject(AuthorizationService);
     this.inatServ = inject(InaturalistService);
     this.newComment = ''
     this.submitBtnState = ClrLoadingState.DEFAULT;
+    this.identBtnState = ClrLoadingState.DEFAULT;
   }
 
   ngOnInit(): void {
     this.combination = this.comments.concat(...this.identifications)
     .sort((a,b)=> Date.parse(a.created_at) - Date.parse(b.created_at))
-    console.log(this.combination)
   }
 
+  agree(taxon:Taxon,ref:ClrLoadingButton): void {
+    ref.loadingStateChange(ClrLoadingState.LOADING)
+    let identification: IdentificationsCreate = {
+      identification: { taxon_id: taxon.id, observation_id: this.uuid }
+    }
+    this.inatServ.identification(identification).then((identifications:Identification[])=>{
+      this.combination.push(...identifications)
+    }).finally(()=>{
+      ref.loadingStateChange(ClrLoadingState.DEFAULT) 
+    })
+  }
 
   onSubmit(){
     if(this.newComment){
-      console.log(this.newComment)
       this.submitBtnState = ClrLoadingState.LOADING
       let comment: CommentsCreate = {
         fields: 'string',
