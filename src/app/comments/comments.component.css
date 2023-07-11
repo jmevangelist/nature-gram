@@ -4,6 +4,10 @@
     border-radius: 50%;
 }
 
+.user-icon-container{
+    align-self: flex-start;
+}
+
 p{
     margin-top: 0 !important;
 }
