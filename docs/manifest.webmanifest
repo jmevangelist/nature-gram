@@ -1,6 +1,6 @@
 {
-  "name": "nature-gram",
-  "short_name": "nature-gram",
+  "name": "natureGram",
+  "short_name": "natureGram",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
