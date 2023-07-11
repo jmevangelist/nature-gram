@@ -27,11 +27,8 @@
     </div>
 </div>
 <div class="clr-row your-input clr-align-items-center" *ngIf="!authServ.isExpired">
-    <div class="clr-col-auto">
-        <a [routerLink]="['naturalist',authServ.me?.login]">
-            <img [src]="authServ.me?.icon || 'assets/default.png'" 
-                class="user_icon">
-        </a>
+    <div class="clr-col-auto user-icon-container">
+        <img [src]="authServ.me?.icon || 'assets/default.png'" class="user_icon">
     </div>
     <div class="clr-col">
         <textarea type="text" class="p5" #textarea 
