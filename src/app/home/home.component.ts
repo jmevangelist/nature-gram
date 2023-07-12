@@ -4,8 +4,10 @@ import { Observation } from '../inaturalist/inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
 import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
-import { Navigation, Router } from '@angular/router';
+import { Navigation, Router, RouterLink } from '@angular/router';
 import { Observable, SubscriptionLike } from 'rxjs';
+import { ClarityIcons, angleIcon } from '@cds/core/icon';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-home',
@@ -13,17 +15,24 @@ import { Observable, SubscriptionLike } from 'rxjs';
   imports: [
     CommonModule,
     GramComponent,
-    ClarityModule
+    ClarityModule,
+    RouterLink,
+    HeaderComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  observations: Observable<Observation[]>; //= [];
+  observations: Observable<Observation[]>;
   homeService: HomeService = inject(HomeService);
   loading: Observable<boolean>;
   end: boolean;
+
+  sortFilterOptions: string[];
+  sortFilter: string;
+  sortFilterOptionsDD: any;
+  sortFilterDD: string;
 
   private observer: IntersectionObserver | undefined;  
   private currentNavigation: Navigation | null;
@@ -37,12 +46,25 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.currentNavigation = this.router.getCurrentNavigation();
     this.createObserver()
     this.end = false;
+
+    this.sortFilterOptions = ['Today','New','Recently Updated','Popular','Random','Unknown']
+    this.sortFilter = 'New'
+    this.sortFilterOptionsDD = {
+      'Popular': ['Today','Past week', 'Past month','Past year','All time'],
+      'Random' : ['Today','Past week', 'Past month','Past year','All time']
+    }
+    this.sortFilterDD = 'Today'
+
   }
 
   ngOnInit(): void {
     if(this.currentNavigation?.trigger == 'imperative'){
       this.homeService.refresh();
       this.moreObservations();
+    }else if(this.currentNavigation?.trigger == 'popstate'){
+      if(this.homeService.getObservations().length == 0){
+        this.moreObservations();
+      }
     }
   }
 
@@ -92,4 +114,67 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     },options)
   }
 
+  reload(){
+    this.homeService.reload();
+  }
+
+  selectFilterOption(o:string,odd?:string){
+    this.sortFilter = o;
+    this.homeService.refresh()
+    switch (o) {
+      case 'New':
+        this.homeService.updateParams('order_by','created_at');
+        break;
+      case 'Popular':
+        this.homeService.updateParams('order_by','votes');
+        this.homeService.updateParams('popular',true);
+        break;
+      case 'Recently Updated':
+        this.homeService.updateParams('order_by','updated_at');
+        break;
+      case 'Today':
+        this.homeService.updateParams('order_by','created_at');
+        let d1 = new Date( Date.parse(Date()) - 24*60*60*1000 )
+        this.homeService.updateParams('created_d1',d1);
+        this.homeService.updateParams('created_d2',Date())
+        break;
+      case 'Random':
+        this.homeService.updateParams('order_by','random');
+        break;
+      case 'Unknown':
+        this.homeService.updateParams('order_by','created_at');
+        this.homeService.updateParams('iconic_taxa','unknown')
+    }
+
+    if(odd){
+      this.sortFilterDD = odd
+      this.homeService.updateParams('created_d2',Date())
+      let d2 = Date.now()
+      switch (odd){
+        case 'Today':
+          this.homeService.updateParams('created_d1',new Date( d2 - 24*60*60*1000 ));
+          break;
+        case 'Past week':
+          this.homeService.updateParams('created_d1',new Date( d2 - 7*24*60*60*1000 ));
+          break;
+        case 'Past month':
+          this.homeService.updateParams('created_d1',new Date( d2 - 30*24*60*60*1000 ));
+          break;
+        case 'Past year':
+          this.homeService.updateParams('created_d1',new Date( d2 - 365*24*60*60*1000))
+          break;
+      }
+    }
+
+    this.homeService.loadObservations()
+  }
+
 }
+
+fetch('/assets/logo.svg').then((res)=>{
+  res.text().then((svg)=>{
+    ClarityIcons.addIcons(['brand',svg])
+  })
+})
+
+ClarityIcons.addIcons(angleIcon)

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PreferenceService } from './preference.service';
 import { Place, Taxon } from '../inaturalist/inaturalist.interface.js';
@@ -7,6 +7,7 @@ import { ClarityModule } from '@clr/angular';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { SubscriptionLike, debounceTime, from } from 'rxjs';
 import { TaxonComponent } from '../taxon/taxon.component';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-preference',
@@ -16,6 +17,7 @@ import { TaxonComponent } from '../taxon/taxon.component';
     ReactiveFormsModule,
     ClarityModule,
     TaxonComponent,
+    HeaderComponent
   ],
   templateUrl: './preference.component.html',
   styleUrls: ['./preference.component.css']
@@ -32,16 +34,35 @@ export class PreferenceComponent implements OnDestroy {
   isSearchingTaxa: boolean;
   isSearchingPlace: boolean;
   place_search: Place[];
+  options: any[];
+  selectedOptions: string[];
 
   constructor(){
+    this.options = [
+      { name: 'endemic', checked: false, label: 'Endemic' },
+      { name: 'captive', checked: false, label: 'Captive/Cultivated'},
+      { name: 'introduced', checked: false, label: 'Introduced' },
+      { name: 'native', checked: false, label: 'Native' },
+      { name: 'outOfRange', checked: false, label: 'Out of Range' },
+      { name: 'threatened', checked: false, label: 'Threatened' }  
+    ]
+
     this.prefService = inject(PreferenceService);    
     this.inatService = inject(InaturalistService);
     this.taxa = this.prefService.taxa;
     this.places = this.prefService.places;
+    this.selectedOptions = this.prefService.options;
     this.prefForm = new FormGroup({
       taxon: new FormControl(''),
       place: new FormControl('')
     })
+
+    this.options.forEach((v,i)=>{
+      if( this.selectedOptions.includes(v.name) ){
+        this.options[i].checked = true
+      }
+    })
+
     this.taxa_search = [];
     this.place_search = [];
     this.isSearchingTaxa = false;
@@ -126,8 +147,17 @@ export class PreferenceComponent implements OnDestroy {
     this.places.splice(i,1)
   }
 
+  selectOption(option:any){
+
+    let value = option.target.value
+    if(option.target.checked ){
+      this.selectedOptions.push(value)
+    }else if(!option.target.checked){
+      this.selectedOptions.splice( this.selectedOptions.findIndex( s => s == value ), 1 )
+    }
+  }
+
   onSubmit(){    
-    console.log(this.prefForm.value)
     
     if(this.taxa_search.length > 0){
       this.selectTaxon(this.taxa_search[0])
@@ -139,9 +169,9 @@ export class PreferenceComponent implements OnDestroy {
 
   ngOnDestroy(){
     this.sub.forEach((s) => { s.unsubscribe})
-    console.log(this.taxa)
     this.prefService.updateTaxa(this.taxa)
     this.prefService.updatePlace(this.places)
+    this.prefService.updateOptions(this.selectedOptions)
   }
 
 }

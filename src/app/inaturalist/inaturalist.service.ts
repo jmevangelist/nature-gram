@@ -192,7 +192,8 @@ export class InaturalistService {
     url.search = new URLSearchParams([
       ['fields','id,display_name'],
       ['q',q],
-      ['per_page','5']
+      ['per_page','5'],
+      ['geo','true']
     ]).toString();
 
     let response = await fetch(url)

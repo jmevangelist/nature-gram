@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Place, Taxon } from '../inaturalist/inaturalist.interface';
+import { find } from 'rxjs';
+import { FiltersProvider } from '@clr/angular/data/datagrid/providers/filters';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,7 @@ export class PreferenceService {
 
   taxa: Taxon[];
   places: Place[];
+  options: string[];
 
   constructor() {
     this.taxa = [];
@@ -19,6 +22,12 @@ export class PreferenceService {
     local_storage_taxa = localStorage.getItem('places');
     if(local_storage_taxa){
         this.places = JSON.parse(local_storage_taxa);
+    }
+
+    this.options = [];
+    let local_storage_options = localStorage.getItem('options');
+    if(local_storage_options){
+      this.options = JSON.parse(local_storage_options)
     }
   }
 
@@ -32,6 +41,17 @@ export class PreferenceService {
     localStorage.setItem('places',JSON.stringify(places))
   }
 
+
+  updateOptions(options:string[]){
+    this.options = options;
+    localStorage.setItem('options',JSON.stringify(this.options));
+    console.log(options)
+  }
+
+  getOptions():string[][]{
+    return this.options.map( o => [o,'true'] )
+  }
+
   getTaxaID():number[]{
       return this.taxa?.map(t => t.id) ?? []
   }
@@ -41,7 +61,17 @@ export class PreferenceService {
   }
 
   getPreferences(){
-    return [[ 'taxon_id', this.getTaxaID().join(',') ],['place_id',this.getPlaceID().join(',')]]
+
+    let pref = [
+      [ 'taxon_id', this.getTaxaID().join(',') ],
+      [ 'place_id',this.getPlaceID().join(',')] ]
+    console.log(this.getOptions())
+
+    pref.push(...this.getOptions())
+
+    console.log(pref)
+
+    return pref
   }
   
 }

@@ -1,6 +1,6 @@
 <div class="activity-container">
-    <div *ngFor="let com of combination">
-        <div class="clr-row">
+    <div *ngFor="let com of combination" class="activity">
+        <div class="clr-row activity-header">
             <div class="clr-col-auto">
                 <a [routerLink]="['naturalist',com.user.login]">
                     <img [src]="com.user.icon || 'assets/default.png'" 
@@ -8,21 +8,21 @@
                 </a>
             </div>
             <div class="clr-col">
-                <div class="card-text">
-                    <p class="user-name"><a [routerLink]="['naturalist',com.user.login]" class="p4">{{com.user.login}}</a>
-                    ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
-                    <ng-container *ngIf="com.taxon">
-                        <app-taxon [taxon]="com.taxon"></app-taxon>
-                        <button #b *ngIf="com.category!='supporting'" 
-                            [disabled]="authServ.isExpired"
-                            (click)="agree(com.taxon,b)"
-                            [clrLoading]="identBtnState"
-                            class="btn btn-sm btn-success-outline btn-icon">
-                            <cds-icon shape="check"></cds-icon>agree</button>
-                    </ng-container>
-                    <p class="p5" [innerHTML]="com.body"></p>
-                </div>
+                <p class="user-name"><a [routerLink]="['naturalist',com.user.login]" class="p4">{{com.user.login}}</a>
+                ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
             </div>
+        </div>
+        <div class="activity-body">
+            <ng-container *ngIf="com.taxon">
+                <app-taxon [taxon]="com.taxon"></app-taxon>
+                <button #b *ngIf="com.category!='supporting'" 
+                    [disabled]="authServ.isExpired"
+                    (click)="agree(com.taxon,b)"
+                    [clrLoading]="identBtnState"
+                    class="btn btn-sm btn-success-outline btn-icon">
+                    <cds-icon shape="check"></cds-icon>agree</button>
+            </ng-container>
+            <p class="p5" [innerHTML]="com.body"></p>
         </div>
     </div>
 </div>
