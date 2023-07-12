@@ -23,6 +23,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     if(!this.shape){
       this.shape = 'arrow'
+    }else{
+      let url = this.location.prepareExternalUrl('/assets/icon.svg')
+      console.log(url)
+      fetch(url).then((res)=>{
+        res.text().then((svg)=>{
+          ClarityIcons.addIcons(['logo',svg])
+        })
+      })
     }
   }
 
@@ -39,9 +47,7 @@ export class HeaderComponent implements OnInit {
   }
 }
 
+
+
 ClarityIcons.addIcons(arrowIcon)
-fetch('/assets/icon.svg').then((res)=>{
-  res.text().then((svg)=>{
-    ClarityIcons.addIcons(['logo',svg])
-  })
-})
+

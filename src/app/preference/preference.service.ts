@@ -65,11 +65,8 @@ export class PreferenceService {
     let pref = [
       [ 'taxon_id', this.getTaxaID().join(',') ],
       [ 'place_id',this.getPlaceID().join(',')] ]
-    console.log(this.getOptions())
 
     pref.push(...this.getOptions())
-
-    console.log(pref)
 
     return pref
   }
