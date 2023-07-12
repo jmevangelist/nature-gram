@@ -1,7 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, createComponent, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observation, Vote, Identification, Comment } from '../inaturalist/inaturalist.interface';
-import { DateTimeAgoPipe } from '../date-time-ago.pipe'
+import { DateTimeAgoPipe } from '../shared/date-time-ago.pipe'
 import { CarouselComponent } from '../carousel/carousel.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';

@@ -5,12 +5,11 @@
     </ng-container>
 
     <ng-container *ngIf="authService.isExpired">
-        <p>Your api token will enable the app to send fave, comment and identify requests to iNaturalist via the 
-            publicly available <a href="https://api.inaturalist.org/v2/">API</a>. All requests are only sent upon
-            your direct action on the app (tapping the fave button, adding a comment, etc.) </p>
 
-        <p><strong>natureGram</strong> is purely a client side application, 
-            your information is only stored locally on your device.</p>
+        <p>Your api token will enable the app to send <em>fave, comment</em> and <em>identify</em> requests to iNaturalist via the 
+            publicly available <a href="https://api.inaturalist.org/v2/">API</a>. All requests are only sent upon
+            your direct action on the app (tapping the fave button, adding a comment, etc.). The API token expires 
+            after 24 hours of it being requested from iNaturalist.</p>
         
         <p>Get your token <a href="https://www.inaturalist.org/users/api_token" target="_blank"> here</a></p>
 
@@ -30,7 +29,9 @@
     (click)="auth()">{{ authService.isExpired ? 'Authorize': 'Logout'}}</button>
  
     <h5>About natureGram</h5>
-    <p>natureGram is iNaturalist revisualized as a generic social media site.</p>
+    <p><strong>natureGram</strong> is iNaturalist revisualized as a generic social media site.
+        <strong>natureGram</strong> is purely a client side application, 
+        your information is only stored locally on your device.</p>
 
     <p>Made by Joan Evangelista<br>
     @bearbeer on <a href="https://www.inaturalist.org/people/bearbeer/">iNaturalist</a> and Discord</p>

@@ -24,6 +24,6 @@
     </button>
 </div>
 
-<div class="attribution p7">
-    {{photos[0].attribution}}    
+<div class="attribution p7" *ngIf="photos.length">
+     {{photos[0].attribution}}     
 </div>

@@ -6,6 +6,7 @@ import { palmTreeIcon } from '@cds/core/icon/shapes/palm-tree';
 import { ClarityModule } from '@clr/angular';
 import { AuthorizationService } from './authorization/authorization.service';
 import { filter } from 'rxjs'
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { filter } from 'rxjs'
   imports: [
     HomeComponent,
     RouterModule,
-    ClarityModule
+    ClarityModule,
+    CommonModule
   ]
 })
 export class AppComponent implements AfterViewChecked{
@@ -47,11 +49,5 @@ export class AppComponent implements AfterViewChecked{
   }
 }
 
-
-fetch('/assets/logo.svg').then((res)=>{
-  res.text().then((svg)=>{
-    ClarityIcons.addIcons(['brand',svg])
-  })
-})
 
 ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon,searchIcon,briefcaseIcon,imageGalleryIcon)

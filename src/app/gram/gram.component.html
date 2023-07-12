@@ -22,7 +22,7 @@
     <app-carousel class="card-img" [photos]="observation.photos"></app-carousel>
     <div class="card-block bottom-block">
         <div class="card-actions clr-row">
-            <button type="button" [disabled]="!authorized" [clrLoading]="faveBtnState" 
+            <button type="button" [disabled]="!(!(authService.expired$ | async))" [clrLoading]="faveBtnState" 
                 class="btn btn-icon btn-link" (click)="fave()" aria-label="fave">
                 <cds-icon shape="star" [attr.solid]="isFaved" size="md"></cds-icon>
             </button>
@@ -37,7 +37,7 @@
                 </button>
             </a>
             <span class="margin-auto"></span>
-            <button type="button" [disabled]="!authorized" 
+            <button type="button"
                 class="btn btn-icon btn-link bookmark" aria-label="fave" (click)="bookmark()">
                 <cds-icon shape="bookmark" size="md" [attr.solid]="isBookmarked"></cds-icon>
             </button>

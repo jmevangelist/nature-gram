@@ -8,6 +8,8 @@ import { Navigation, Router, RouterLink } from '@angular/router';
 import { Observable, SubscriptionLike } from 'rxjs';
 import { ClarityIcons, angleIcon } from '@cds/core/icon';
 import { HeaderComponent } from '../header/header.component';
+import { ChipsComponent } from '../chips/chips.component';
+import { Chip } from '../chips/chip.interface';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +19,8 @@ import { HeaderComponent } from '../header/header.component';
     GramComponent,
     ClarityModule,
     RouterLink,
-    HeaderComponent
+    HeaderComponent,
+    ChipsComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -29,10 +32,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   loading: Observable<boolean>;
   end: boolean;
 
-  sortFilterOptions: string[];
-  sortFilter: string;
-  sortFilterOptionsDD: any;
-  sortFilterDD: string;
+  filterChips: Chip[];
 
   private observer: IntersectionObserver | undefined;  
   private currentNavigation: Navigation | null;
@@ -47,13 +47,14 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.createObserver()
     this.end = false;
 
-    this.sortFilterOptions = ['Today','New','Recently Updated','Popular','Random','Unknown']
-    this.sortFilter = 'New'
-    this.sortFilterOptionsDD = {
-      'Popular': ['Today','Past week', 'Past month','Past year','All time'],
-      'Random' : ['Today','Past week', 'Past month','Past year','All time']
-    }
-    this.sortFilterDD = 'Today'
+    this.filterChips = [ 
+      {label: 'Today'},
+      {label: 'New', selected:true },
+      {label: 'Recently Updated'},
+      {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
+      {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] },
+      {label: 'Unknown'}
+    ]
 
   }
 
@@ -93,6 +94,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   private moreObservations(){
+    this.end = false;
     this.homeService.loadObservations().then((b)=>{
       this.end = !b;
     })
@@ -115,13 +117,15 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   reload(){
-    this.homeService.reload();
+    this.end = false;
+    this.homeService.reload().then((b)=>{
+      this.end = !b;
+    })
   }
 
-  selectFilterOption(o:string,odd?:string){
-    this.sortFilter = o;
+  selectFilterOption(o?:Chip){
     this.homeService.refresh()
-    switch (o) {
+    switch (o?.label) {
       case 'New':
         this.homeService.updateParams('order_by','created_at');
         break;
@@ -146,11 +150,10 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
         this.homeService.updateParams('iconic_taxa','unknown')
     }
 
-    if(odd){
-      this.sortFilterDD = odd
+    if(o?.option){
       this.homeService.updateParams('created_d2',Date())
       let d2 = Date.now()
-      switch (odd){
+      switch (o.option){
         case 'Today':
           this.homeService.updateParams('created_d1',new Date( d2 - 24*60*60*1000 ));
           break;
@@ -166,15 +169,10 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     }
 
-    this.homeService.loadObservations()
+    this.moreObservations()
   }
 
 }
 
-fetch('/assets/logo.svg').then((res)=>{
-  res.text().then((svg)=>{
-    ClarityIcons.addIcons(['brand',svg])
-  })
-})
 
 ClarityIcons.addIcons(angleIcon)

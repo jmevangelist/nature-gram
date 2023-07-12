@@ -1,0 +1,60 @@
+
+.chips-container{
+    display: flex;
+    padding: 0.3rem;
+}
+
+.chips-container > .btn{
+    margin: 0 !important;
+    align-self: center;
+}
+
+.chips{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    width: 100%;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.label{
+    align-self: center;
+    border-radius: 0.3rem;
+    border: none;
+    background-color: hsl(198, 83%, 94%) !important;
+    padding: 0 0.6rem !important;
+    margin: 0 .3rem .05rem 0 !important;
+}
+
+.label-selected{
+    background-color: hsl(198, 100%, 32%) !important;
+    color: hsl(198, 0%, 100%) !important;
+}
+
+clr-dropdown > .label > cds-icon{
+    position: relative !important;
+    right: unset;
+}
+
+.btn-pref{
+    text-transform: unset;
+    margin: 0;
+}
+
+.position-static {
+    position: static !important;
+}
+
+.display-none {
+    display: none;
+}
+
+.chip-option{
+    margin: 0.1rem !important;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}

@@ -18,10 +18,8 @@ export class HomeService {
 
     private calls: number = 0
     private inatService: InaturalistService = inject(InaturalistService)
-    private prefservice = inject(PreferenceService)
-    private popular_params: any;
-    private recent_params: any;
-    private params: any;
+    private prefservice: PreferenceService = inject(PreferenceService)
+    params: any;
 
     constructor(){
         this.busy = new BehaviorSubject<boolean>(true);
@@ -34,46 +32,12 @@ export class HomeService {
             order_by: 'created_at',
             per_page: 5,
             page: 1
-        }
-
-        this.popular_params = {
-            popular: 'true',
-            order_by: 'updated_at',
-            per_page: '5',
-            page: '1'
-        }
-
-        this.recent_params = {
-            popular: 'false',
-            order_by: 'updated_at',
-            per_page: '5',
-            page: '1'
-        }
-    
+        }    
     }
 
     private extraParams():string[][]|undefined{
         let pref = this.prefservice.getPreferences();
         let paramsArray: string[][] = []
-
-        // if( parseInt(this.recent_params.page) && parseInt(this.popular_params.page)){
-        //     if(this.calls%2){
-        //         paramsArray = Object.keys(this.recent_params).map((key) => [key, this.recent_params[key]]);
-        //         this.recent_params.page = (parseInt(this.recent_params.page)+1).toString();
-        //     }else{
-        //         paramsArray = Object.keys(this.popular_params).map((key) => [key, this.popular_params[key]]);
-        //         this.popular_params.page = (parseInt(this.popular_params.page)+1).toString();
-        //     }
-        // }else if (parseInt(this.popular_params.page)){
-        //     paramsArray = Object.keys(this.popular_params).map((key) => [key, this.popular_params[key]]);
-        //     this.popular_params.page = (parseInt(this.popular_params.page)+1).toString();
-
-        // }else if (parseInt(this.recent_params.page)){
-        //     paramsArray = Object.keys(this.recent_params).map((key) => [key, this.recent_params[key]]);
-        //     this.recent_params.page = (parseInt(this.recent_params.page)+1).toString();
-        // }else{
-        //     return undefined
-        // }
 
         if(!this.params.page){ return undefined } 
         
@@ -95,8 +59,6 @@ export class HomeService {
     }
 
     refresh(){
-        this.popular_params.page = '1'
-        this.recent_params.page = '1'
         this.observations.length = 0;
         this.observationsSubject.next([]);
         this.params = {
@@ -110,7 +72,7 @@ export class HomeService {
         this.observations = [];
         this.observationsSubject.next([]);
         this.params.page = 1
-        this.loadObservations()
+        return this.loadObservations()
     }
 
     async loadObservations():Promise<boolean>{

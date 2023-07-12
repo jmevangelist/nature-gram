@@ -1,0 +1,36 @@
+<div class="chips-container">
+    <!-- <button class="btn btn-link btn-icon btn-sm large-screen-only display-none" >
+        <cds-icon shape="angle" direction="left" size="sm" 
+            (click)="optscroll.scrollTo({left: optscroll.scrollLeft - 100})">
+        </cds-icon>
+    </button> -->
+    <div class="chips" #optscroll>
+        <div *ngFor="let chip of chips">            
+            
+            <clr-dropdown *ngIf="chip.options else simple" clrPosition="bottom-right">
+                <span clrDropdownTrigger [class.label-selected]="chip.selected" class="label clickable">
+                    {{chip.label}}{{ chip.selected ? ':'+chip.option : '' }}
+                    <cds-icon shape="angle" size="sm" direction="down"></cds-icon>
+                </span>
+                <clr-dropdown-menu *clrIfOpen >
+                    <div *ngFor="let option of chip.options" (click)="selectChip(chip,option)"
+                    class="p7 chip-option" clrDropdownItem>{{option}}</div>
+                </clr-dropdown-menu>
+            </clr-dropdown>
+        
+            <ng-template #simple>
+                <span class="label clickable"
+                    [class.label-selected]="chip.selected" 
+                    (click)="selectChip(chip)">{{chip.label}}
+                </span>
+            </ng-template>
+
+
+        </div>
+        <a [routerLink]="['preference']" class="btn btn-link btn-sm btn-pref">Preferences</a>
+    </div>
+    <!-- <button class="btn btn-link btn-icon btn-sm large-screen-only display-none">
+        <cds-icon shape="angle" direction="right" size="sm"
+        (click)="optscroll.scrollTo({left: optscroll.scrollLeft + 100})"></cds-icon>
+    </button> -->
+</div>

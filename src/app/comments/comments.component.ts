@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Comment, CommentsCreate, Identification, IdentificationsCreate, Taxon } from '../inaturalist/inaturalist.interface';
 import { RouterLink } from '@angular/router';
-import { DateTimeAgoPipe } from '../date-time-ago.pipe';
+import { DateTimeAgoPipe } from '../shared/date-time-ago.pipe';
 import { ClarityModule, ClrLoadingButton, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, checkIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';

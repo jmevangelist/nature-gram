@@ -46,11 +46,12 @@
             </span>
         </div>
 
-        <div class="options-container">
-            <div class="checkbox-container" *ngFor="let o of options">
-                <input type="checkbox" name="option" 
-                    [value]="o.name" [checked]="o.checked" (change)="selectOption($event)" class="checkbox">
-                <label [for]="o">{{o.label}}</label>
+        <div class="options-container" formArrayName="options">
+            <div class="checkbox-container" 
+                *ngFor="let o of optionsFormArray.controls; let i = index;">
+                <input type="checkbox" name="options" [formControlName]="i"
+                    [value]="options[i].name" [checked]="options[i].checked" class="checkbox">
+                <label>{{options[i].label}}</label>
             </div>
         </div>
 
