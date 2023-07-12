@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { Observation, User } from '../inaturalist/inaturalist.interface';
 import { ClarityModule } from '@clr/angular'
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule,ClarityModule],
+  imports: [CommonModule,ClarityModule,HeaderComponent],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })

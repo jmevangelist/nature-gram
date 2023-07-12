@@ -24,10 +24,14 @@
     color: hsl(9, 100%, 43%) !important;
 }
 
-input{
+.search-container > input{
     border: none;
     border-radius: 0.2rem;
     background-color: hsl(198, 0%, 91%);
+}
+
+.radio-container{
+    display: grid;
 }
 
 .preference-container{
@@ -38,4 +42,18 @@ input{
 
 .progress {
     height: 0.1rem;
+}
+
+.checkbox-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+}
+
+.checkbox-container > input {
+    margin-right: 0.5rem;
+}
+
+.options-container {
+    margin: 1rem 0;
 }

@@ -54,3 +54,7 @@ p{
 .display-inline {
     display: inline !important;
 }
+
+.user-header{
+    position: absolute;
+}

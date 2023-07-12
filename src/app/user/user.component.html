@@ -1,38 +1,41 @@
-<div class="user">
-    <div class="clr-row clr-align-items-center">
-        <div class="clr-col-auto">
-            <img [src]="user?.icon_url || 'assets/default.png'" 
-            class="user-icon">
+
+    <app-header [title]="'@'+user_login" class="sticky-top"></app-header>
+
+    <div class="user">
+        <div class="clr-row clr-align-items-center">
+            <div class="clr-col-auto">
+                <img [src]="user?.icon_url || 'assets/default.png'" 
+                class="user-icon">
+            </div>
+            <div class="clr-col">
+                <h4>{{user_login}}</h4>
+                <ng-container *ngIf="user else loading">
+                    <p>{{user.name}}</p>
+                    <p>{{user.observations_count}} Observations</p>
+                </ng-container>
+            </div>
         </div>
-        <div class="clr-col">
-            <h4>{{user_login}}</h4>
+        <div class="user-description" >
             <ng-container *ngIf="user else loading">
-                <p>{{user.name}}</p>
-                <p>{{user.observations_count}} Observations</p>
+                <span #span [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')"
+                    (click)="span.classList.toggle('display-inline')">
+                </span>
             </ng-container>
         </div>
     </div>
-    <div class="user-description" >
-        <ng-container *ngIf="user else loading">
-            <span #span [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')"
-                (click)="span.classList.toggle('display-inline')">
-            </span>
-        </ng-container>
-    </div>
-</div>
 
-<div class="clr-row" *ngIf="observations else loading">
-    <div #obs *ngFor="let observation of observations" class="clr-col-4">
-        <div class="card">
-            <div class="card-img">
-                <img [src]="observation.photos[0].url" loading="lazy" 
-                [width]="observation.photos[0].original_dimensions.width" 
-                [height]="observation.photos[0].original_dimensions.height">
+    <div class="clr-row" *ngIf="observations else loading">
+        <div #obs *ngFor="let observation of observations" class="clr-col-4">
+            <div class="card">
+                <div class="card-img">
+                    <img [src]="observation.photos[0].url" loading="lazy" 
+                    [width]="observation.photos[0].original_dimensions.width" 
+                    [height]="observation.photos[0].original_dimensions.height">
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<ng-template #loading>
-    <clr-progress-bar clrLoop></clr-progress-bar>
-</ng-template>
+    <ng-template #loading>
+        <clr-progress-bar clrLoop></clr-progress-bar>
+    </ng-template>

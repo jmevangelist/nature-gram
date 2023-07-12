@@ -1,5 +1,5 @@
+<app-header title="Your Preferences"></app-header>
 <div class="preference-container">
-    <h3>Your Preferences</h3>
 
     <form [formGroup]="prefForm" (submit)="onSubmit()">
 
@@ -17,9 +17,11 @@
             <p class="p7 search-error">{{prefForm.controls['taxon'].getError('invalid')}}</p>
         </div>
 
-        <span *ngFor="let t of taxa" class="label clickable" (click)="removeTaxa(t)">
-            {{t.name}} <cds-icon shape="close"></cds-icon>
-        </span>
+        <div class="slist-container">        
+            <span *ngFor="let t of taxa" class="label clickable" (click)="removeTaxa(t)">
+                {{t.name}} <cds-icon shape="close"></cds-icon>
+            </span>
+        </div>
 
 
         <div class="search-container">
@@ -38,9 +40,20 @@
             <p class="p7 search-error">{{prefForm.controls['place'].getError('invalid')}}</p>
         </div>
 
-        <span *ngFor="let t of places" class="label clickable" (click)="removePlace(t)">
-            {{t.display_name}} <cds-icon shape="close"></cds-icon>
-        </span>
-        
+        <div class="slist-container">
+            <span *ngFor="let t of places" class="label clickable" (click)="removePlace(t)">
+                {{t.display_name}} <cds-icon shape="close"></cds-icon>
+            </span>
+        </div>
+
+        <div class="options-container">
+            <div class="checkbox-container" *ngFor="let o of options">
+                <input type="checkbox" name="option" 
+                    [value]="o.name" [checked]="o.checked" (change)="selectOption($event)" class="checkbox">
+                <label [for]="o">{{o.label}}</label>
+            </div>
+        </div>
+
     </form>
 </div>
+
