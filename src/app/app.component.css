@@ -69,3 +69,7 @@ clr-dropdown > .btn > cds-icon{
     align-self: center;
 }
 
+::-webkit-scrollbar{
+    display: none;
+}
+

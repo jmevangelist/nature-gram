@@ -12,11 +12,6 @@
 .chips{
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-    width: 100%;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
 }
 
 .label{
@@ -26,6 +21,7 @@
     background-color: hsl(198, 83%, 94%) !important;
     padding: 0 0.6rem !important;
     margin: 0 .3rem .05rem 0 !important;
+    height: 1.2rem !important;
 }
 
 .label-selected{
