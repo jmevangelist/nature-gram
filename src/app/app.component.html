@@ -40,7 +40,8 @@
       <cds-icon shape="bookmark" size="md"></cds-icon>
     </button>
     <button class="btn btn-link btn-icon" [routerLink]="['authorize']">
-      <cds-icon shape="key" size="md"></cds-icon>
+      <cds-icon shape="key" size="md" [attr.badge]="(authServ.expired$ | async) ? 'warning': null "></cds-icon>
     </button>
   </div>
 </clr-main-container>
+

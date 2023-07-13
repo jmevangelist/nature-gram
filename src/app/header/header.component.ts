@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ClarityModule } from '@clr/angular';
-import { ClarityIcons, arrowIcon, bitcoinIcon } from '@cds/core/icon';
+import { ClarityIcons, arrowIcon } from '@cds/core/icon';
 
 
 @Component({
@@ -23,9 +23,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     if(!this.shape){
       this.shape = 'arrow'
-    }else{
+      ClarityIcons.addIcons(arrowIcon)
+    }else if(this.shape == 'logo'){
       let url = this.location.prepareExternalUrl('/assets/icon.svg')
-      console.log(url)
       fetch(url).then((res)=>{
         res.text().then((svg)=>{
           ClarityIcons.addIcons(['logo',svg])
@@ -49,5 +49,5 @@ export class HeaderComponent implements OnInit {
 
 
 
-ClarityIcons.addIcons(arrowIcon)
+
 

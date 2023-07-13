@@ -1,6 +1,7 @@
-import { Injectable, Injector, inject } from '@angular/core';
-import { Taxon, User } from '../inaturalist/inaturalist.interface';
+import { Injectable, Injector } from '@angular/core';
+import { User } from '../inaturalist/inaturalist.interface';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,8 @@ export class AuthorizationService{
     private api_token: string = localStorage.getItem('api_token') ?? ''
     private authorized_user?: User;
     private expired: boolean = true;
+    private expiredSubject: BehaviorSubject<boolean>;
+    expired$: Observable<boolean>;
 
     constructor(private injector: Injector){
         let local_storage_auth_user = localStorage.getItem('authorized_user');
@@ -20,6 +23,8 @@ export class AuthorizationService{
         if(this.api_token){
             this.expired = false;
         }
+        this.expiredSubject = new BehaviorSubject<boolean>(this.expired);
+        this.expired$ = this.expiredSubject.asObservable();
     }
 
     get token(){
@@ -47,11 +52,13 @@ export class AuthorizationService{
     setExpired(){
         this.api_token = '';
         this.expired = true;
+        this.expiredSubject.next(true);
     }
 
     private setToken(token:string){
         this.api_token = token
         this.expired = false
+        this.expiredSubject.next(false);
         localStorage.setItem('api_token',token)
     }
 
@@ -83,6 +90,7 @@ export class AuthorizationService{
         localStorage.removeItem('authorized_user');
         this.api_token = ''
         this.authorized_user = undefined;
-        this.expired = true
+        this.expired = true;
+        this.expiredSubject.next(true);
     }
 }
