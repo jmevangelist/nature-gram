@@ -95,10 +95,10 @@ export class GramComponent implements OnInit {
     this.isCommentsOpen = true
     if (!this.temp.first.get(0)){
       const { CommentsComponent } = await import('../comments/comments.component');
-      let commentsComponent = this.temp.first.createComponent(CommentsComponent)
-      commentsComponent.instance.uuid = this.observation.uuid
-      commentsComponent.instance.comments = this.observation.comments
-      commentsComponent.instance.identifications = this.observation.identifications
+      let commentsComponent = this.temp.first.createComponent(CommentsComponent);
+      commentsComponent.instance.uuid = this.observation.uuid;
+      commentsComponent.instance.comments = this.observation.comments;
+      commentsComponent.instance.identifications = this.observation.identifications;
     }
   }
 

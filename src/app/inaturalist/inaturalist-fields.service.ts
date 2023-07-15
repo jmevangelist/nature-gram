@@ -26,7 +26,8 @@ export class InaturalistFieldsService {
         iconic_taxon_name: true,
         preferred_common_name: true,
         rank: true,
-        default_photo: this.Photos
+        default_photo: this.Photos,
+        is_active: true
     }
 
     Taxon_search = {
@@ -36,7 +37,8 @@ export class InaturalistFieldsService {
         preferred_common_name: true,
         rank: true,
         matched_term: true,
-        default_photo: this.Photos
+        default_photo: this.Photos,
+        is_active: true
         
     }
 

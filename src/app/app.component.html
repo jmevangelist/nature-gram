@@ -21,6 +21,10 @@
         <cds-icon clrVerticalNavIcon shape="bookmark"></cds-icon>
         Bookmarks
       </a>
+      <a clrVerticalNavLink [routerLink]="['authorize']">
+        <cds-icon clrVerticalNavIcon shape="key"></cds-icon>
+        Authorize
+      </a>
     </clr-vertical-nav>
     <div class="content-area" #contentArea>
       <router-outlet></router-outlet>

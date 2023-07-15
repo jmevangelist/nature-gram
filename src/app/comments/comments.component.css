@@ -61,7 +61,85 @@ a {
     text-decoration: unset;
 }
 
-textarea {
+.comment-btn{
+    padding: 0 !important;
+    min-width: 0;
+    margin: 0;
+    align-self: end;
+    width: 1rem !important;
+}
+
+.activity-container {
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    flex: auto;
+}
+
+.spinner-container{
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: fit-content;
+}
+
+
+.user-identification{
+    padding: 0.3rem 0;
+    display: none;
+    width: 100%;
+}
+
+.search-list{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 60dvh;
+    width: 100%;
+}
+
+.input-container{
+    display: flex;
+}
+.input-container > .btn{
+    margin: 0;
+    width: 1.5rem !important;
+    padding: 0;
+    border: none !important;
+}
+
+.card-id{
+    padding: 0.3rem;
+    margin-top: 0.2rem; 
+    display: flex;
+    width: 100%;
+    margin-bottom:0.2rem; 
+    box-shadow: none !important;    
+}
+
+.card-id > app-taxon{
+    flex: auto;
+}
+
+
+.input-container > textarea {
+    border-radius: .2rem;
+    border-style: hidden;
+    background-color: hsl(198, 0%, 91%);
+    margin-top: 0 !important;
+    width: 100%;
+    padding-left: 1.5rem;
+    margin-left: -1.5rem;
+ }
+
+ .user-identification > input {
     border-radius: .2rem;
     border-style: hidden;
     background-color: hsl(198, 0%, 91%);
@@ -69,20 +147,42 @@ textarea {
     width: 100%;
 }
 
-.your-input{
-    margin-top: 1rem;
-}
 
-.comment-btn{
-    padding: 0 !important;
-    min-width: 0;
-}
-
-.activity-container {
+.search-list > .card {
+    box-shadow: none !important;    
+    margin-top: 0.2rem; 
+    padding: 0 0.5rem;
     display: flex;
-    overflow-y: scroll;
+    width: 100%
+}
+
+.list-taxon{
+    flex: auto;
+}
+
+.score{
+    text-align: end;
+    width: fit-content;
+}
+
+.display-inline-block {
+    display: inline-block !important;
+}
+
+.display-none{
+    display: none !important;
+}
+
+:host{
+    display: flex;
     flex-direction: column;
-    max-height: 65dvh;
-    width: 100%;
-    margin-bottom: 0.5rem;
+    max-height: 73dvh;
+    width: 100% !important;
+}
+
+@media screen and (min-width: 768px) {
+    :host{
+        max-width: 20rem;
+        max-height: 75dvh;
+    }
 }
