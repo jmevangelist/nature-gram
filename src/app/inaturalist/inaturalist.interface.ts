@@ -44,6 +44,7 @@ export interface Taxon {
     rank?: string;
     matched_term?: string;
     default_photo?: Photo;
+    is_active?: boolean
 }
 
 export interface Photo {

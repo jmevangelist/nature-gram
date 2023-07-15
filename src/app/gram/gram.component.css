@@ -45,16 +45,13 @@ h6{
     position: relative;
     width: 100%; 
     display: inline-block;
+    height: 600px;
 }
 
 .clr-row {
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
-
-/* .top-block {
-    padding: .3rem .9rem !important;
-}    */
 
 .bottom-block{
     padding-top: 0;
@@ -95,16 +92,60 @@ a{
 }
 
 .modal-content{
-    max-height: 80dvh;
-    /* overflow-y: scroll; */
+    max-height: 90dvh;
+    padding: 0.6rem;
 }
 
-.modal{
-    top: unset;
-    padding: 0 !important;
-    justify-content: end;
+
+@media screen and (max-width: 768px) {
+    .modal{
+        top: unset;
+        padding: 0 !important;
+        justify-content: end;
+    }
+    .modal-img{
+        display: none;
+    }
+    .modal-carousel{
+        display:none !important;
+    }
+    .card-img{
+        height: 100vw;
+    }
+    .modal-obs-meta-lg{
+        display: none;
+    }
+    .modal-obs-meta-sm{
+        display: inline-block !important;
+    }
+}
+
+.modal-obs-meta-sm{
+    display: none;
 }
 
 .modal-header{
     padding: 0 !important;
 }
+
+.activity-container{
+    border: solid;
+}
+
+.modal-body {
+    display: flex;
+    width: 100%;
+}
+
+.modal-carousel {
+    border: solid;
+    border-width: thin;
+    border-color: var(--clr-card-border-color);
+    flex: auto;
+    height: 75dvh;
+    margin-right: 0.6rem;
+    position: relative;
+    width: 100%; 
+    display: inline-block;
+}
+

@@ -167,6 +167,37 @@ export class InaturalistService {
 
   }
 
+  async getComputerVisionOnObs(uuid:string):Promise<Taxon[]>{
+    const url = new URL(`v2/computervision/score_observation/${uuid}`,this.base_url)
+    let token = this.authService.token 
+    let fields = `(taxon:${rison.encode(this.inaturalistConfig.Taxon)})`
+
+    console.log(fields)
+    url.search = new URLSearchParams([['fields',fields]]).toString()
+    let response = await fetch(url,{
+      method: "GET",
+      headers: { 
+        "Authorization": token,
+        "Content-Type": "application/json" 
+      }
+    })
+
+    if(!response.ok){
+      if(response.status == 401){
+        this.authService.setExpired();
+      }
+      throw response.statusText
+    }
+    let res = await response.json()
+
+    if(res.common_ancestor){
+      res.results.unshift(res.common_ancestor)
+    }
+
+    return res.results
+
+  }
+
   async taxaAutoComplete(q:string):Promise<Taxon[]>{
     const url = new URL('/v2/taxa/autocomplete',this.base_url);
     url.search = new URLSearchParams([

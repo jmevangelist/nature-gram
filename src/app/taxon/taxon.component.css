@@ -25,3 +25,12 @@ p{
     line-height: 0.8rem !important;
     margin-top: 0 !important;
 }
+
+.not-active > *{
+    text-decoration: line-through;
+}
+
+.taxon-active {
+    text-decoration: unset !important;
+    color: var(--clr-color-danger-700) !important;
+}

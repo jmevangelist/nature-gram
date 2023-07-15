@@ -1,5 +1,11 @@
+
+<div class="spinner-container">
+    <span class="spinner spinner-md" [hidden]="!(loading)">
+        Loading...
+    </span>
+</div>
 <div class="activity-container">
-    <div *ngFor="let com of combination" class="activity">
+    <div *ngFor="let com of combination; trackBy:trackByItems" class="activity" #activity>
         <div class="clr-row activity-header">
             <div class="clr-col-auto">
                 <a [routerLink]="['naturalist',com.user.login]">
@@ -15,10 +21,9 @@
         <div class="activity-body">
             <ng-container *ngIf="com.taxon">
                 <app-taxon [taxon]="com.taxon"></app-taxon>
-                <button #b *ngIf="com.category!='supporting'" 
+                <button #b *ngIf="com.category!='supporting' && com.taxon.is_active" 
                     [disabled]="authServ.isExpired"
-                    (click)="agree(com.taxon,b)"
-                    [clrLoading]="identBtnState"
+                    (click)="agree(com.taxon,b)" clrLoading=""
                     class="btn btn-sm btn-success-outline btn-icon">
                     <cds-icon shape="check"></cds-icon>agree</button>
             </ng-container>
@@ -26,17 +31,56 @@
         </div>
     </div>
 </div>
-<div class="clr-row your-input clr-align-items-center" *ngIf="!authServ.isExpired">
-    <div class="clr-col-auto user-icon-container">
-        <img [src]="authServ.me?.icon || 'assets/default.png'" class="user_icon">
+
+<div class="your-input" *ngIf="!authServ.isExpired">
+
+    <div class="user-comment clr-row clr-align-items-center">
+        <div class="clr-col-auto user-icon-container">
+            <img [src]="authServ.me?.icon || 'assets/default.png'" class="user_icon">
+        </div>
+
+        <div class="clr-col">
+            <ng-container *ngIf="selectedTaxon">
+                <div class="card card-id">
+                    <app-taxon [taxon]="selectedTaxon"></app-taxon>
+                    <cds-icon (click)="selectedTaxon=undefined;id=undefined" [attr.shape]="'close'"></cds-icon>
+                </div>
+            </ng-container>
+            <div class="input-container">
+                <button class='btn btn-sm btn-icon btn-primary-outline'
+                [clrLoading]="identBtnState" 
+                (click)="getSuggestions();isIdentifying=true">
+                <cds-icon [attr.shape]="'bookmark'"></cds-icon></button>
+                <textarea type="text" class="p5" #textarea 
+                    [ngStyle]="{'height.px': textarea.scrollHeight }"
+                    [(ngModel)]="newComment" name="newcomment" rows="1" 
+                    placeholder="Comment">
+                </textarea>
+            </div>
+        </div>  
+
+        <button class="btn btn-link btn-sm comment-btn btn-icon" [clrLoading]="submitBtnState" 
+            (click)="onSubmit()" [disabled]="!newComment && !id">
+            <cds-icon shape="check"></cds-icon></button>
+
     </div>
-    <div class="clr-col">
-        <textarea type="text" class="p5" #textarea 
-            [ngStyle]="{'height.px': textarea.scrollHeight }"
-            [(ngModel)]="newComment" name="newcomment" rows="1" placeholder="comment">
-        </textarea>
+
+    <div class='user-identification' [class.display-inline-block]="isIdentifying">
+        <input type="text" class="p5" placeholder="search taxon" [formControl]="qTaxon" />
+        <div class="search-list">
+            <div class="card clickable" *ngFor="let sug of suggestions" (click)="identify(sug.taxon);isIdentifying=false">
+                <app-taxon  [taxon]="sug.taxon" class="list-taxon"></app-taxon>
+                <ng-container *ngIf="sug.combined_score > 0">
+                    <p class="p7 score">computer<br> vision<br> score:<br>{{sug.combined_score | number}}%</p>
+                </ng-container>
+                <ng-container *ngIf="sug.common_ancestor">
+                    <p class="p7 score">common ancestor</p>
+                </ng-container>
+            </div>
+        </div>  
     </div>
-    <div class="clr-col-auto">
-        <button class="btn btn-link btn-sm comment-btn" [clrLoading]="submitBtnState" (click)="onSubmit()" [disabled]="!newComment">Add</button>
-    </div>
-</div>
+
+
+
+ 
+

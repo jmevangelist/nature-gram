@@ -10,6 +10,7 @@ import { ClarityIcons, angleIcon, filterGridIcon } from '@cds/core/icon';
 import { HeaderComponent } from '../header/header.component';
 import { ChipsComponent } from '../chips/chips.component';
 import { Chip } from '../chips/chip.interface';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -47,14 +48,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.createObserver()
     this.end = false;
 
-    this.filterChips = [ 
-      {label: 'Today'},
-      {label: 'New', selected:true },
-      {label: 'Recently Updated'},
-      {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
-      {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] },
-      {label: 'Unknown'}
-    ]
+    this.filterChips = this.homeService.filterChips;
 
   }
 

@@ -158,7 +158,7 @@ export class PreferenceComponent implements OnDestroy {
   }
 
   ngOnDestroy(){
-    this.sub.forEach((s) => { s.unsubscribe})
+    this.sub.forEach((s) => { s.unsubscribe() })
     this.prefService.updateTaxa(this.taxa)
     this.prefService.updatePlace(this.places)
     console.log(this.optionsFormArray.value)

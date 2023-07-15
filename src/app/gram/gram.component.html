@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <p class="card-text p5">{{observation.description}}</p>
+        <p class="card-text p5" [innerHTML]="observation.description"></p>
     </div>
     <app-carousel class="card-img" [photos]="observation.photos"></app-carousel>
     <div class="card-block bottom-block">
@@ -70,15 +70,37 @@
 </div>
 
 <div class="modal" [hidden]="!isCommentsOpen">
-    <div class="modal-dialog modal-lg fadeDown in" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl fadeDown in" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
                 <button aria-label="Close" (click)="isCommentsOpen=false" class="close" type="button">
                     <cds-icon shape="close"></cds-icon>
                 </button>
-                <h6>{{observation.quality_grade}}</h6>
+                <div class="clr-row clr-align-items-center modal-obs-meta-lg">
+                    <div class="clr-col-auto">
+                        <a [routerLink]="['',observation.user.login]">
+                            <img [src]="observation.user.icon || 'assets/default.png'" 
+                                class="user_icon">
+                        </a>
+                    </div>
+                    <div class="clr-col">
+                        <div class="card-text">
+                            <a [routerLink]="['naturalist',observation.user.login]">
+                                <h6>{{observation.user.login}}</h6>
+                            </a>
+                            <p class="p7">{{observation.place_guess}} 
+                            <span><br>{{observation.time_observed_at | dateTimeAgo | async}}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-obs-meta-sm"><h6>Activity</h6></div>
             </div>
-            <ng-template #temp></ng-template>
+            <div class="modal-body">
+                <div class="modal-carousel">
+                    <app-carousel [photos]="observation.photos"></app-carousel> 
+                </div>
+                <ng-template class="activity-container" #temp></ng-template>
+            </div>
         </div>
     </div>
 </div>

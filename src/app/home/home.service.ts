@@ -46,6 +46,13 @@ export class HomeService {
         
         if(pref.length){
 
+            if(this.filterChips.find(fc=> fc.selected)?.label == 'Unknown'){
+                let ptaxonId = pref.findIndex(p=> p[0]=='taxon_id')
+                if(ptaxonId >= 0){
+                    pref.splice(ptaxonId,1)
+                }
+            }
+
             pref.forEach( (v)=>{ 
                 if(v[1]){
                     paramsArray.push(...[v]) 
@@ -125,5 +132,14 @@ export class HomeService {
     updateParams(key:string,value:any){
         this.params[key] = value
     }
+
+    filterChips = [ 
+        {label: 'Today'},
+        {label: 'New', selected:true },
+        {label: 'Recently Updated'},
+        {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
+        {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] },
+        {label: 'Unknown'}
+      ]
 
 }
