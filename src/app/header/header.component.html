@@ -3,4 +3,7 @@
         <cds-icon [attr.shape]="shape" [attr.direction]="shape == 'arrow' ? 'left' : '' " size="lg"></cds-icon>
     </button>
     <h4 class="title">{{title}}</h4>
+    <button class="btn btn-icon btn-link secondary-btn" *ngIf="secondaryShape" (click)="secondaryaction()">
+        <cds-icon [attr.shape]="secondaryShape[0]" size="md"></cds-icon>
+    </button>
 </div>

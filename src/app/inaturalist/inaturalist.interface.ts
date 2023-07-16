@@ -6,13 +6,16 @@ export interface Observation {
     taxon?: Taxon;
     photos: Photo[] | [];
     time_observed_at: string;
+    time_zone_offset: string;
     created_at: string;
     faves_count: number;
     faves: Vote[];
     identifications: Identification[] | [];
+    identifications_count: number,
     description: string | null;
     quality_grade: string;
     comments: Comment[] | [];
+    comments_count: number;
     uri?: string;
 }
 
@@ -103,4 +106,28 @@ export interface IdentificationsCreate {
         vision?: boolean;
         disagreement?: boolean;
     }
+}
+
+export interface ResultsUpdates {
+    total_results: number;
+    page: number;
+    per_page: number;
+    results: Notification[];
+}
+
+export interface Notification {
+    id: number;
+    comment?: Comment;
+    identification?: Identification;
+    created_at?: string;
+    resource_uuid: string;
+}
+
+export interface ObservationsUpdates {
+    created_after?: string;
+    viewed?: boolean;
+    observations_by?: 'owner'|'following';
+    page?: number;
+    per_page?: number;
+    fields?: string;
 }

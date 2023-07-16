@@ -26,13 +26,15 @@
 
     <div class="clr-row" *ngIf="observations else loading">
         <div #obs *ngFor="let observation of observations" class="clr-col-4">
-            <div class="card">
+            <a [routerLink]="['/observation',observation.uuid]">
+            <div class="card clicable">
                 <div class="card-img">
                     <img [src]="observation.photos[0].url" loading="lazy" 
                     [width]="observation.photos[0].original_dimensions.width" 
                     [height]="observation.photos[0].original_dimensions.height">
                 </div>
             </div>
+            </a>
         </div>
     </div>
 

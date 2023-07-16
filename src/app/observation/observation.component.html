@@ -1,0 +1,59 @@
+<app-header title="Observation" class="sticky-top"></app-header>
+
+<div class="container" *ngIf="observation">
+    <div class="album"><app-carousel [photos]="observation.photos"></app-carousel></div>
+    <div class="sub-header">
+        <div class="taxon-grade">
+            <div class="taxon" *ngIf="observation.taxon">
+                <h3>{{observation.taxon.rank=='species' ? '': observation.taxon.rank | titlecase }} <em>{{observation.taxon.name}}</em></h3>
+                <p class="p5">{{observation.taxon.preferred_common_name}}</p>
+            </div>
+            <button class="btn btn-sm" 
+                [class.btn-success]="observation.quality_grade == 'research grade'"
+                [class.btn-warning]="observation.quality_grade == 'needs_id'">
+                {{observation.quality_grade.replace('_',' ')}}
+            </button>
+        </div>
+
+        <div class="naturalist-action">
+            <div class="naturalist">
+                <a [href]="'/naturalist/'+observation.user.login">
+                    <img [src]="observation.user.icon || 'assets/default.png'" 
+                        class="naturalist-icon">
+                </a>
+                <div>
+                    <h6>{{observation.user.login}}</h6>
+                    <p class="p5">{{observation.user.observations_count}} observations</p>
+                </div>
+            </div>
+            <div class="actions">
+                <div>
+                    <cds-icon shape="star" size="md" (click)="fave()" [attr.solid]="isFaved()"></cds-icon>
+                    <h6>{{observation.faves_count}}</h6>
+                </div>
+                <div>
+                    <cds-icon shape="chat-bubble" size="md"></cds-icon>
+                    <h6>{{observation.identifications.length + observation.comments_count}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="obs-meta">
+            <div class="p5">Observed on {{observation.time_observed_at | date: 'MMM d, y h:mm a z':observation.time_zone_offset}}</div>
+            <div class="p5"><cds-icon shape="map-marker" size="sm"></cds-icon> {{observation.place_guess}}</div>
+            <div class="p5">Posted on {{observation.created_at | date: 'MMM d, y h:mm a z': observation.created_at.substring(observation.created_at.length-6) }}</div>
+        </div>
+        <div class="p5 description" [innerHTML]="observation.description"></div>
+    </div>
+    <div class="activity">
+        <h6>Activity</h6>
+        <app-comments 
+            [comments]="observation.comments" 
+            [identifications]="observation.identifications"
+            [uuid]="observation.uuid"
+            [auto]="true">
+        </app-comments>
+    </div>
+
+    <div class="footer p5">View observation in <a [href]="observation.uri">iNaturalist</a></div>
+</div>
+

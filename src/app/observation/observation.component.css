@@ -1,0 +1,115 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    /* padding: 0.6rem 0; */
+    max-width: 37rem;
+    width: 100%;
+}
+
+.album{
+    width: 100%;
+    height: 25rem;
+    position: relative;
+    padding: 0 0.6rem;
+}
+
+@media screen and (max-width: 768px) {
+    .album{
+        height: 100vw;
+        padding: 0;
+    }
+}
+
+.sub-header{
+    width: 100%;
+    padding: 0 0.6rem;
+}
+
+.taxon-grade{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 0.6rem;
+}
+
+.taxon-grade > .btn{
+    margin: 0;
+}
+
+.taxon {
+    flex: auto;
+}
+
+.taxon > h3{
+    margin-top: 0;
+}
+
+.naturalist-action{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0.6rem 0;
+}
+
+.naturalist{
+    flex:auto;
+    display: flex;
+    align-items: center;
+}
+
+.naturalist > * > h6,p{
+    margin-top: 0 !important;
+}
+
+/* .taxon > *{
+    margin-top: 0 !important;
+} */
+
+.naturalist-icon{
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 0.6rem;
+}
+
+.actions {
+    display: flex;
+}
+
+.actions > div{
+    display: flex;
+    padding: 0.3rem;
+}
+
+.actions > div > h6{
+    margin-top: 0;
+}
+
+.obs-meta > .p5{
+    margin-top: 0 !important;
+}
+
+.description {
+    margin-top: 0.6rem !important;
+}
+
+.activity{
+    width: 100%;
+    flex: auto;
+    padding: 0 0.6rem;
+}
+
+.activity > h6{
+    margin-top: 0.6rem;
+}
+
+.footer{
+    padding: 0 0.6rem;
+}
+
+
+.p5{
+    line-height: .8rem !important;
+}

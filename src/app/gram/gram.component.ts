@@ -99,6 +99,8 @@ export class GramComponent implements OnInit {
       commentsComponent.instance.uuid = this.observation.uuid;
       commentsComponent.instance.comments = this.observation.comments;
       commentsComponent.instance.identifications = this.observation.identifications;
+      
+      commentsComponent.instance.auto = (window.innerWidth <= 768)  
     }
   }
 

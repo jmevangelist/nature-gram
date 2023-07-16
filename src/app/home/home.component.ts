@@ -6,11 +6,11 @@ import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
 import { Navigation, Router, RouterLink } from '@angular/router';
 import { Observable, SubscriptionLike } from 'rxjs';
-import { ClarityIcons, angleIcon, filterGridIcon } from '@cds/core/icon';
+import { ClarityIcons, angleIcon, filterGridIcon, bellIcon, bellIconName } from '@cds/core/icon';
 import { HeaderComponent } from '../header/header.component';
 import { ChipsComponent } from '../chips/chips.component';
 import { Chip } from '../chips/chip.interface';
-import { UntypedFormControl } from '@angular/forms';
+import { IconShapeTuple } from '@cds/core/icon/interfaces/icon.interfaces';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +34,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   end: boolean;
 
   filterChips: Chip[];
+  bellIcon: IconShapeTuple;
 
   private observer: IntersectionObserver | undefined;  
   private currentNavigation: Navigation | null;
@@ -49,6 +50,8 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.end = false;
 
     this.filterChips = this.homeService.filterChips;
+    this.bellIcon = bellIcon;
+
 
   }
 
@@ -164,6 +167,10 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     this.moreObservations()
+  }
+
+  goToNotifications(){
+    this.router.navigateByUrl('/notifications')
   }
 
 }

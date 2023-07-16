@@ -11,4 +11,5 @@ import { Taxon } from '../inaturalist/inaturalist.interface';
 })
 export class TaxonComponent {
   @Input() taxon!: Taxon
+  @Input() textOnly!: boolean;
 }

@@ -3,24 +3,33 @@ import { Observable, interval,map, startWith } from 'rxjs'
 
 @Pipe({name: 'dateTimeAgo',standalone:true})
 export class DateTimeAgoPipe implements PipeTransform{
-    transform(dateTimeString: string, format?:string): Observable<string> {
+    transform(dateTimeString?: string, format?:string): Observable<string> {
+        
+        const timestamp = Date.parse(dateTimeString ?? '')
+        let intervalMil = 60*1000*60
 
-        return interval(60*1000).pipe(
+        if(Date.now() - timestamp < 1000*60 ){
+            intervalMil = 5*1000
+        }else if(Date.now() - timestamp < 1000*60*60){
+            intervalMil = 60*1000
+        }
+
+        return interval(intervalMil).pipe(
             startWith(-1), 
             map( (x)=>{
-                return convert(dateTimeString,format)
+                return convert(timestamp,format)
             })
         )
  
     }
 }
 
-function convert(dateTimeString:string, format?:string){
-    if(!dateTimeString){
+function convert(timestamp:number, format?:string){
+
+    if(!timestamp){
         return ''
     }
-
-    const timestamp = Date.parse(dateTimeString)
+    
     const now = Date.now()
     let diff = Math.floor((now - timestamp)/1000)
     let unit = 'second'
@@ -48,7 +57,7 @@ function convert(dateTimeString:string, format?:string){
                 }
             }
         }
-    } else {
+    } else if (diff < 4) {
         return 'just now'
     }
 
