@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1689386641393,
+  "timestamp": 1689500975330,
   "index": "/nature-gram/index.html",
   "assetGroups": [
     {
@@ -11,13 +11,12 @@
         "ignoreVary": true
       },
       "urls": [
-        "/nature-gram/146.84a13d9d060861a2.js",
         "/nature-gram/favicon.ico",
         "/nature-gram/index.html",
-        "/nature-gram/main.8bf79228f3e9fbfa.js",
+        "/nature-gram/main.d738a5710ad10f69.js",
         "/nature-gram/manifest.webmanifest",
         "/nature-gram/polyfills.2017c4f5c37bc885.js",
-        "/nature-gram/runtime.58786b44c42b4c81.js",
+        "/nature-gram/runtime.2f33ae23cf585d35.js",
         "/nature-gram/scripts.9ae1ca3def9d3b64.js",
         "/nature-gram/styles.934416cf0f2c08b3.css"
       ],
@@ -48,7 +47,6 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/nature-gram/146.84a13d9d060861a2.js": "20028799a20fe120387c8fa65d16e40fa2b716b3",
     "/nature-gram/assets/default.png": "c27e4c9338a7802e62ab770126e5fe6687dea35a",
     "/nature-gram/assets/icon.svg": "146344983581fab0ce1e03fe5ce76aa3e326d9da",
     "/nature-gram/assets/icons/icon-128x128.png": "5ac70dbc6a78cd283149606ecd9ad2bd28c10054",
@@ -61,11 +59,11 @@
     "/nature-gram/assets/icons/icon-96x96.png": "d9eb6902faa1f75851e7b2ab8086a2597d2c3172",
     "/nature-gram/assets/logo.svg": "cefddea519f431d7cf4b6b062cfe19d7b18ee9e7",
     "/nature-gram/favicon.ico": "b05d0b57bf9a62b45e25bcb3cc0198b96d3e7251",
-    "/nature-gram/index.html": "692a4a17f6c84b59b15d239b6d0ce1ea2a377a5c",
-    "/nature-gram/main.8bf79228f3e9fbfa.js": "8427797dd513128a61483e67bcb32754e940814f",
+    "/nature-gram/index.html": "fa8e4d0dc443008990d698a33f3396d2a40a6c58",
+    "/nature-gram/main.d738a5710ad10f69.js": "dbc9dda701e9ebc787fcc184b4d7657d8b4af85e",
     "/nature-gram/manifest.webmanifest": "de730ee5fd804b0328d1060955c518bacdcf58ef",
     "/nature-gram/polyfills.2017c4f5c37bc885.js": "002c49fd15baf3c646c64abd10f3fdb43cc76430",
-    "/nature-gram/runtime.58786b44c42b4c81.js": "0fcca7f2487cf2f30c99d71b9bca3096dc695178",
+    "/nature-gram/runtime.2f33ae23cf585d35.js": "23d04cd6644e263f6c7cda67176bffd6a05d57d6",
     "/nature-gram/scripts.9ae1ca3def9d3b64.js": "cbf24afa5b5eab3b694ef3734d594bbd540dc25b",
     "/nature-gram/styles.934416cf0f2c08b3.css": "7407829383c872773d38985d6b8af3f5aaeea928"
   },
