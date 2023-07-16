@@ -11,6 +11,7 @@ import { HeaderComponent } from '../header/header.component';
 import { ChipsComponent } from '../chips/chips.component';
 import { Chip } from '../chips/chip.interface';
 import { IconShapeTuple } from '@cds/core/icon/interfaces/icon.interfaces';
+import { NotificationService } from '../notification/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -30,11 +31,13 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   observations: Observable<Observation[]>;
   homeService: HomeService = inject(HomeService);
+  notificationService: NotificationService = inject(NotificationService);
   loading: Observable<boolean>;
   end: boolean;
 
   filterChips: Chip[];
   bellIcon: IconShapeTuple;
+  notification$: Observable<number>;
 
   private observer: IntersectionObserver | undefined;  
   private currentNavigation: Navigation | null;
@@ -51,7 +54,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.filterChips = this.homeService.filterChips;
     this.bellIcon = bellIcon;
-
+    this.notification$ = this.notificationService.notification$;
 
   }
 
@@ -145,6 +148,12 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
       case 'Unknown':
         this.homeService.updateParams('order_by','created_at');
         this.homeService.updateParams('iconic_taxa','unknown')
+        break;
+      default:
+        console.log(o)
+        if(o?.type){
+          this.homeService.updateParams(o?.type ,o?.value )
+        }
     }
 
     if(o?.option){

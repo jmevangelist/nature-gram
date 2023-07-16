@@ -4,6 +4,6 @@
     </button>
     <h4 class="title">{{title}}</h4>
     <button class="btn btn-icon btn-link secondary-btn" *ngIf="secondaryShape" (click)="secondaryaction()">
-        <cds-icon [attr.shape]="secondaryShape[0]" size="md"></cds-icon>
+        <cds-icon [attr.shape]="secondaryShape[0]" size="md" [attr.badge]="badge"></cds-icon>
     </button>
 </div>

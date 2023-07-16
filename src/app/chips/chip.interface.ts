@@ -3,4 +3,6 @@ export interface Chip{
     options?: string[];
     selected?: boolean;
     option?: string;
+    value?:string;
+    type?:string;
 }

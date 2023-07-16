@@ -30,14 +30,13 @@ export class AuthorizationComponent {
   authBtnState: ClrLoadingState = ClrLoadingState.DEFAULT
 
   constructor(){
-    console.log(this.authService.isExpired)
     this.authForm.controls['token'].setValue(this.authService.token)
     this.me = this.authService.me;
   }
 
   auth(){
     this.authBtnState = ClrLoadingState.LOADING;
-    if(this.me){
+    if(this.authService.isExpired){
       this.me = undefined;
       this.authForm.reset();
       this.authService.logout();

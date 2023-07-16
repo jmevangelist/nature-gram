@@ -3,6 +3,7 @@ import { Observation } from '../inaturalist/inaturalist.interface'
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PreferenceService } from '../preference/preference.service';
+import { Chip } from '../chips/chip.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,16 @@ export class HomeService {
     private prefservice: PreferenceService = inject(PreferenceService)
     params: any;
 
+
+    filterChips:Chip[] = [ 
+        {label: 'Today'},
+        {label: 'New', selected:true },
+        {label: 'Recently Updated'},
+        {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
+        {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] },
+        {label: 'Unknown'}
+      ]
+
     constructor(){
         this.busy = new BehaviorSubject<boolean>(true);
         this.observations = []
@@ -33,6 +44,24 @@ export class HomeService {
             per_page: 5,
             page: 1
         }    
+
+        this.prefservice.places.forEach(p=>{
+            this.filterChips.push({
+                label: p.display_name,
+                value: p.id.toString(),
+                type: 'place_id'
+            })
+        })
+
+        this.prefservice.taxa.forEach(p=>{
+            this.filterChips.push({
+                label: p.name ?? '',
+                value: p.id.toString(),
+                type: 'taxon_id'
+            })
+        })
+
+        console.log(this.filterChips)
     }
 
     private extraParams():string[][]|undefined{
@@ -53,11 +82,23 @@ export class HomeService {
                 }
             }
 
-            pref.forEach( (v)=>{ 
-                if(v[1]){
-                    paramsArray.push(...[v]) 
+            if(this.params['place_id'] ){
+                let pId = pref.findIndex(p=> p[0]=='place_id')
+                if(pId >= 0){
+                    pref.splice(pId,1)
                 }
-            })
+            }else if(this.params['taxon_id'] ){
+                let pId = pref.findIndex(p=> p[0]=='taxon_id')
+                if(pId >= 0){
+                    pref.splice(pId,1)
+                }
+            }else{
+                pref.forEach( (v)=>{ 
+                    if(v[1]){
+                        paramsArray.push(...[v]) 
+                    }
+                })
+            }
 
         }
 
@@ -133,13 +174,5 @@ export class HomeService {
         this.params[key] = value
     }
 
-    filterChips = [ 
-        {label: 'Today'},
-        {label: 'New', selected:true },
-        {label: 'Recently Updated'},
-        {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
-        {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] },
-        {label: 'Unknown'}
-      ]
 
 }

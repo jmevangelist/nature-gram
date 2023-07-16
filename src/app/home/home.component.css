@@ -77,3 +77,7 @@ clr-dropdown > .btn > cds-icon{
     display: none;
 }
 
+.chips-filter-container{
+    display: flex;
+    align-items: center;
+}
