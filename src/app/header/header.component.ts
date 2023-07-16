@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   @Input() title!: string;
   @Input() shape!: string;
   @Input() secondaryShape!: IconShapeTuple;
+  @Input() badge!: 'info' | 'success' | 'warning' | 'danger' | 'inherit' | 'warning' | ''
   @Output() onAction!: EventEmitter<boolean>;
   @Output() onSecondaryAction!: EventEmitter<boolean>;
 

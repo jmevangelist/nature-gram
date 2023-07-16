@@ -20,15 +20,29 @@
 
 <app-header title="iNatureGram" id='top' 
     (onAction)="reload()" shape="logo" 
-    [secondaryShape]="bellIcon" (onSecondaryAction)="goToNotifications()"></app-header>
+    [secondaryShape]="bellIcon" (onSecondaryAction)="goToNotifications()"
+    [badge]="(notification$ | async) ? 'warning': ''"></app-header>
+
+    <div class="chips-filter-container">
+        <button class="btn btn-link btn-icon btn-sm large-screen-only" >
+            <cds-icon shape="angle" direction="left" size="sm" 
+                (click)="optscroll.scrollTo({left: optscroll.scrollLeft - 100})">
+            </cds-icon>
+        </button> 
+        <div class="filters" #optscroll>
+            <a [routerLink]="['preference']" class="btn btn-sm btn-pref">
+                <cds-icon shape="filter-grid" size="md"></cds-icon>
+            </a>
+            <app-chips [chips]="filterChips" (chipSelect)="selectFilterOption($event)" ></app-chips>
+        </div>
+        <button class="btn btn-link btn-icon btn-sm large-screen-only" >
+            <cds-icon shape="angle" direction="right" size="sm" 
+                (click)="optscroll.scrollTo({left: optscroll.scrollLeft + 100})">
+            </cds-icon>
+        </button> 
+    </div>
 <div class="home">
 
-    <div class="filters">
-        <a [routerLink]="['preference']" class="btn btn-sm btn-pref">
-            <cds-icon shape="filter-grid" size="md"></cds-icon>
-        </a>
-        <app-chips [chips]="filterChips" (chipSelect)="selectFilterOption($event)" ></app-chips>
-    </div>
 
     <app-gram #grams *ngFor="let observation of observations | async; let isLast = last; trackBy: trackByItems" 
         [class.last]="isLast" 

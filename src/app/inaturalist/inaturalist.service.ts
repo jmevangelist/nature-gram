@@ -264,7 +264,14 @@ export class InaturalistService {
     let token = this.authService.token 
     let fields = 'all'
 
-    url.search = new URLSearchParams([['fields',fields]]).toString()
+    let params = [['fields',fields]]
+
+    if(obsUpdate){
+      params.push(...[['created_after',obsUpdate.created_after ?? '']])
+    }
+
+    url.search = new URLSearchParams(params).toString();
+
     let response = await fetch(url,{
       method: "GET",
       headers: { 
