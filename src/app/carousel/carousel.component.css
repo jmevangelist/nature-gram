@@ -36,17 +36,26 @@
 }
 
 
-
-.buttons {
+.btn{
     position: absolute;
     z-index: 1;
-    top: 50%;
-    left: 50%;
-    width: 105%;
-    margin: auto !important; 
-    padding: -0.3rem;
-    transform: translate(-50%,-50%);
-    opacity: 1; 
+    top:50%;
+    transform: translateY(-50%);
+    opacity: 0.1;
+}
+
+.left{
+    left:0;
+    transform: translateX(-50%);
+}
+
+.right{
+    right:0;
+    transform: translateX(50%);
+}
+
+.btn:hover{
+    opacity: 1;
 }
 
 .btn{
@@ -99,7 +108,7 @@ li{
 }
 
 @media screen and (max-width: 768px) {
-    .buttons{
+    .btn{
         display: none !important;
     }   
 }

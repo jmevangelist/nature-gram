@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Comment, CommentsCreate, Identification, IdentificationsCreate, Taxon } from '../inaturalist/inaturalist.interface';
 import { RouterLink } from '@angular/router';
@@ -9,7 +9,7 @@ import { AuthorizationService } from '../authorization/authorization.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { TaxonComponent } from '../taxon/taxon.component';
-import { BehaviorSubject, Observable, SubscriptionLike, debounceTime, delay, from } from 'rxjs';
+import { SubscriptionLike, debounceTime, from } from 'rxjs';
 
 @Component({
   selector: 'app-comments',
@@ -30,6 +30,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() comments!: Comment[];
   @Input() identifications!: Identification[];
   @Input() uuid!: string;
+  @Input() auto: boolean;
 
   combination!: any[]
   authServ: AuthorizationService;
@@ -62,6 +63,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isIdentifying = false;
     this.computerVision = [];
     this.qTaxon = new FormControl('')
+    this.auto = false
 
     this.sub = from(this.qTaxon.valueChanges).pipe(
       debounceTime(300)

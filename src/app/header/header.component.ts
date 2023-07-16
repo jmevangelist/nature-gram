@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ClarityModule } from '@clr/angular';
 import { ClarityIcons, arrowIcon } from '@cds/core/icon';
+import { IconShapeTuple } from '@cds/core/icon/interfaces/icon.interfaces';
 
 
 @Component({
@@ -14,10 +15,13 @@ import { ClarityIcons, arrowIcon } from '@cds/core/icon';
 export class HeaderComponent implements OnInit {
   @Input() title!: string;
   @Input() shape!: string;
+  @Input() secondaryShape!: IconShapeTuple;
   @Output() onAction!: EventEmitter<boolean>;
+  @Output() onSecondaryAction!: EventEmitter<boolean>;
 
   constructor(private location: Location){
     this.onAction = new EventEmitter<boolean>
+    this.onSecondaryAction = new EventEmitter<boolean>
   }
 
   ngOnInit(): void {
@@ -32,6 +36,9 @@ export class HeaderComponent implements OnInit {
         })
       })
     }
+    if(this.secondaryShape){
+      ClarityIcons.addIcons(this.secondaryShape)
+    }
   }
 
   back():void{
@@ -44,6 +51,10 @@ export class HeaderComponent implements OnInit {
     }else{
       this.onAction.emit(true);
     }
+  }
+
+  secondaryaction():void{
+    this.onSecondaryAction.emit(true);
   }
 }
 

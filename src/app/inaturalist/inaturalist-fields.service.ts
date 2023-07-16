@@ -10,6 +10,7 @@ export class InaturalistFieldsService {
         name: true,
         login: true,
         icon: true,
+        observations_count: true
     }
 
     Photos = {
@@ -39,7 +40,6 @@ export class InaturalistFieldsService {
         matched_term: true,
         default_photo: this.Photos,
         is_active: true
-        
     }
 
     Identification = {
@@ -75,6 +75,7 @@ export class InaturalistFieldsService {
         place_guess: true,
         taxon: this.Taxon,
         photos: this.Photos,
+        time_zone_offset: true,
         time_observed_at: true,
         created_at: true,
         faves_count: true,
@@ -83,7 +84,9 @@ export class InaturalistFieldsService {
         faves: this.Faves,
         quality_grade: true,
         comments: this.Comment,
-        uri: true
+        uri: true,
+        comments_count: true,
+        identifications_count: true
     }
 
     UserAll = {

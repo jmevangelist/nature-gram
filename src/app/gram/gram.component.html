@@ -2,7 +2,7 @@
     <div class="card-block top-block">
         <div class="clr-row clr-align-items-center">
             <div class="clr-col-auto">
-                <a [routerLink]="['',observation.user.login]">
+                <a [routerLink]="['naturalist',observation.user.login]">
                     <img [src]="observation.user.icon || 'assets/default.png'" 
                         class="user_icon">
                 </a>
@@ -30,9 +30,9 @@
                 class="btn btn-icon btn-link">
                 <cds-icon shape="chat-bubble" size="md"></cds-icon>
             </button>
-            <a [href]="observation.uri">
+            <a [routerLink]="['observation',observation.uuid]">
                 <button type="button" 
-                    class="btn btn-icon btn-link" href="">
+                    class="btn btn-icon btn-link">
                     <cds-icon shape="info-standard" size="md"></cds-icon>
                 </button>
             </a>
@@ -76,30 +76,32 @@
                 <button aria-label="Close" (click)="isCommentsOpen=false" class="close" type="button">
                     <cds-icon shape="close"></cds-icon>
                 </button>
-                <div class="clr-row clr-align-items-center modal-obs-meta-lg">
-                    <div class="clr-col-auto">
-                        <a [routerLink]="['',observation.user.login]">
-                            <img [src]="observation.user.icon || 'assets/default.png'" 
-                                class="user_icon">
-                        </a>
-                    </div>
-                    <div class="clr-col">
-                        <div class="card-text">
-                            <a [routerLink]="['naturalist',observation.user.login]">
-                                <h6>{{observation.user.login}}</h6>
-                            </a>
-                            <p class="p7">{{observation.place_guess}} 
-                            <span><br>{{observation.time_observed_at | dateTimeAgo | async}}</span></p>
-                        </div>
-                    </div>
-                </div>
                 <div class="modal-obs-meta-sm"><h6>Activity</h6></div>
             </div>
             <div class="modal-body">
                 <div class="modal-carousel">
                     <app-carousel [photos]="observation.photos"></app-carousel> 
                 </div>
-                <ng-template class="activity-container" #temp></ng-template>
+                <div class="modal-activity">
+                    <div class="clr-row clr-align-items-center modal-obs-meta-lg">
+                        <div class="clr-col-auto">
+                            <a [routerLink]="['',observation.user.login]">
+                                <img [src]="observation.user.icon || 'assets/default.png'" 
+                                    class="user_icon">
+                            </a>
+                        </div>
+                        <div class="clr-col">
+                            <div class="card-text">
+                                <a [routerLink]="['naturalist',observation.user.login]">
+                                    <h6>{{observation.user.login}}</h6>
+                                </a>
+                                <p class="p7">{{observation.place_guess}} 
+                                <span><br>{{observation.time_observed_at | dateTimeAgo | async}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #temp></ng-template>
+                </div>
             </div>
         </div>
     </div>

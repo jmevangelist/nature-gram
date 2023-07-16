@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification } from './inaturalist.interface';
+import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates } from './inaturalist.interface';
 import { InaturalistFieldsService } from './inaturalist-fields.service'
 import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
@@ -43,6 +43,27 @@ export class InaturalistService {
     return observations
   }
 
+  async getObservationsByUUID(uuid:string[]): Promise<Observation[]>{
+    const url = new URL(`v2/observations/${uuid}`,this.base_url)
+    const fields = this.inaturalistConfig.fields.observation;
+    url.search = new URLSearchParams([['fields',fields]]).toString();
+
+    const response = await fetch(url);
+    const data = await response.json() ?? {};
+    const observations:Observation[] = data.results ?? []
+
+    for (let obs of observations){
+      if(obs.photos){
+        for (let photo of obs.photos){
+          photo.url = photo.url.replace('square','medium')
+        }
+      }
+    }
+
+    return observations
+
+  }
+
   async getUserByLogin(user_login:string): Promise<User | undefined>{
     const url_autocomplete = new URL('v2/users/autocomplete',this.base_url);
     let params = [['q',user_login],['fields','login']];
@@ -68,6 +89,47 @@ export class InaturalistService {
     }else{
       return undefined
     }
+
+  }
+
+  async taxaAutoComplete(q:string):Promise<Taxon[]>{
+    const url = new URL('/v2/taxa/autocomplete',this.base_url);
+    url.search = new URLSearchParams([
+      ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
+      ['q',q],
+      ['per_page',5]
+    ]).toString();
+
+    let response = await fetch(url)
+
+    if(!response.ok){
+      throw response.status 
+    }
+
+    let data = await response.json()
+
+    return data.results
+
+  }
+
+  async searchPlaces(q:string):Promise<Place[]>{
+    const url = new URL('/v2/places',this.base_url);
+    url.search = new URLSearchParams([
+      ['fields','id,display_name'],
+      ['q',q],
+      ['per_page','5'],
+      ['geo','true']
+    ]).toString();
+
+    let response = await fetch(url)
+
+    if(!response.ok){
+      throw response.status 
+    }
+
+    let data = await response.json()
+
+    return data.results
 
   }
 
@@ -172,7 +234,6 @@ export class InaturalistService {
     let token = this.authService.token 
     let fields = `(taxon:${rison.encode(this.inaturalistConfig.Taxon)})`
 
-    console.log(fields)
     url.search = new URLSearchParams([['fields',fields]]).toString()
     let response = await fetch(url,{
       method: "GET",
@@ -198,45 +259,31 @@ export class InaturalistService {
 
   }
 
-  async taxaAutoComplete(q:string):Promise<Taxon[]>{
-    const url = new URL('/v2/taxa/autocomplete',this.base_url);
-    url.search = new URLSearchParams([
-      ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
-      ['q',q],
-      ['per_page',5]
-    ]).toString();
+  async getObservationsUpdates(obsUpdate?:ObservationsUpdates):Promise<ResultsUpdates>{
+    const url = new URL('v2/observations/updates',this.base_url);
+    let token = this.authService.token 
+    let fields = 'all'
 
-    let response = await fetch(url)
-
-    if(!response.ok){
-      throw response.status 
-    }
-
-    let data = await response.json()
-
-    return data.results
-
-  }
-
-  async searchPlaces(q:string):Promise<Place[]>{
-    const url = new URL('/v2/places',this.base_url);
-    url.search = new URLSearchParams([
-      ['fields','id,display_name'],
-      ['q',q],
-      ['per_page','5'],
-      ['geo','true']
-    ]).toString();
-
-    let response = await fetch(url)
+    url.search = new URLSearchParams([['fields',fields]]).toString()
+    let response = await fetch(url,{
+      method: "GET",
+      headers: { 
+        "Authorization": token,
+        "Content-Type": "application/json" 
+      }
+    })
 
     if(!response.ok){
-      throw response.status 
+      if(response.status == 401){
+        this.authService.setExpired();
+      }
+      throw response.statusText
     }
+    let res:ResultsUpdates = await response.json()
 
-    let data = await response.json()
-
-    return data.results
-
+    return res
   }
+
+
 
 }

@@ -4,17 +4,17 @@
         Loading...
     </span>
 </div>
-<div class="activity-container">
+<div class="activity-container" [class.flex-auto]="auto">
     <div *ngFor="let com of combination; trackBy:trackByItems" class="activity" #activity>
         <div class="clr-row activity-header">
             <div class="clr-col-auto">
-                <a [routerLink]="['naturalist',com.user.login]">
+                <a [routerLink]="['/naturalist',com.user.login]">
                     <img [src]="com.user.icon || 'assets/default.png'" 
                         class="user_icon">
                 </a>
             </div>
             <div class="clr-col">
-                <p class="user-name"><a [routerLink]="['naturalist',com.user.login]" class="p4">{{com.user.login}}</a>
+                <p class="user-name"><a [routerLink]="['/naturalist',com.user.login]" class="p4">{{com.user.login}}</a>
                 ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
             </div>
         </div>
@@ -47,10 +47,10 @@
                 </div>
             </ng-container>
             <div class="input-container">
-                <button class='btn btn-sm btn-icon btn-primary-outline'
+                <button class='btn btn-sm btn-success'
                 [clrLoading]="identBtnState" 
                 (click)="getSuggestions();isIdentifying=true">
-                <cds-icon [attr.shape]="'bookmark'"></cds-icon></button>
+                ID</button>
                 <textarea type="text" class="p5" #textarea 
                     [ngStyle]="{'height.px': textarea.scrollHeight }"
                     [(ngModel)]="newComment" name="newcomment" rows="1" 
@@ -66,20 +66,23 @@
     </div>
 
     <div class='user-identification' [class.display-inline-block]="isIdentifying">
+        <cds-icon class="search" (click)="isIdentifying=false" [attr.shape]="'search'"></cds-icon>
         <input type="text" class="p5" placeholder="search taxon" [formControl]="qTaxon" />
-        <div class="search-list">
-            <div class="card clickable" *ngFor="let sug of suggestions" (click)="identify(sug.taxon);isIdentifying=false">
-                <app-taxon  [taxon]="sug.taxon" class="list-taxon"></app-taxon>
-                <ng-container *ngIf="sug.combined_score > 0">
-                    <p class="p7 score">computer<br> vision<br> score:<br>{{sug.combined_score | number}}%</p>
-                </ng-container>
-                <ng-container *ngIf="sug.common_ancestor">
-                    <p class="p7 score">common ancestor</p>
-                </ng-container>
-            </div>
-        </div>  
+        <cds-icon class="close-icn" (click)="isIdentifying=false" [attr.shape]="'close'"></cds-icon>
     </div>
+</div>
 
+<div class="search-list" [hidden]="!isIdentifying" [class.flex-auto]="auto">
+    <div class="card clickable" *ngFor="let sug of suggestions" (click)="identify(sug.taxon);isIdentifying=false">
+        <app-taxon  [taxon]="sug.taxon" class="list-taxon"></app-taxon>
+        <ng-container *ngIf="sug.combined_score > 0">
+            <p class="p7 score">computer<br> vision<br> score:<br>{{(sug.combined_score/100) | percent}}</p>
+        </ng-container>
+        <ng-container *ngIf="sug.common_ancestor">
+            <p class="p7 score">common ancestor</p>
+        </ng-container>
+    </div>
+</div>  
 
 
  

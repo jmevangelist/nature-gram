@@ -1,0 +1,10 @@
+<app-header class="sticky-top" title="Notifications"></app-header>
+
+<div *ngFor="let notification of notifications" class="notification p5">
+    <a [routerLink]="['../observation',notification.resource_uuid]">
+        <strong>{{ notification.comment?.user?.login || notification.identification?.user?.login }}</strong>
+        {{ notification.comment ? 'commented ': 'suggested an ID: ' }}
+        <em>{{ notification.comment?.body || notification.identification?.taxon?.name }} </em>
+        <span class="p7">{{notification.created_at|dateTimeAgo|async}}</span>
+    </a>
+</div>

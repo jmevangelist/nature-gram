@@ -18,7 +18,9 @@
     </div>
 </div> -->
 
-<app-header title="iNatureGram" id='top' (onAction)="reload()" shape="logo"></app-header>
+<app-header title="iNatureGram" id='top' 
+    (onAction)="reload()" shape="logo" 
+    [secondaryShape]="bellIcon" (onSecondaryAction)="goToNotifications()"></app-header>
 <div class="home">
 
     <div class="filters">

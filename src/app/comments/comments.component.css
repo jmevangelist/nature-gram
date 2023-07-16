@@ -75,7 +75,20 @@ a {
     flex-direction: column;
     width: 100%;
     margin-bottom: 0.5rem;
-    flex: auto;
+    flex: 1 2 0;
+}
+
+.search-list{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    flex: 10 2 1px;
+    max-height: 50dvh;
+}
+
+.flex-auto{
+    flex: auto !important;
 }
 
 .spinner-container{
@@ -97,22 +110,18 @@ a {
     width: 100%;
 }
 
-.search-list{
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    height: 60dvh;
-    width: 100%;
-}
 
 .input-container{
     display: flex;
+    align-items: center;
 }
 .input-container > .btn{
     margin: 0;
-    width: 1.5rem !important;
+    width: 1.2rem !important;
+    min-width: 1.2rem !important;
     padding: 0;
     border: none !important;
+    z-index: 1;
 }
 
 .card-id{
@@ -135,7 +144,7 @@ a {
     background-color: hsl(198, 0%, 91%);
     margin-top: 0 !important;
     width: 100%;
-    padding-left: 1.5rem;
+    padding-left: 1.7rem;
     margin-left: -1.5rem;
  }
 
@@ -145,6 +154,20 @@ a {
     background-color: hsl(198, 0%, 91%);
     margin-top: 0 !important;
     width: 100%;
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
+}
+
+.user-identification > .close-icn{
+    margin-left: -1rem;
+}
+
+.user-identification > .search{
+    margin-right: -1rem;
+}
+
+.your-input{
+    flex: initial;
 }
 
 
@@ -153,7 +176,7 @@ a {
     margin-top: 0.2rem; 
     padding: 0 0.5rem;
     display: flex;
-    width: 100%
+    width: 100%;
 }
 
 .list-taxon{
@@ -176,13 +199,15 @@ a {
 :host{
     display: flex;
     flex-direction: column;
-    max-height: 73dvh;
+    max-height: inherit;
+    max-width: inherit;
     width: 100% !important;
+    flex: auto;
 }
 
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
     :host{
         max-width: 20rem;
         max-height: 75dvh;
     }
-}
+} */
