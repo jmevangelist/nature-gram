@@ -67,22 +67,22 @@
 
     <div class='user-identification' [class.display-inline-block]="isIdentifying">
         <cds-icon class="search" (click)="isIdentifying=false" [attr.shape]="'search'"></cds-icon>
-        <input type="text" class="p5" placeholder="search taxon" [formControl]="qTaxon" />
-        <cds-icon class="close-icn" (click)="isIdentifying=false" [attr.shape]="'close'"></cds-icon>
+        <input type="text" class="p5" placeholder="search taxon" id="qTaxon" [formControl]="qTaxon" />
+        <cds-icon class="close-icn" (click)="isIdentifying=false;qTaxon.reset()" [attr.shape]="'close'"></cds-icon>
     </div>
+
+    <div class="search-list" [hidden]="!isIdentifying" [class.flex-auto]="auto">
+        <div class="card clickable" for="qTaxon" *ngFor="let sug of suggestions" 
+                (click)="identify(sug)">
+            <app-taxon  [taxon]="sug.taxon" class="list-taxon"></app-taxon>
+            <ng-container *ngIf="sug.combined_score > 0">
+                <p class="p7 score">computer<br> vision<br> score:<br>{{(sug.combined_score/100) | percent}}</p>
+            </ng-container>
+        </div>
+    </div>  
 </div>
 
-<div class="search-list" [hidden]="!isIdentifying" [class.flex-auto]="auto">
-    <div class="card clickable" *ngFor="let sug of suggestions" (click)="identify(sug.taxon);isIdentifying=false">
-        <app-taxon  [taxon]="sug.taxon" class="list-taxon"></app-taxon>
-        <ng-container *ngIf="sug.combined_score > 0">
-            <p class="p7 score">computer<br> vision<br> score:<br>{{(sug.combined_score/100) | percent}}</p>
-        </ng-container>
-        <ng-container *ngIf="sug.common_ancestor">
-            <p class="p7 score">common ancestor</p>
-        </ng-container>
-    </div>
-</div>  
+
 
 
  

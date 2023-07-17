@@ -105,11 +105,19 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  identify(taxon:Taxon):void{
-    this.id = {
-      identification: { taxon_id: taxon.id, observation_id: this.uuid }
+  identify(sug:any):void{
+    let isVision = true;
+    if(this.qTaxon.value){
+      isVision = false;
     }
-    this.selectedTaxon = taxon;
+    this.id = {
+      identification: { taxon_id: sug.taxon.id, observation_id: this.uuid, vision: isVision }
+    }
+    this.selectedTaxon = sug.taxon;
+    console.log(this.id)
+
+    this.isIdentifying=false;
+    this.qTaxon.reset()
   }
 
   onSubmit(){  

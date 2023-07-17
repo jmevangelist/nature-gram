@@ -84,7 +84,8 @@ a {
     overflow-y: scroll;
     width: 100%;
     flex: 10 2 1px;
-    max-height: 50dvh;
+    max-height: 10rem;
+    height: 10rem;
 }
 
 .flex-auto{

@@ -47,7 +47,8 @@ export interface Taxon {
     rank?: string;
     matched_term?: string;
     default_photo?: Photo;
-    is_active?: boolean
+    is_active?: boolean;
+    wikipedia_summary?: string;
 }
 
 export interface Photo {
@@ -119,7 +120,7 @@ export interface Notification {
     id: number;
     comment?: Comment;
     identification?: Identification;
-    created_at?: string;
+    created_at: string;
     resource_uuid: string;
 }
 
@@ -131,3 +132,13 @@ export interface ObservationsUpdates {
     per_page?: number;
     fields?: string;
 }
+
+export interface Options<T> {
+    headers: (keyof T)[]
+    filename: string
+    items: T[]
+    transforms?: {
+      [K in keyof T]?: (property: T[K]) => string
+    }
+  }
+  

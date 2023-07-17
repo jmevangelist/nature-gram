@@ -4,10 +4,15 @@
     <div class="album"><app-carousel [photos]="observation.photos"></app-carousel></div>
     <div class="sub-header">
         <div class="taxon-grade">
-            <div class="taxon" *ngIf="observation.taxon">
+            <div class="taxon" *ngIf="observation.taxon else unknown">
                 <h3>{{observation.taxon.rank=='species' ? '': observation.taxon.rank | titlecase }} <em>{{observation.taxon.name}}</em></h3>
                 <p class="p5">{{observation.taxon.preferred_common_name}}</p>
             </div>
+            <ng-template #unknown>
+                <div class="taxon">
+                    <h3>Unidentified</h3>
+                </div>
+            </ng-template>
             <button class="btn btn-sm" 
                 [class.btn-success]="observation.quality_grade == 'research grade'"
                 [class.btn-warning]="observation.quality_grade == 'needs_id'">

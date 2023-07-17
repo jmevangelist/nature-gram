@@ -39,7 +39,8 @@ export class InaturalistFieldsService {
         rank: true,
         matched_term: true,
         default_photo: this.Photos,
-        is_active: true
+        is_active: true,
+        wikipedia_summary: true
     }
 
     Identification = {

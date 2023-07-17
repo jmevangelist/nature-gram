@@ -24,7 +24,6 @@ export class HomeService {
 
 
     filterChips:Chip[] = [ 
-        {label: 'Today'},
         {label: 'New', selected:true },
         {label: 'Recently Updated'},
         {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },

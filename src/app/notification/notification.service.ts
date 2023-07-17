@@ -28,8 +28,17 @@ export class NotificationService{
 
     private async getUpdates(timeStamp:number):Promise<number>{
         let date = new Date(timeStamp).toString();
-        let results = await this.inatServe.getObservationsUpdates({created_after: date});
-        return results.total_results
+        let results = await this.inatServe.getObservationsUpdates({
+            created_after: date, 
+            observations_by: 'following',
+        });
+        let resultsO = await this.inatServe.getObservationsUpdates({
+            created_after: date, 
+            observations_by: 'owner',
+        });
+
+
+        return results.total_results + resultsO.total_results
     }
 
     setLastCheck(){
