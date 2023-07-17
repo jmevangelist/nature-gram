@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { Place, Taxon } from '../inaturalist/inaturalist.interface';
 import { find } from 'rxjs';
 import { FiltersProvider } from '@clr/angular/data/datagrid/providers/filters';
+import { Preference } from './preferece.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PreferenceService {
 
-  taxa: Taxon[];
-  places: Place[];
+  // taxa: Taxon[];
+  // places: Place[];
+  taxa: Preference[];
+  places: Preference[];
   options: string[];
 
   constructor() {
@@ -31,12 +34,13 @@ export class PreferenceService {
     }
   }
 
-  updateTaxa(taxa:Taxon[]){
+  updateTaxa(taxa:Preference[]){
     this.taxa = taxa;
     localStorage.setItem('taxa',JSON.stringify(taxa))
   }
+  
 
-  updatePlace(places:Place[]){
+  updatePlace(places:Preference[]){
     this.places = places;
     localStorage.setItem('places',JSON.stringify(places))
   }
@@ -45,7 +49,6 @@ export class PreferenceService {
   updateOptions(options:string[]){
     this.options = options;
     localStorage.setItem('options',JSON.stringify(this.options));
-    console.log(options)
   }
 
   getOptions():string[][]{
@@ -53,11 +56,11 @@ export class PreferenceService {
   }
 
   getTaxaID():number[]{
-      return this.taxa?.map(t => t.id) ?? []
+      return this.taxa?.filter(t=> t.active).map(t => t.taxon?.id || 0) ?? []
   }
 
   getPlaceID():number[]{
-    return this.places?.map(t => t.id) ?? []
+    return this.places?.filter(t=> t.active).map(t => t.place?.id || 0) ?? []
   }
 
   getPreferences(){

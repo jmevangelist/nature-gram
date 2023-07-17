@@ -57,3 +57,22 @@
 .options-container {
     margin: 1rem 0;
 }
+
+.inactive {
+    opacity: 0.5;
+}
+
+.label{
+    margin: 0.2rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+.label > input {
+    margin: 0.2rem;
+}
+
+.label:hover{
+    font-weight: bolder;
+}
+

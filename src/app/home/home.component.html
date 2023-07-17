@@ -1,27 +1,7 @@
-<!-- <div class="custom-header">
-    <a [routerLink]="['/']">
-        <cds-icon shape="brand" class="brand"></cds-icon>
-    </a>
-    <div class="header-actions">
-        <clr-dropdown>
-        <button class="btn btn-link btn-icon" clrDropdownTrigger aria-label="toggle settings menu">
-            <cds-icon shape="cog" size="md"></cds-icon>
-            <cds-icon shape="angle" direction="down"></cds-icon>
-        </button>
-        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-            <a [routerLink]="['preference']" clrDropdownItem>
-                <cds-icon shape="cog"></cds-icon>Preferences</a>
-            <a [routerLink]="['authorize']" clrDropdownItem>
-                <cds-icon shape="key"></cds-icon>Authorize</a>
-        </clr-dropdown-menu>
-        </clr-dropdown>
-    </div>
-</div> -->
-
 <app-header title="iNatureGram" id='top' 
     (onAction)="reload()" shape="logo" 
     [secondaryShape]="bellIcon" (onSecondaryAction)="goToNotifications()"
-    [badge]="(notification$ | async) ? 'warning': ''"></app-header>
+    [badge]="(notification$ | async) ? 'warning': ''" class="sticky-top"></app-header>
 
     <div class="chips-filter-container">
         <button class="btn btn-link btn-icon btn-sm large-screen-only" >

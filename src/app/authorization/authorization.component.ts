@@ -35,8 +35,9 @@ export class AuthorizationComponent {
   }
 
   auth(){
+    console.log(this.authService.isExpired)
     this.authBtnState = ClrLoadingState.LOADING;
-    if(this.authService.isExpired){
+    if(!this.authService.isExpired){
       this.me = undefined;
       this.authForm.reset();
       this.authService.logout();

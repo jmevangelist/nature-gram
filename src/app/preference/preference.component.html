@@ -18,8 +18,10 @@
         </div>
 
         <div class="slist-container">        
-            <span *ngFor="let t of taxa" class="label clickable" (click)="removeTaxa(t)">
-                {{t.name}} <cds-icon shape="close"></cds-icon>
+            <span *ngFor="let t of taxa" class="label" [class.inactive]="!t.active" [class.label-info]="t.active" >
+                <input type="checkbox" [checked]="t.active" (change)="t.active = !t.active" />
+                {{t.taxon?.rank == 'species'? '' : t.taxon?.rank | titlecase}} <em>{{t.taxon?.name}}</em> 
+                <cds-icon (click)="removeTaxa(t.taxon)" shape="close"></cds-icon>
             </span>
         </div>
 
@@ -41,9 +43,13 @@
         </div>
 
         <div class="slist-container">
-            <span *ngFor="let t of places" class="label clickable" (click)="removePlace(t)">
-                {{t.display_name}} <cds-icon shape="close"></cds-icon>
+            <span *ngFor="let t of places" class="label" [class.inactive]="!t.active" [class.label-info]="t.active" >
+                <input type="checkbox" [checked]="t.active" (change)="t.active = !t.active" />
+                {{t.place?.display_name}}
+                <cds-icon (click)="removePlace(t.place)" shape="close"></cds-icon>
             </span>
+
+
         </div>
 
         <div class="options-container" formArrayName="options">

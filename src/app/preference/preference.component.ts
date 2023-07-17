@@ -8,6 +8,7 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { SubscriptionLike, debounceTime, from } from 'rxjs';
 import { TaxonComponent } from '../taxon/taxon.component';
 import { HeaderComponent } from '../header/header.component';
+import { Preference } from './preferece.interface';
 
 @Component({
   selector: 'app-preference',
@@ -24,8 +25,8 @@ import { HeaderComponent } from '../header/header.component';
 })
 export class PreferenceComponent implements OnDestroy {
 
-  taxa: Taxon[];
-  places: Place[];
+  taxa: Preference[];
+  places: Preference[];
   prefService: PreferenceService;
   prefForm: FormGroup;
   optionsFormArray: FormArray<FormControl>;
@@ -76,9 +77,11 @@ export class PreferenceComponent implements OnDestroy {
 
   }
 
-  removeTaxa(taxon:Taxon){
-    let i = this.taxa.findIndex(t=> t.id == taxon.id)
-    this.taxa.splice(i,1)
+  removeTaxa(taxon?:Taxon){
+    if(taxon){
+      let i = this.taxa.findIndex(t=> t.taxon?.id == taxon.id)
+      this.taxa.splice(i,1)
+    }
   }
 
   searchTaxa(q:string){
@@ -121,9 +124,9 @@ export class PreferenceComponent implements OnDestroy {
 
 
   selectTaxon(taxon:Taxon):void{
-    let selected = taxon;
+    let selected = { active: true, taxon: taxon }
 
-    if(this.taxa.filter((t)=> t.id === selected?.id ).length === 0){
+    if(this.taxa.filter((t)=> t.taxon?.id === selected?.taxon?.id ).length === 0){
       this.taxa.push(selected)
     }
 
@@ -132,9 +135,9 @@ export class PreferenceComponent implements OnDestroy {
   }
 
   selectPlace(place:Place):void{
-    let selected = place;
+    let selected = { active: true, place: place }
 
-    if(this.places.filter((t)=> t.id === selected?.id ).length === 0){
+    if(this.places.filter((t)=> t.place?.id === selected?.place?.id ).length === 0){
       this.places.push(selected)
     }
 
@@ -142,9 +145,11 @@ export class PreferenceComponent implements OnDestroy {
     this.prefForm.controls['place'].reset();
   }
 
-  removePlace(place:Place){
-    let i = this.places.findIndex(t=> t.id == place.id)
-    this.places.splice(i,1)
+  removePlace(place?:Place){
+    if(place){
+      let i = this.places.findIndex(t=> t.place?.id == place.id)
+      this.places.splice(i,1)
+    }
   }
 
   onSubmit(){    

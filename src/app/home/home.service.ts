@@ -47,16 +47,16 @@ export class HomeService {
 
         this.prefservice.places.forEach(p=>{
             this.filterChips.push({
-                label: p.display_name,
-                value: p.id.toString(),
+                label: p.place?.display_name ?? '',
+                value: p.place?.id.toString(),
                 type: 'place_id'
             })
         })
 
         this.prefservice.taxa.forEach(p=>{
             this.filterChips.push({
-                label: p.name ?? '',
-                value: p.id.toString(),
+                label: p.taxon?.name ?? '',
+                value: p.taxon?.id.toString(),
                 type: 'taxon_id'
             })
         })
@@ -64,46 +64,56 @@ export class HomeService {
         console.log(this.filterChips)
     }
 
-    private extraParams():string[][]|undefined{
+    private extraParams(echo?:boolean):string[][]|undefined{
         let pref = this.prefservice.getPreferences();
         let paramsArray: string[][] = []
 
         if(!this.params.page){ return undefined } 
         
         paramsArray = Object.keys(this.params).map((key) => [key, this.params[key].toString()]);
-        this.params.page += 1;
+        if(!echo){
+            this.params.page += 1;
+        }
         
         if(pref.length){
 
             if(this.filterChips.find(fc=> fc.selected)?.label == 'Unknown'){
-                let ptaxonId = pref.findIndex(p=> p[0]=='taxon_id')
-                if(ptaxonId >= 0){
-                    pref.splice(ptaxonId,1)
+                let placeId = pref.findIndex(p=> p[0]=='place_id')
+                if(placeId > 0){
+                    pref = [pref[placeId]];
+                }else{
+                    pref = [];
                 }
-            }
 
-            if(this.params['place_id'] ){
+            }else if(this.params['place_id'] ){
                 let pId = pref.findIndex(p=> p[0]=='place_id')
                 if(pId >= 0){
                     pref.splice(pId,1)
                 }
+
             }else if(this.params['taxon_id'] ){
                 let pId = pref.findIndex(p=> p[0]=='taxon_id')
                 if(pId >= 0){
                     pref.splice(pId,1)
                 }
-            }else{
-                pref.forEach( (v)=>{ 
-                    if(v[1]){
-                        paramsArray.push(...[v]) 
-                    }
-                })
+
             }
+            
+            pref.forEach( (v)=>{ 
+                if(v[1]){
+                    paramsArray.push(...[v]) 
+                }
+            })
+            
 
         }
 
         this.calls++
         return paramsArray
+    }
+
+    getCurrentParams():string[][]|undefined{
+        return this.extraParams(true);
     }
 
     refresh(){

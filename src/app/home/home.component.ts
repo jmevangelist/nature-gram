@@ -150,7 +150,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
         this.homeService.updateParams('iconic_taxa','unknown')
         break;
       default:
-        console.log(o)
         if(o?.type){
           this.homeService.updateParams(o?.type ,o?.value )
         }
@@ -174,7 +173,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
           break;
       }
     }
-
+    console.log(this.homeService.getCurrentParams())
     this.moreObservations()
   }
 
