@@ -8,6 +8,7 @@ import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon, checkCircleIcon } from '@cds/core/icon';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
+import { UrlifyDirective } from '../shared/urlify.directive';
 
 @Component({
   selector: 'app-gram',
@@ -18,7 +19,8 @@ import { AuthorizationService } from '../authorization/authorization.service';
     CarouselComponent,
     RouterLink, 
     RouterOutlet,
-    ClarityModule
+    ClarityModule,
+    UrlifyDirective
   ],
   templateUrl: './gram.component.html',
   styleUrls: ['./gram.component.css'],

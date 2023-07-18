@@ -10,18 +10,19 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { TaxonComponent } from '../taxon/taxon.component';
 import { SubscriptionLike, debounceTime, from } from 'rxjs';
+import { UrlifyDirective } from '../shared/urlify.directive';
 
 @Component({
   selector: 'app-comments',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     DateTimeAgoPipe,
     ClarityModule,
     ReactiveFormsModule,
     FormsModule,
-    TaxonComponent
+    TaxonComponent,
+    UrlifyDirective
   ],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']

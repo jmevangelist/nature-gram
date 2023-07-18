@@ -22,12 +22,10 @@
 
         <div class="naturalist-action">
             <div class="naturalist">
-                <a [href]="'/naturalist/'+observation.user.login">
-                    <img [src]="observation.user.icon || 'assets/default.png'" 
+                    <img *urlify="['/naturalist',observation.user.login]" [src]="observation.user.icon || 'assets/default.png'" 
                         class="naturalist-icon">
-                </a>
                 <div>
-                    <h6>{{observation.user.login}}</h6>
+                    <h6 class="naturalist-login" *urlify="['/naturalist',observation.user.login]">{{observation.user.login}}</h6>
                     <p class="p5">{{observation.user.observations_count}} observations</p>
                 </div>
             </div>
@@ -59,6 +57,6 @@
         </app-comments>
     </div>
 
-    <div class="footer p5">View observation in <a [href]="observation.uri">iNaturalist</a></div>
+    <div class="footer p5">View observation in <span *urlify="observation.uri ?? ''">iNaturalist</span></div>
 </div>
 

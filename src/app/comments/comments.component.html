@@ -8,13 +8,15 @@
     <div *ngFor="let com of combination; trackBy:trackByItems" class="activity" #activity>
         <div class="clr-row activity-header">
             <div class="clr-col-auto">
-                <a [routerLink]="['/naturalist',com.user.login]">
-                    <img [src]="com.user.icon || 'assets/default.png'" 
-                        class="user_icon">
-                </a>
+
+                <img *urlify="['/naturalist',com.user.login]" 
+                    [src]="com.user.icon || 'assets/default.png'" 
+                    class="user_icon">
+
             </div>
             <div class="clr-col">
-                <p class="user-name"><a [routerLink]="['/naturalist',com.user.login]" class="p4">{{com.user.login}}</a>
+                <p class="user-name" >
+                <span *urlify="['/naturalist',com.user.login]" class="p4">{{com.user.login}}</span>
                 ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
             </div>
         </div>

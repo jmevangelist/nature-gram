@@ -1,6 +1,5 @@
 .card{
-    max-width: 100%;
-    width:700px;
+    width: 100%;
     box-shadow: unset !important;
     border-style: unset !important;
     margin: 0 auto 1rem auto;
@@ -30,6 +29,10 @@
 }
 
 .card-text > .p7{
+    margin: 0;
+}
+
+.p7{
     margin: 0;
 }
 
@@ -98,6 +101,9 @@ a{
 
 
 @media screen and (max-width: 768px) {
+    .card{
+        width: 100% !important;
+    }
     .modal{
         top: unset;
         padding: 0 !important;
