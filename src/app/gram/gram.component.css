@@ -124,7 +124,8 @@ a{
         height: auto !important;
     }
     .modal-activity{
-        width: 100%;
+        flex: auto !important;
+        width: 100% !important;
         max-height: 75dvh;
         height: auto !important;
     }
@@ -149,7 +150,8 @@ a{
 }
 
 .modal-activity{
-    width: 27rem;
+    width: 25rem;
+    flex: initial;
     height: inherit;
     display: flex;
     flex-direction: column;

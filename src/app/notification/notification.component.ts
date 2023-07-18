@@ -29,13 +29,15 @@ export class NotificationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    Promise.all([this.inatServe.getObservationsUpdates({observations_by:'following'}),
-    this.inatServe.getObservationsUpdates({observations_by:'owner'})]).then((results:ResultsUpdates[])=>{
+    Promise.all([
+      this.inatServe.getObservationsUpdates({observations_by:'following'}),
+      this.inatServe.getObservationsUpdates({observations_by:'owner'})
+    ]).then((results:ResultsUpdates[])=>{
       results.forEach((r)=>{
         this.notifications.push(...r.results);
       })
-      this.notificationService.setLastCheck();
       this.notifications.sort((a,b)=> Date.parse(b.created_at) - Date.parse(a.created_at) )
+      this.notificationService.setLastCheck();
     })
     
   }
