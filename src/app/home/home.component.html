@@ -25,8 +25,6 @@
         </button> 
     </div>
 <div class="home">
-
-
     <app-gram #grams *ngFor="let observation of observations | async; let isLast = last; trackBy: trackByItems" 
         [class.last]="isLast" 
         [observation]="observation">

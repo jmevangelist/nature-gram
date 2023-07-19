@@ -41,9 +41,11 @@
     flex: auto;
 }
 
-.taxon > h3{
-    margin-top: 0;
+.taxon > h3,.p5{
+    margin-top: 0 !important;
 }
+
+
 
 .naturalist-action{
     display: flex;

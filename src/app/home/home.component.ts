@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observation } from '../inaturalist/inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
@@ -46,7 +46,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChildren('grams') grams!: QueryList<any>;
 
-  constructor(private router: Router){
+  constructor(private router: Router, private view: ViewContainerRef){
     this.observations = this.homeService.observations$;
     this.loading = this.homeService.loading$;
     this.currentNavigation = this.router.getCurrentNavigation();
@@ -120,10 +120,11 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   reload(){
+    document.querySelector('.home')?.scrollIntoView(true)
     this.end = false;
     this.homeService.reload().then((b)=>{
       this.end = !b;
-    })
+    });
   }
 
   selectChip(chips?:any){

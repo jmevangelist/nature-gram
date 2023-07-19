@@ -17,6 +17,7 @@ export interface Observation {
     comments: Comment[] | [];
     comments_count: number;
     uri?: string;
+    location?: string;
 }
 
 export interface User {

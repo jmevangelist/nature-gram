@@ -87,7 +87,8 @@ export class InaturalistFieldsService {
         comments: this.Comment,
         uri: true,
         comments_count: true,
-        identifications_count: true
+        identifications_count: true,
+        location: true
     }
 
     UserAll = {
