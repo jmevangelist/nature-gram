@@ -12,15 +12,15 @@
     </ul>
 </div>
 
-<!-- <div *ngIf="photos.length>1" class="buttons clr-row clr-justify-content-between"> -->
-    <button type="button" class="btn btn-icon btn-primary left" [hidden]="photos.length==1"
-        (click)="carousel.scrollTo({left:carousel.scrollLeft - carousel.offsetWidth})" 
-        aria-label="left">
-        <cds-icon shape="angle" direction="left"></cds-icon>
-    </button>
-    <button type="button" class="btn btn-icon btn-primary right" [hidden]="photos.length==1"
-        (click)="carousel.scrollTo({left:carousel.scrollLeft + carousel.offsetWidth })" 
-        aria-label="right">
-        <cds-icon shape="angle" direction="right"></cds-icon>
-    </button>
-<!-- </div> -->
+
+<button type="button" class="btn btn-icon btn-primary left" [hidden]="photos.length==1"
+    (click)="carousel.scrollTo({left:carousel.scrollLeft - carousel.offsetWidth})" 
+    aria-label="left">
+    <cds-icon shape="angle" direction="left"></cds-icon>
+</button>
+<button type="button" class="btn btn-icon btn-primary right" [hidden]="photos.length==1"
+    (click)="carousel.scrollTo({left:carousel.scrollLeft + carousel.offsetWidth })" 
+    aria-label="right">
+    <cds-icon shape="angle" direction="right"></cds-icon>
+</button>
+

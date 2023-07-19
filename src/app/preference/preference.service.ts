@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Place, Taxon } from '../inaturalist/inaturalist.interface';
-import { find } from 'rxjs';
+import { BehaviorSubject, Observable, find } from 'rxjs';
 import { FiltersProvider } from '@clr/angular/data/datagrid/providers/filters';
+import { Preference } from './preferece.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PreferenceService {
 
-  taxa: Taxon[];
-  places: Place[];
+  taxa: Preference[];
+  places: Preference[];
   options: string[];
+  private _behaviorSubject: BehaviorSubject<null>
+  signal: Observable<null>;
 
   constructor() {
     this.taxa = [];
@@ -29,23 +32,29 @@ export class PreferenceService {
     if(local_storage_options){
       this.options = JSON.parse(local_storage_options)
     }
+
+    this._behaviorSubject = new BehaviorSubject<null>(null);
+    this.signal = this._behaviorSubject.asObservable();
   }
 
-  updateTaxa(taxa:Taxon[]){
+  updateTaxa(taxa:Preference[]){
     this.taxa = taxa;
     localStorage.setItem('taxa',JSON.stringify(taxa))
+    this._behaviorSubject.next(null)
   }
+  
 
-  updatePlace(places:Place[]){
+  updatePlace(places:Preference[]){
     this.places = places;
     localStorage.setItem('places',JSON.stringify(places))
+    this._behaviorSubject.next(null)
   }
 
 
   updateOptions(options:string[]){
     this.options = options;
     localStorage.setItem('options',JSON.stringify(this.options));
-    console.log(options)
+    this._behaviorSubject.next(null)
   }
 
   getOptions():string[][]{
@@ -53,11 +62,11 @@ export class PreferenceService {
   }
 
   getTaxaID():number[]{
-      return this.taxa?.map(t => t.id) ?? []
+      return this.taxa?.filter(t=> t.active).map(t => t.taxon?.id || 0) ?? []
   }
 
   getPlaceID():number[]{
-    return this.places?.map(t => t.id) ?? []
+    return this.places?.filter(t=> t.active).map(t => t.place?.id || 0) ?? []
   }
 
   getPreferences(){

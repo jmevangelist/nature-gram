@@ -10,18 +10,19 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { TaxonComponent } from '../taxon/taxon.component';
 import { SubscriptionLike, debounceTime, from } from 'rxjs';
+import { UrlifyDirective } from '../shared/urlify.directive';
 
 @Component({
   selector: 'app-comments',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     DateTimeAgoPipe,
     ClarityModule,
     ReactiveFormsModule,
     FormsModule,
-    TaxonComponent
+    TaxonComponent,
+    UrlifyDirective
   ],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
@@ -105,11 +106,19 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  identify(taxon:Taxon):void{
-    this.id = {
-      identification: { taxon_id: taxon.id, observation_id: this.uuid }
+  identify(sug:any):void{
+    let isVision = true;
+    if(this.qTaxon.value){
+      isVision = false;
     }
-    this.selectedTaxon = taxon;
+    this.id = {
+      identification: { taxon_id: sug.taxon.id, observation_id: this.uuid, vision: isVision }
+    }
+    this.selectedTaxon = sug.taxon;
+    console.log(this.id)
+
+    this.isIdentifying=false;
+    this.qTaxon.reset()
   }
 
   onSubmit(){  

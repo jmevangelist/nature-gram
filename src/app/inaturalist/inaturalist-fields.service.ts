@@ -39,7 +39,8 @@ export class InaturalistFieldsService {
         rank: true,
         matched_term: true,
         default_photo: this.Photos,
-        is_active: true
+        is_active: true,
+        wikipedia_summary: true
     }
 
     Identification = {
@@ -86,7 +87,8 @@ export class InaturalistFieldsService {
         comments: this.Comment,
         uri: true,
         comments_count: true,
-        identifications_count: true
+        identifications_count: true,
+        location: true
     }
 
     UserAll = {

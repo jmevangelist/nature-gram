@@ -1,8 +1,7 @@
 .container{
     display: flex;
     flex-direction: column;
-    /* padding: 0.6rem 0; */
-    max-width: 37rem;
+    max-width: 768px;
     width: 100%;
 }
 
@@ -33,6 +32,7 @@
     margin-top: 0.6rem;
 }
 
+
 .taxon-grade > .btn{
     margin: 0;
 }
@@ -41,9 +41,11 @@
     flex: auto;
 }
 
-.taxon > h3{
-    margin-top: 0;
+.taxon > h3,.p5{
+    margin-top: 0 !important;
 }
+
+
 
 .naturalist-action{
     display: flex;
@@ -58,7 +60,11 @@
     align-items: center;
 }
 
-.naturalist > * > h6,p{
+.naturalist-login{
+    margin-top: 0 !important;
+}
+
+.naturalist > div > p{
     margin-top: 0 !important;
 }
 

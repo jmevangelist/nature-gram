@@ -1,6 +1,5 @@
 .card{
-    max-width: 100%;
-    width:700px;
+    width: 100%;
     box-shadow: unset !important;
     border-style: unset !important;
     margin: 0 auto 1rem auto;
@@ -33,6 +32,10 @@
     margin: 0;
 }
 
+.p7{
+    margin: 0;
+}
+
 h6{
     margin: 0;
 }
@@ -45,7 +48,7 @@ h6{
     position: relative;
     width: 100%; 
     display: inline-block;
-    height: 600px;
+    height: 25rem;
 }
 
 .clr-row {
@@ -98,6 +101,9 @@ a{
 
 
 @media screen and (max-width: 768px) {
+    .card{
+        width: 100% !important;
+    }
     .modal{
         top: unset;
         padding: 0 !important;
@@ -124,7 +130,8 @@ a{
         height: auto !important;
     }
     .modal-activity{
-        width: 100%;
+        flex: auto !important;
+        width: 100% !important;
         max-height: 75dvh;
         height: auto !important;
     }
@@ -149,7 +156,8 @@ a{
 }
 
 .modal-activity{
-    width: 27rem;
+    width: 25rem;
+    flex: initial;
     height: inherit;
     display: flex;
     flex-direction: column;

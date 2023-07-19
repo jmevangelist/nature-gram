@@ -23,13 +23,13 @@ export class HomeService {
     params: any;
 
 
+    chipGroup!: any[];
+
     filterChips:Chip[] = [ 
-        {label: 'Today'},
-        {label: 'New', selected:true },
+        {label: 'New' },
         {label: 'Recently Updated'},
         {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
-        {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] },
-        {label: 'Unknown'}
+        {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] }
       ]
 
     constructor(){
@@ -39,66 +39,143 @@ export class HomeService {
         this.loading$ = this.busy.asObservable();
         this.observations$ = this.observationsSubject.asObservable();
 
+        let s = localStorage.getItem('selectedFilter')
+        if(s){
+            let selectedFilter = JSON.parse(s)
+            let i = this.filterChips.findIndex((fC) => fC.label == selectedFilter.label)
+            if(i >= 0){
+                this.filterChips[i].selected = true;
+                if(selectedFilter.option){ this.filterChips[i].option = selectedFilter.option }
+            }
+        }else{
+            this.filterChips[0].selected = true
+        }
+
         this.params = {
             order_by: 'created_at',
             per_page: 5,
             page: 1
         }    
 
-        this.prefservice.places.forEach(p=>{
-            this.filterChips.push({
-                label: p.display_name,
-                value: p.id.toString(),
-                type: 'place_id'
-            })
+        this.genChips();
+        this.chipGroup.forEach((cG:any)=>{
+            this.updateParams(cG)
         })
 
-        this.prefservice.taxa.forEach(p=>{
-            this.filterChips.push({
-                label: p.name ?? '',
-                value: p.id.toString(),
-                type: 'taxon_id'
-            })
+        this.prefservice.signal.subscribe(()=>{
+            this.refresh();
+            this.loadObservations();
         })
-
-        console.log(this.filterChips)
     }
 
-    private extraParams():string[][]|undefined{
-        let pref = this.prefservice.getPreferences();
+    genChips(){
+        this.chipGroup = [];
+        this.chipGroup.push({chips:this.filterChips, key:'default'});
+        
+        this.chipGroup.push({chips:[{label: 'Unknown',value:'false'}],
+            key:'identified',multiSelect:true, contraKey: 'taxon_id' })
+        
+        let taxonChips:Chip[] = []
+
+        this.prefservice.taxa.forEach(p=>{
+            taxonChips.push({
+                label: p.taxon?.name ?? '',
+                value: p.taxon?.id.toString(),
+                selected: p.active
+            })
+        })
+        this.chipGroup.push({chips:taxonChips, multiSelect:true, key: 'taxon_id'});
+
+        let placesChips:Chip[] = []
+        this.prefservice.places.forEach(p=>{
+            placesChips.push({
+                label: p.place?.display_name ?? '',
+                value: p.place?.id.toString(),
+                selected: p.active
+            })
+        })
+
+        this.chipGroup.push({chips:placesChips, multiSelect:true, key: 'place_id'})
+        
+    }
+
+    updateParams(chipG:any){
+        this.params.page = 1;
+        
+        if(chipG.key == 'default'){
+            let selected = chipG.chips.filter( (c:Chip) => c.selected).pop();
+            switch (selected.label) {
+                case 'New':
+                  this.params['order_by'] = 'created_at';
+                  delete this.params['popular']
+                  break;
+                case 'Popular':
+                  this.params['order_by'] = 'votes';
+                  this.params['popular'] = true;
+                  break;
+                case 'Recently Updated':
+                  this.params['order_by'] = 'updated_at';
+                  delete this.params['popular'];
+                  break;
+                case 'Random':
+                  this.params['order_by'] = 'random'
+                  delete this.params['popular'];
+                  break;
+            }
+            
+            if(selected.option){
+                let d2 = Date.now();
+                this.params['created_d2'] = d2;
+                switch(selected.option){                
+                    case 'Today':
+                        this.params['created_d1'] = new Date( d2 - 24*60*60*1000 )
+                        break;
+                    case 'Past week':
+                        this.params['created_d1'] = new Date( d2 - 7*24*60*60*1000 )
+                        break;
+                    case 'Past month':
+                        this.params['created_d1'] = new Date( d2 - 30*24*60*60*1000 )
+                        break;
+                    case 'Past year':
+                        this.params['created_d1'] = new Date( d2 - 365*24*60*60*1000)
+                        break;
+                }
+            }else{
+                delete this.params['created_d1'];
+                delete this.params['created_d2'];
+            }
+        }else if (chipG.multiSelect){
+            let selected = chipG.chips.filter( (c:Chip) => (c.selected && !c.type) )
+                .map( (s:Chip) => s.value );
+            if(selected.length){
+                this.params[chipG.key] = selected                
+                if(chipG.contraKey){
+                    delete this.params[chipG.contraKey]
+                }
+            }else{
+                delete this.params[chipG.key]
+                if(chipG.contraKey){
+                    this.updateParams(this.chipGroup.find((cg)=> cg.key == chipG.contraKey ))
+                }
+            }
+        }
+    }
+
+    private extraParams(echo?:boolean):string[][]|undefined{
+        let pref = this.prefservice.getOptions();
         let paramsArray: string[][] = []
 
         if(!this.params.page){ return undefined } 
         
         paramsArray = Object.keys(this.params).map((key) => [key, this.params[key].toString()]);
-        this.params.page += 1;
-        
-        if(pref.length){
+        if(!echo){
+            this.params.page += 1;
+        }
 
-            if(this.filterChips.find(fc=> fc.selected)?.label == 'Unknown'){
-                let ptaxonId = pref.findIndex(p=> p[0]=='taxon_id')
-                if(ptaxonId >= 0){
-                    pref.splice(ptaxonId,1)
-                }
-            }
-
-            if(this.params['place_id'] ){
-                let pId = pref.findIndex(p=> p[0]=='place_id')
-                if(pId >= 0){
-                    pref.splice(pId,1)
-                }
-            }else if(this.params['taxon_id'] ){
-                let pId = pref.findIndex(p=> p[0]=='taxon_id')
-                if(pId >= 0){
-                    pref.splice(pId,1)
-                }
-            }else{
-                pref.forEach( (v)=>{ 
-                    if(v[1]){
-                        paramsArray.push(...[v]) 
-                    }
-                })
-            }
+        if(pref){
+            pref.forEach((v)=>{
+                paramsArray.push(...[v])
+            })
 
         }
 
@@ -106,14 +183,17 @@ export class HomeService {
         return paramsArray
     }
 
+    getCurrentParams():string[][]|undefined{
+        return this.extraParams(true);
+    }
+
     refresh(){
         this.observations.length = 0;
         this.observationsSubject.next([]);
-        this.params = {
-            order_by: 'created_at',
-            per_page: 5,
-            page: 1
-        }
+        this.genChips();
+        this.chipGroup.forEach((cG:any)=>{
+            this.updateParams(cG)
+        })
     }
 
     reload(){
@@ -170,8 +250,12 @@ export class HomeService {
         return this.observations
     }
 
-    updateParams(key:string,value:any){
-        this.params[key] = value
+    saveDefaultFilter(){
+        let s = this.filterChips.filter(fC=> fC.selected)
+            .map(fC => { return{label: fC.label, option: fC.option}}).pop();
+        if(s){
+            localStorage.setItem('selectedFilter',JSON.stringify(s))
+        }        
     }
 
 

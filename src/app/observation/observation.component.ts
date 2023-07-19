@@ -11,6 +11,7 @@ import { CommentsComponent } from '../comments/comments.component';
 import { ClarityModule } from '@clr/angular';
 import { ClarityIcons, mapMarkerIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
+import { UrlifyDirective } from '../shared/urlify.directive';
 
 @Component({
   selector: 'app-observation',
@@ -22,7 +23,8 @@ import { AuthorizationService } from '../authorization/authorization.service';
     CarouselComponent,
     TaxonComponent,
     CommentsComponent,
-    ClarityModule
+    ClarityModule,
+    UrlifyDirective,
   ],
   templateUrl: './observation.component.html',
   styleUrls: ['./observation.component.css']

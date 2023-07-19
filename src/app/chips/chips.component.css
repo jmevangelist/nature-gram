@@ -54,3 +54,9 @@ clr-dropdown > .label > cds-icon{
 ::-webkit-scrollbar{
     display: none;
 }
+
+
+:host{
+    display: inline-flex;
+    padding: 0.2rem;
+}

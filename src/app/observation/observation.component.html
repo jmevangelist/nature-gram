@@ -4,10 +4,15 @@
     <div class="album"><app-carousel [photos]="observation.photos"></app-carousel></div>
     <div class="sub-header">
         <div class="taxon-grade">
-            <div class="taxon" *ngIf="observation.taxon">
+            <div class="taxon" *ngIf="observation.taxon else unknown">
                 <h3>{{observation.taxon.rank=='species' ? '': observation.taxon.rank | titlecase }} <em>{{observation.taxon.name}}</em></h3>
                 <p class="p5">{{observation.taxon.preferred_common_name}}</p>
             </div>
+            <ng-template #unknown>
+                <div class="taxon">
+                    <h3>Unidentified</h3>
+                </div>
+            </ng-template>
             <button class="btn btn-sm" 
                 [class.btn-success]="observation.quality_grade == 'research grade'"
                 [class.btn-warning]="observation.quality_grade == 'needs_id'">
@@ -17,12 +22,10 @@
 
         <div class="naturalist-action">
             <div class="naturalist">
-                <a [href]="'/naturalist/'+observation.user.login">
-                    <img [src]="observation.user.icon || 'assets/default.png'" 
+                    <img *urlify="['/naturalist',observation.user.login]" [src]="observation.user.icon || 'assets/default.png'" 
                         class="naturalist-icon">
-                </a>
                 <div>
-                    <h6>{{observation.user.login}}</h6>
+                    <h6 class="naturalist-login" *urlify="['/naturalist',observation.user.login]">{{observation.user.login}}</h6>
                     <p class="p5">{{observation.user.observations_count}} observations</p>
                 </div>
             </div>
@@ -54,6 +57,6 @@
         </app-comments>
     </div>
 
-    <div class="footer p5">View observation in <a [href]="observation.uri">iNaturalist</a></div>
+    <div class="footer p5">View observation in <span *urlify="observation.uri ?? ''">iNaturalist</span></div>
 </div>
 

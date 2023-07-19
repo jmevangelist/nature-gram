@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observation } from '../inaturalist/inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
@@ -38,6 +38,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   filterChips: Chip[];
   bellIcon: IconShapeTuple;
   notification$: Observable<number>;
+  chipGroup: any[];
 
   private observer: IntersectionObserver | undefined;  
   private currentNavigation: Navigation | null;
@@ -45,7 +46,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChildren('grams') grams!: QueryList<any>;
 
-  constructor(private router: Router){
+  constructor(private router: Router, private view: ViewContainerRef){
     this.observations = this.homeService.observations$;
     this.loading = this.homeService.loading$;
     this.currentNavigation = this.router.getCurrentNavigation();
@@ -55,6 +56,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.filterChips = this.homeService.filterChips;
     this.bellIcon = bellIcon;
     this.notification$ = this.notificationService.notification$;
+    this.chipGroup = this.homeService.chipGroup;
 
   }
 
@@ -89,6 +91,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
     this.observer?.disconnect();
+    this.homeService.saveDefaultFilter();
   }
 
   trackByItems(index: number, obs: Observation): number { return obs.id; }
@@ -117,65 +120,18 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   reload(){
+    document.querySelector('.home')?.scrollIntoView(true)
     this.end = false;
     this.homeService.reload().then((b)=>{
       this.end = !b;
-    })
+    });
   }
 
-  selectFilterOption(o?:Chip){
-    this.homeService.refresh()
-    switch (o?.label) {
-      case 'New':
-        this.homeService.updateParams('order_by','created_at');
-        break;
-      case 'Popular':
-        this.homeService.updateParams('order_by','votes');
-        this.homeService.updateParams('popular',true);
-        break;
-      case 'Recently Updated':
-        this.homeService.updateParams('order_by','updated_at');
-        break;
-      case 'Today':
-        this.homeService.updateParams('order_by','created_at');
-        let d1 = new Date( Date.parse(Date()) - 24*60*60*1000 )
-        this.homeService.updateParams('created_d1',d1);
-        this.homeService.updateParams('created_d2',Date())
-        break;
-      case 'Random':
-        this.homeService.updateParams('order_by','random');
-        break;
-      case 'Unknown':
-        this.homeService.updateParams('order_by','created_at');
-        this.homeService.updateParams('iconic_taxa','unknown')
-        break;
-      default:
-        console.log(o)
-        if(o?.type){
-          this.homeService.updateParams(o?.type ,o?.value )
-        }
-    }
-
-    if(o?.option){
-      this.homeService.updateParams('created_d2',Date())
-      let d2 = Date.now()
-      switch (o.option){
-        case 'Today':
-          this.homeService.updateParams('created_d1',new Date( d2 - 24*60*60*1000 ));
-          break;
-        case 'Past week':
-          this.homeService.updateParams('created_d1',new Date( d2 - 7*24*60*60*1000 ));
-          break;
-        case 'Past month':
-          this.homeService.updateParams('created_d1',new Date( d2 - 30*24*60*60*1000 ));
-          break;
-        case 'Past year':
-          this.homeService.updateParams('created_d1',new Date( d2 - 365*24*60*60*1000))
-          break;
-      }
-    }
-
-    this.moreObservations()
+  selectChip(chips?:any){
+    this.homeService.updateParams(chips)
+    this.homeService.reload().then((b)=>{
+      this.end = !b;
+    })
   }
 
   goToNotifications(){

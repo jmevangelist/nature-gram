@@ -17,6 +17,7 @@ import { Chip } from './chip.interface';
 export class ChipsComponent implements OnInit {
   @Input() chips!: Chip[];
   @Output() chipSelect: EventEmitter<Chip>;
+  @Input() multiSelect: boolean = false;
 
   private last!: any;
 
@@ -25,13 +26,21 @@ export class ChipsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.last = this.chips.find(c => c.selected)
+    if(!this.multiSelect){
+      this.last = this.chips.find(c => c.selected)
+    }
   }
 
   selectChip(chip:Chip,value?:string){
-    if(this.last){ this.last.selected = false }
+    if(!this.multiSelect){ this.last.selected = false };
     chip.option = value;
-    chip.selected = true;
+    
+    if(this.multiSelect && !value){
+      chip.selected = !chip.selected;
+    }else{
+      chip.selected = true;
+    }
+
     this.chipSelect.emit(chip)
     this.last = chip
   }

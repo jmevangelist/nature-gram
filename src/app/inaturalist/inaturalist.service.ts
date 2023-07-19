@@ -46,7 +46,7 @@ export class InaturalistService {
   async getObservationsByUUID(uuid:string[]): Promise<Observation[]>{
     const url = new URL(`v2/observations/${uuid}`,this.base_url)
     const fields = this.inaturalistConfig.fields.observation;
-    url.search = new URLSearchParams([['fields',fields]]).toString();
+    url.search = new URLSearchParams([['fields','all']]).toString();
 
     const response = await fetch(url);
     const data = await response.json() ?? {};
@@ -267,7 +267,9 @@ export class InaturalistService {
     let params = [['fields',fields]]
 
     if(obsUpdate){
-      params.push(...[['created_after',obsUpdate.created_after ?? '']])
+      Object.entries(obsUpdate).forEach((v)=>{
+        params.push(v)
+      })
     }
 
     url.search = new URLSearchParams(params).toString();

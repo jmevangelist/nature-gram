@@ -1,10 +1,10 @@
-<div class="chips-container">
+<!-- <div class="chips-container"> -->
     <!-- <button class="btn btn-link btn-icon btn-sm large-screen-only" >
         <cds-icon shape="angle" direction="left" size="sm" 
             (click)="optscroll.scrollTo({left: optscroll.scrollLeft - 100})">
         </cds-icon>
     </button> -->
-    <div class="chips" #optscroll>
+    <!-- <div class="chips" #optscroll> -->
         <div *ngFor="let chip of chips">            
             
             <clr-dropdown *ngIf="chip.options else simple" clrPosition="bottom-right">
@@ -27,9 +27,9 @@
 
 
         </div>
-    </div>
+    <!-- </div> -->
     <!-- <button class="btn btn-link btn-icon btn-sm large-screen-only">
         <cds-icon shape="angle" direction="right" size="sm"
         (click)="optscroll.scrollTo({left: optscroll.scrollLeft + 100})"></cds-icon>
     </button> -->
-</div>
+<!-- </div> -->
