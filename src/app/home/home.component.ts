@@ -91,6 +91,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
     this.observer?.disconnect();
+    this.homeService.saveDefaultFilter();
   }
 
   trackByItems(index: number, obs: Observation): number { return obs.id; }

@@ -26,7 +26,7 @@ export class HomeService {
     chipGroup!: any[];
 
     filterChips:Chip[] = [ 
-        {label: 'New', selected:true },
+        {label: 'New' },
         {label: 'Recently Updated'},
         {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
         {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] }
@@ -38,6 +38,18 @@ export class HomeService {
         this.observationsSubject = new BehaviorSubject<Observation[]>([]);
         this.loading$ = this.busy.asObservable();
         this.observations$ = this.observationsSubject.asObservable();
+
+        let s = localStorage.getItem('selectedFilter')
+        if(s){
+            let selectedFilter = JSON.parse(s)
+            let i = this.filterChips.findIndex((fC) => fC.label == selectedFilter.label)
+            if(i >= 0){
+                this.filterChips[i].selected = true;
+                if(selectedFilter.option){ this.filterChips[i].option = selectedFilter.option }
+            }
+        }else{
+            this.filterChips[0].selected = true
+        }
 
         this.params = {
             order_by: 'created_at',
@@ -238,9 +250,13 @@ export class HomeService {
         return this.observations
     }
 
-    // updateParams(key:string,value:any){
-    //     this.params[key] = value
-    // }
+    saveDefaultFilter(){
+        let s = this.filterChips.filter(fC=> fC.selected)
+            .map(fC => { return{label: fC.label, option: fC.option}}).pop();
+        if(s){
+            localStorage.setItem('selectedFilter',JSON.stringify(s))
+        }        
+    }
 
 
 }
