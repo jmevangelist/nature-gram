@@ -166,7 +166,7 @@ export class PreferenceComponent implements OnDestroy {
     this.sub.forEach((s) => { s.unsubscribe() })
     this.prefService.updateTaxa(this.taxa)
     this.prefService.updatePlace(this.places)
-    console.log(this.optionsFormArray.value)
+
     this.optionsFormArray.value.forEach((v,i)=>{
       if(v && !this.selectedOptions.includes(this.options[i].name)){
         this.selectedOptions.push(this.options[i].name)

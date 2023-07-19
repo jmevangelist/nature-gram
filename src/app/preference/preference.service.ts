@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Place, Taxon } from '../inaturalist/inaturalist.interface';
-import { find } from 'rxjs';
+import { BehaviorSubject, Observable, find } from 'rxjs';
 import { FiltersProvider } from '@clr/angular/data/datagrid/providers/filters';
 import { Preference } from './preferece.interface';
 
@@ -9,11 +9,11 @@ import { Preference } from './preferece.interface';
 })
 export class PreferenceService {
 
-  // taxa: Taxon[];
-  // places: Place[];
   taxa: Preference[];
   places: Preference[];
   options: string[];
+  private _behaviorSubject: BehaviorSubject<null>
+  signal: Observable<null>;
 
   constructor() {
     this.taxa = [];
@@ -32,23 +32,29 @@ export class PreferenceService {
     if(local_storage_options){
       this.options = JSON.parse(local_storage_options)
     }
+
+    this._behaviorSubject = new BehaviorSubject<null>(null);
+    this.signal = this._behaviorSubject.asObservable();
   }
 
   updateTaxa(taxa:Preference[]){
     this.taxa = taxa;
     localStorage.setItem('taxa',JSON.stringify(taxa))
+    this._behaviorSubject.next(null)
   }
   
 
   updatePlace(places:Preference[]){
     this.places = places;
     localStorage.setItem('places',JSON.stringify(places))
+    this._behaviorSubject.next(null)
   }
 
 
   updateOptions(options:string[]){
     this.options = options;
     localStorage.setItem('options',JSON.stringify(this.options));
+    this._behaviorSubject.next(null)
   }
 
   getOptions():string[][]{

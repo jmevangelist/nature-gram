@@ -22,6 +22,7 @@ export class HomeService {
     private prefservice: PreferenceService = inject(PreferenceService)
     params: any;
 
+
     chipGroup!: any[];
 
     filterChips:Chip[] = [ 
@@ -47,6 +48,11 @@ export class HomeService {
         this.genChips();
         this.chipGroup.forEach((cG:any)=>{
             this.updateParams(cG)
+        })
+
+        this.prefservice.signal.subscribe(()=>{
+            this.refresh();
+            this.loadObservations();
         })
     }
 
@@ -79,7 +85,6 @@ export class HomeService {
 
         this.chipGroup.push({chips:placesChips, multiSelect:true, key: 'place_id'})
         
-        console.log(this.chipGroup)
     }
 
     updateParams(chipG:any){
