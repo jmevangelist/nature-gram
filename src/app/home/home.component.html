@@ -13,7 +13,10 @@
             <a [routerLink]="['preference']" class="btn btn-sm btn-pref">
                 <cds-icon shape="filter-grid" size="md"></cds-icon>
             </a>
-            <app-chips [chips]="filterChips" (chipSelect)="selectFilterOption($event)" ></app-chips>
+            <app-chips *ngFor="let chips of chipGroup" 
+                [chips]="chips.chips" (chipSelect)="selectChip(chips)"
+                [multiSelect]="chips.multiSelect">
+            </app-chips>
         </div>
         <button class="btn btn-link btn-icon btn-sm large-screen-only" >
             <cds-icon shape="angle" direction="right" size="sm" 
