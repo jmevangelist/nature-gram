@@ -31,18 +31,29 @@ export class NotificationService{
 
     private async getUpdates(timeStamp:number):Promise<number>{
         let date = new Date(timeStamp).toString();
-        
-        let results = await this.inatServe.getObservationsUpdates({
-            created_after: date, 
-            observations_by: 'following',
-        });
-        let resultsO = await this.inatServe.getObservationsUpdates({
+        let total = 0 
+
+        try {
+            let results = await this.inatServe.getObservationsUpdates({
+                created_after: date, 
+                observations_by: 'following',
+            });
+            total += results.total_results
+        } catch (error) {
+            return 0
+        }
+
+        try {
+            let resultsO = await this.inatServe.getObservationsUpdates({
             created_after: date, 
             observations_by: 'owner',
-        });
+            });
+            total += resultsO.total_results
+        } catch (error) {
+            return 0
+        }
 
-
-        return results.total_results + resultsO.total_results
+        return total
     }
 
     setLastCheck(){

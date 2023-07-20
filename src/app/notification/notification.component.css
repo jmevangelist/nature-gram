@@ -10,6 +10,17 @@
     cursor: pointer;
 }
 
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.container > span{
+    margin: auto;
+    align-self: center;
+}
+
 :host{
     width: 100%;
     max-width: 768px;

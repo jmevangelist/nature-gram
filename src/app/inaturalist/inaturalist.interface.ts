@@ -18,6 +18,9 @@ export interface Observation {
     comments_count: number;
     uri?: string;
     location?: string;
+    geojson: Geojson;
+    geoprivacy?: string;
+    obscured: boolean;
 }
 
 export interface User {
@@ -46,10 +49,12 @@ export interface Taxon {
     iconic_taxon_name?: string;
     preferred_common_name?: string;
     rank?: string;
+    rank_level: number;
     matched_term?: string;
     default_photo?: Photo;
     is_active?: boolean;
     wikipedia_summary?: string;
+    wikipedia_url?: string;
 }
 
 export interface Photo {

@@ -8,3 +8,13 @@
         <span class="p7">{{notification.created_at|dateTimeAgo|async}}</span>
     </a>
 </div>
+
+<div class="container" *ngIf="loading">
+    <span class="spinner spinner-md">
+        Loading...
+    </span>
+</div>
+
+<div *ngIf="errorText" class="container">
+    <span>Missing/expired token</span>
+</div>

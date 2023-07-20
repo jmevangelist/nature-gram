@@ -5,7 +5,7 @@
     <div class="sub-header">
         <div class="taxon-grade">
             <div class="taxon" *ngIf="observation.taxon else unknown">
-                <h3>{{observation.taxon.rank=='species' ? '': observation.taxon.rank | titlecase }} <em>{{observation.taxon.name}}</em></h3>
+                <h3>{{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} <em>{{observation.taxon.name}}</em></h3>
                 <p class="p5">{{observation.taxon.preferred_common_name}}</p>
             </div>
             <ng-template #unknown>
@@ -18,6 +18,17 @@
                 [class.btn-warning]="observation.quality_grade == 'needs_id'">
                 {{observation.quality_grade.replace('_',' ')}}
             </button>
+        </div>
+        <div class="p5 description" [innerHTML]="taxonSummary?.wikipedia_summary" *urlify="observation.taxon?.wikipedia_url || ''"></div>
+        
+        <div class="description p5" *ngIf="taxonSummary?.conservation_status">
+            <strong>Conservation Status: </strong>
+            <span>{{taxonSummary?.conservation_status.iucn_status.replace('_',' ') | titlecase}}</span>
+        </div>
+        <div class="description p5" *ngIf="taxonSummary?.listed_taxon">
+            <span>{{taxonSummary?.listed_taxon.establishment_means_label}}</span>
+            <span><em> ({{taxonSummary?.listed_taxon.establishment_means_description}})</em></span> in 
+            <span>{{taxonSummary?.listed_taxon.place.display_name}}</span>
         </div>
 
         <div class="naturalist-action">
@@ -40,15 +51,24 @@
                 </div>
             </div>
         </div>
-        <div class="obs-meta">
-            <div class="p5">Observed on {{observation.time_observed_at | date: 'MMM d, y h:mm a z':observation.time_zone_offset}}</div>
-            <div class="p5"><cds-icon shape="map-marker" size="sm"></cds-icon> {{observation.place_guess}}</div>
-            <div class="p5">Posted on {{observation.created_at | date: 'MMM d, y h:mm a z': observation.created_at.substring(observation.created_at.length-6) }}</div>
-        </div>
         <div class="p5 description" [innerHTML]="observation.description"></div>
+        <div class="obs-meta-map">
+            <div class="obs-meta">
+                <div class="p5" *ngIf="observation.time_observed_at">
+                    Observed on {{observation.time_observed_at | date: 'MMM d, y h:mm a z':observation.time_zone_offset}}</div>
+                
+                <div class="p5" *ngIf="observation.created_at">
+                    Posted on {{observation.created_at | date: 'MMM d, y h:mm a z': observation.created_at.substring(observation.created_at.length-6) }}</div>
+                <div class="p5" *ngIf="observation.place_guess || observation.location">
+                    <cds-icon shape="map-marker" size="sm"></cds-icon> {{observation.place_guess}}
+                        {{ observation.location }} {{ observation.obscured ? '(obscured)': ''}}
+                </div>
+            </div>
+            <app-map class="map" *ngIf="observation.geojson" [geojson]="observation.geojson"></app-map>
+        </div>
     </div>
     <div class="activity">
-        <h6>Activity</h6>
+        <h6>Activity</h6>   
         <app-comments 
             [comments]="observation.comments" 
             [identifications]="observation.identifications"
@@ -57,6 +77,8 @@
         </app-comments>
     </div>
 
-    <div class="footer p5">View observation in <span *urlify="observation.uri ?? ''">iNaturalist</span></div>
+    <div class="footer">
+        <div class="p5"> View observation in <span *urlify="observation.uri ?? ''">iNaturalist</span></div>
+    </div>
 </div>
 

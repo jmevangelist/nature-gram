@@ -45,7 +45,6 @@ export class InaturalistService {
 
   async getObservationsByUUID(uuid:string[]): Promise<Observation[]>{
     const url = new URL(`v2/observations/${uuid}`,this.base_url)
-    const fields = this.inaturalistConfig.fields.observation;
     url.search = new URLSearchParams([['fields','all']]).toString();
 
     const response = await fetch(url);
@@ -61,7 +60,16 @@ export class InaturalistService {
     }
 
     return observations
+  }
 
+  async getObservationTaxonSummaryByUUID(uuid:string): Promise<any>{
+    const url = new URL(`v2/observations/${uuid}/taxon_summary`,this.base_url)
+    url.search = new URLSearchParams([['fields','all']]).toString();
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data 
   }
 
   async getUserByLogin(user_login:string): Promise<User | undefined>{
