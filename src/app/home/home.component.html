@@ -3,27 +3,28 @@
     [secondaryShape]="bellIcon" (onSecondaryAction)="goToNotifications()"
     [badge]="(notification$ | async) ? 'warning': ''" class="sticky-top"></app-header>
 
-    <div class="chips-filter-container">
-        <button class="btn btn-link btn-icon btn-sm large-screen-only" >
-            <cds-icon shape="angle" direction="left" size="sm" 
-                (click)="optscroll.scrollTo({left: optscroll.scrollLeft - 100})">
-            </cds-icon>
-        </button> 
-        <div class="filters" #optscroll>
-            <a [routerLink]="['preference']" class="btn btn-sm btn-pref">
-                <cds-icon shape="filter-grid" size="md"></cds-icon>
-            </a>
-            <app-chips *ngFor="let chips of chipGroup" 
-                [chips]="chips.chips" (chipSelect)="selectChip(chips)"
-                [multiSelect]="chips.multiSelect">
-            </app-chips>
-        </div>
-        <button class="btn btn-link btn-icon btn-sm large-screen-only" >
-            <cds-icon shape="angle" direction="right" size="sm" 
-                (click)="optscroll.scrollTo({left: optscroll.scrollLeft + 100})">
-            </cds-icon>
-        </button> 
+<div class="chips-filter-container">
+    <button class="btn btn-link btn-icon btn-sm large-screen-only" >
+        <cds-icon shape="angle" direction="left" size="sm" 
+            (click)="optscroll.scrollTo({left: optscroll.scrollLeft - 100})">
+        </cds-icon>
+    </button> 
+    <div class="filters" #optscroll>
+        <a [routerLink]="['preference']" class="btn btn-sm btn-pref">
+            <cds-icon shape="filter-grid" size="md"></cds-icon>
+        </a>
+        <app-chips *ngFor="let chips of chipGroup" 
+            [chips]="chips.chips" (chipSelect)="selectChip(chips)"
+            [multiSelect]="chips.multiSelect">
+        </app-chips>
     </div>
+    <button class="btn btn-link btn-icon btn-sm large-screen-only" >
+        <cds-icon shape="angle" direction="right" size="sm" 
+            (click)="optscroll.scrollTo({left: optscroll.scrollLeft + 100})">
+        </cds-icon>
+    </button> 
+</div>
+
 <div class="home">
     <app-gram #grams *ngFor="let observation of observations | async; let isLast = last; trackBy: trackByItems" 
         [class.last]="isLast" 

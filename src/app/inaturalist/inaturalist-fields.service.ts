@@ -27,6 +27,7 @@ export class InaturalistFieldsService {
         iconic_taxon_name: true,
         preferred_common_name: true,
         rank: true,
+        rank_level: true,
         default_photo: this.Photos,
         is_active: true
     }
@@ -37,6 +38,7 @@ export class InaturalistFieldsService {
         iconic_taxon_name: true,
         preferred_common_name: true,
         rank: true,
+        rank_level: true,
         matched_term: true,
         default_photo: this.Photos,
         is_active: true,

@@ -51,7 +51,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 0.6rem 0;
+    margin-top: 0.6rem;
 }
 
 .naturalist{
@@ -112,10 +112,30 @@
 }
 
 .footer{
-    padding: 0 0.6rem;
+    padding: 0.6rem;
 }
 
 
 .p5{
     line-height: .8rem !important;
+}
+
+.obs-meta-map{
+    margin-top: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.obs-meta{
+    flex: 0 1 fit-content;
+    max-width: 100%;
+    padding: 0 0.3rem 0 0;
+}
+
+.map{
+    flex: 2 0 auto;
+    width: 100%;
+    height: 8rem;
+    display: block;
 }

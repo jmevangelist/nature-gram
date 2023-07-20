@@ -12,6 +12,7 @@ import { ClarityModule } from '@clr/angular';
 import { ClarityIcons, mapMarkerIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { UrlifyDirective } from '../shared/urlify.directive';
+import { MapComponent } from '../map/map.component';
 
 @Component({
   selector: 'app-observation',
@@ -25,6 +26,7 @@ import { UrlifyDirective } from '../shared/urlify.directive';
     CommentsComponent,
     ClarityModule,
     UrlifyDirective,
+    MapComponent
   ],
   templateUrl: './observation.component.html',
   styleUrls: ['./observation.component.css']
@@ -36,6 +38,8 @@ export class ObservationComponent implements OnInit {
 
   uuid: string;
   observation!: Observation | undefined;
+  taxonSummary: any;
+
 
   constructor(){
     this.uuid = this.route.snapshot.params['uuid'];
@@ -48,6 +52,10 @@ export class ObservationComponent implements OnInit {
         if(this.observation?.quality_grade == 'research'){
           this.observation.quality_grade = 'research grade'
         }
+    })
+    this.inaturalistService.getObservationTaxonSummaryByUUID(this.uuid).then((data:any)=>{
+      console.log(data)
+      this.taxonSummary = data;
     })
   }
 

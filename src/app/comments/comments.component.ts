@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, Query, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Comment, CommentsCreate, Identification, IdentificationsCreate, Taxon } from '../inaturalist/inaturalist.interface';
 import { RouterLink } from '@angular/router';
@@ -50,6 +50,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedTaxon: Taxon | undefined;
 
   @ViewChildren('activity') activity!: QueryList<any>
+  @ViewChild('idInput') idInput!: ElementRef;
 
   constructor(private changeDetectRef: ChangeDetectorRef){
     this.authServ = inject(AuthorizationService);
@@ -165,6 +166,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(this.suggestions)
       }).finally(()=>{
         this.identBtnState = ClrLoadingState.DEFAULT;
+        this.idInput.nativeElement.focus();
       })
     }else{
       this.suggestions = this.computerVision;

@@ -6,12 +6,19 @@ import { HeaderComponent } from '../header/header.component';
 import { DateTimeAgoPipe } from '../shared/date-time-ago.pipe';
 import { RouterLink } from '@angular/router';
 import { NotificationService } from './notification.service';
+import { ClarityModule } from '@clr/angular';
 
 
 @Component({
   selector: 'app-notification',
   standalone: true,
-  imports: [CommonModule,HeaderComponent,DateTimeAgoPipe,RouterLink],
+  imports: [ 
+    CommonModule,
+    HeaderComponent,
+    DateTimeAgoPipe,
+    RouterLink,
+    ClarityModule
+  ],
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css']
 })
@@ -20,11 +27,14 @@ export class NotificationComponent implements OnInit {
   inatServe: InaturalistService;
   notifications: Notification[];
   notificationService: NotificationService;
+  loading: boolean;
+  errorText!: string;
 
   constructor(){
     this.inatServe = inject(InaturalistService);
     this.notificationService = inject(NotificationService);
     this.notifications = [];
+    this.loading = true;
   }
 
   ngOnInit(): void {
@@ -38,6 +48,10 @@ export class NotificationComponent implements OnInit {
       })
       this.notifications.sort((a,b)=> Date.parse(b.created_at) - Date.parse(a.created_at) )
       this.notificationService.setLastCheck();
+    }).catch((e)=>{
+      this.errorText = e
+    }).finally(()=>{
+      this.loading = false;
     })
     
   }

@@ -69,7 +69,7 @@
 
     <div class='user-identification' [class.display-inline-block]="isIdentifying">
         <cds-icon class="search" (click)="isIdentifying=false" [attr.shape]="'search'"></cds-icon>
-        <input type="text" class="p5" placeholder="search taxon" id="qTaxon" [formControl]="qTaxon" />
+        <input type="text" #idInput class="p5" placeholder="search taxon" id="qTaxon" [formControl]="qTaxon" />
         <cds-icon class="close-icn" (click)="isIdentifying=false;qTaxon.reset()" [attr.shape]="'close'"></cds-icon>
     </div>
 

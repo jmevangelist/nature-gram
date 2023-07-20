@@ -6,6 +6,7 @@ import { PreferenceComponent } from './preference/preference.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { NotificationComponent } from './notification/notification.component';
 import { ObservationComponent } from './observation/observation.component';
+import { MapComponent } from './map/map.component';
 
 const appRoutes: Routes = [
   {
@@ -42,6 +43,10 @@ const appRoutes: Routes = [
     path:'observation/:uuid',
     component: ObservationComponent,
     title:'Observation'
+  },{
+    path:'map',
+    component: MapComponent,
+    title:'Map'
   }
 ];
 
