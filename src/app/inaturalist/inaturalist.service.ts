@@ -72,6 +72,8 @@ export class InaturalistService {
     return data 
   }
 
+  
+
   async getUserByLogin(user_login:string): Promise<User | undefined>{
     const url_autocomplete = new URL('v2/users/autocomplete',this.base_url);
     let params = [['q',user_login],['fields','login']];
@@ -100,12 +102,29 @@ export class InaturalistService {
 
   }
 
+  async getTaxa(id:string[]):Promise<Taxon[]>{
+    const url = new URL(`/v2/taxa/${id}`,this.base_url);
+    url.search = new URLSearchParams([
+      ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
+    ]).toString();
+
+    let response = await fetch(url)
+
+    if(!response.ok){
+      throw response.status 
+    }
+
+    let data = await response.json()
+
+    return data.results
+  }
+
   async taxaAutoComplete(q:string):Promise<Taxon[]>{
     const url = new URL('/v2/taxa/autocomplete',this.base_url);
     url.search = new URLSearchParams([
       ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
       ['q',q],
-      ['per_page',5]
+      // ['per_page',5]
     ]).toString();
 
     let response = await fetch(url)
@@ -125,7 +144,7 @@ export class InaturalistService {
     url.search = new URLSearchParams([
       ['fields','id,display_name'],
       ['q',q],
-      ['per_page','5'],
+      // ['per_page','5'],
       ['geo','true']
     ]).toString();
 

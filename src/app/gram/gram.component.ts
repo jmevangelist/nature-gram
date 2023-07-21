@@ -36,6 +36,7 @@ export class GramComponent implements OnInit {
   authService: AuthorizationService = inject(AuthorizationService);
   authorized: boolean = false;
   faveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+  commentBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
   currentIdentification!: Identification | undefined;
   comment!: Comment;
   isCommentsOpen: boolean = false;
@@ -47,7 +48,7 @@ export class GramComponent implements OnInit {
     this.currentIdentification = this.observation.identifications
     .filter((i) => ((i.category=="leading"||i.category=='improving')&&i.current) )
     .sort((a,b) => ( Date.parse(a.created_at) - Date.parse(b.created_at) )  ).pop()
-    this.observation.quality_grade = this.observation.quality_grade.replace('_',' ')
+
     if(this.observation.quality_grade == 'research'){
       this.observation.quality_grade+=' grade'
     }
@@ -94,15 +95,15 @@ export class GramComponent implements OnInit {
   }
 
   async comments(){
+
     this.isCommentsOpen = true
     if (!this.temp.first.get(0)){
       const { CommentsComponent } = await import('../comments/comments.component');
       let commentsComponent = this.temp.first.createComponent(CommentsComponent);
+      commentsComponent.instance.auto = (window.innerWidth <= 768) 
       commentsComponent.instance.uuid = this.observation.uuid;
       commentsComponent.instance.comments = this.observation.comments;
-      commentsComponent.instance.identifications = this.observation.identifications;
-      
-      commentsComponent.instance.auto = (window.innerWidth <= 768)  
+      commentsComponent.instance.identifications = this.observation.identifications;           
     }
   }
 

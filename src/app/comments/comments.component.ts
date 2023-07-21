@@ -158,18 +158,31 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   getSuggestions(){
+
     this.identBtnState = ClrLoadingState.LOADING;
     if(!this.computerVision.length){
       this.inatServ.getComputerVisionOnObs(this.uuid).then( (suggestions:any[]) => {
-        this.suggestions = suggestions;
-        this.computerVision = suggestions;
-        console.log(this.suggestions)
+        this.suggestions = suggestions.map((r)=>r);
+        this.computerVision = suggestions.map((r)=>  {
+          return { 
+            combined_score: r.combined_score, 
+            score: r.score,
+            taxon: r.taxon
+          }
+        } );
+
       }).finally(()=>{
         this.identBtnState = ClrLoadingState.DEFAULT;
         this.idInput.nativeElement.focus();
       })
     }else{
-      this.suggestions = this.computerVision;
+      this.suggestions = this.computerVision.map((r)=>  {
+        return { 
+          combined_score: r.combined_score, 
+          score: r.score,
+          taxon: r.taxon
+        }
+      });
       this.identBtnState = ClrLoadingState.DEFAULT;
     }
   }
@@ -195,8 +208,31 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.identBtnState = ClrLoadingState.DEFAULT;
       })
     }else{
-      this.suggestions = this.computerVision;
+      this.suggestions = [...this.computerVision];
     }
+  }
+
+  rankup(sug:any,e:Event,ref:ClrLoadingButton){
+    e.stopPropagation();
+    
+    console.log(sug.taxon.ancestor_ids)
+    let rankup = sug.taxon.ancestor_ids[sug.taxon.ancestor_ids.length-1]
+    if(rankup == sug.taxon.id){
+      rankup = sug.taxon.ancestor_ids[sug.taxon.ancestor_ids.length-2]
+    }
+    if(sug.taxon.ancestor_ids.length){
+      ref.loadingStateChange(ClrLoadingState.LOADING)
+      this.inatServ.getTaxa(rankup).then((taxa:Taxon[])=>{
+        if(taxa.length){
+          sug.taxon = taxa[0]
+          sug.score = undefined;
+          sug.combined_score = undefined;
+        }
+      }).finally(()=>{
+        ref.loadingStateChange(ClrLoadingState.DEFAULT)
+      })
+    }
+
   }
 
   ngOnDestroy(): void {

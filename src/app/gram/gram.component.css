@@ -175,3 +175,30 @@ a{
     display: inline-block;
 }
 
+.taxon-grade{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 100%;
+}
+
+
+.taxon-grade > .btn{
+    margin: 0;
+}
+
+.taxon {
+    flex: 1 1 min-content;
+    /* display: flex;
+    flex-wrap: wrap;
+    align-items: center; */
+}
+
+.taxon > h6{
+    margin-right: 0.2rem;
+}
+
+.taxon > h6,.p7{
+    margin-top: 0 !important;
+}

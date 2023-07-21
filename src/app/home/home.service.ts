@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observation } from '../inaturalist/inaturalist.interface'
 import { InaturalistService } from '../inaturalist/inaturalist.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, skip } from 'rxjs';
 import { PreferenceService } from '../preference/preference.service';
 import { Chip } from '../chips/chip.interface';
 
@@ -15,7 +15,7 @@ export class HomeService {
 
     private observations: Observation[];
     private observationsSubject: BehaviorSubject<Observation[]>;
-    private busy: BehaviorSubject<boolean>;
+    busy: BehaviorSubject<boolean>;
 
     private calls: number = 0
     private inatService: InaturalistService = inject(InaturalistService)
@@ -26,7 +26,7 @@ export class HomeService {
     chipGroup!: any[];
 
     filterChips:Chip[] = [ 
-        {label: 'New' },
+        {label: 'New', options: ['Today','Past week', 'Past month','Past year','All time'] },
         {label: 'Recently Updated'},
         {label: 'Popular', options: ['Today','Past week', 'Past month','Past year','All time'] },
         {label: 'Random', options: ['Today','Past week', 'Past month','Past year','All time'] }
@@ -48,11 +48,13 @@ export class HomeService {
                 if(selectedFilter.option){ this.filterChips[i].option = selectedFilter.option }
             }
         }else{
+            this.filterChips[0].option = 'Today'
             this.filterChips[0].selected = true
         }
 
         this.params = {
             order_by: 'created_at',
+            created_d2: new Date(),
             per_page: 5,
             page: 1
         }    
@@ -62,7 +64,8 @@ export class HomeService {
             this.updateParams(cG)
         })
 
-        this.prefservice.signal.subscribe(()=>{
+        this.prefservice.signal.pipe(skip(1)).subscribe(()=>{
+            console.log('signal')
             this.refresh();
             this.loadObservations();
         })
@@ -100,7 +103,6 @@ export class HomeService {
     }
 
     updateParams(chipG:any){
-        this.params.page = 1;
         
         if(chipG.key == 'default'){
             let selected = chipG.chips.filter( (c:Chip) => c.selected).pop();
@@ -125,7 +127,7 @@ export class HomeService {
             
             if(selected.option){
                 let d2 = Date.now();
-                this.params['created_d2'] = d2;
+                this.params['created_d2'] = new Date();
                 switch(selected.option){                
                     case 'Today':
                         this.params['created_d1'] = new Date( d2 - 24*60*60*1000 )
@@ -139,10 +141,12 @@ export class HomeService {
                     case 'Past year':
                         this.params['created_d1'] = new Date( d2 - 365*24*60*60*1000)
                         break;
+                    default:
+                        break;
                 }
             }else{
                 delete this.params['created_d1'];
-                delete this.params['created_d2'];
+                //delete this.params['created_d2'];
             }
         }else if (chipG.multiSelect){
             let selected = chipG.chips.filter( (c:Chip) => (c.selected && !c.type) )
@@ -191,6 +195,7 @@ export class HomeService {
         this.observations.length = 0;
         this.observationsSubject.next([]);
         this.genChips();
+        this.params.page = 1;
         this.chipGroup.forEach((cG:any)=>{
             this.updateParams(cG)
         })
@@ -204,6 +209,7 @@ export class HomeService {
     }
 
     async loadObservations():Promise<boolean>{
+        console.log('load')
         this.busy.next(true);
         let params = this.extraParams();
 
@@ -226,7 +232,6 @@ export class HomeService {
         if(obs.length){
 
             let newObs = obs.filter(o => this.observations.findIndex( ob => ob.id == o.id) == -1 )
-
             if(newObs.length){
                 this.observations.push(...newObs)
                 this.observationsSubject.next(this.observations)

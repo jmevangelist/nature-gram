@@ -178,7 +178,8 @@ export class PreferenceComponent implements OnDestroy {
       }
     })
     this.prefService.updateOptions(this.selectedOptions)
-
+    this.prefService._behaviorSubject.next(null);
+    
   }
 
 }

@@ -16,6 +16,22 @@
         </div>
         <p class="card-text p5" [innerHTML]="observation.description"></p>
     </div>
+    <div class="taxon-grade card-block">
+        <div class="taxon" *ngIf="observation.taxon else unknown">
+            <h6>{{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} <em>{{observation.taxon.name}}</em></h6>
+            <p class="p7">{{observation.taxon.preferred_common_name}}</p>
+        </div>
+        <ng-template #unknown>
+            <div class="taxon">
+                <h6>Unidentified</h6>
+            </div>
+        </ng-template>
+        <button class="btn btn-sm" 
+            [class.btn-success]="observation.quality_grade == 'research grade'"
+            [class.btn-warning]="observation.quality_grade == 'needs_id'">
+            {{observation.quality_grade.replace('_',' ')}}
+        </button>
+    </div>
     <app-carousel class="card-img" [photos]="observation.photos"></app-carousel>
     <div class="card-block bottom-block">
         <div class="card-actions clr-row">
@@ -23,7 +39,7 @@
                 class="btn btn-icon btn-link" (click)="fave()" aria-label="fave">
                 <cds-icon shape="star" [attr.solid]="isFaved" size="md"></cds-icon>
             </button>
-            <button type="button" (click)="comments()"
+            <button type="button" (click)="comments()" [clrLoading]="commentBtnState"
                 class="btn btn-icon btn-link">
                 <cds-icon shape="chat-bubble" size="md"></cds-icon>
             </button>
