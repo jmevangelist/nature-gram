@@ -66,7 +66,9 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
       this.moreObservations();
     }else if(this.currentNavigation?.trigger == 'popstate'){
       if(this.homeService.getObservations().length == 0){
-        this.moreObservations();
+        if(!this.homeService.busy.value){
+          this.moreObservations();
+        }
       }
     }
   }
@@ -97,6 +99,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   private moreObservations(){
+    console.log('more')
     this.end = false;
     this.homeService.loadObservations().then((b)=>{
       this.end = !b;

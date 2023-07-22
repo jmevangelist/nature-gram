@@ -1,0 +1,15 @@
+<div class="metric" *ngFor="let metric of metrics">
+    <div class="p5">{{ label=='verbose' ? metric.label : metric.metric }}</div>
+    <div class="action-container">
+        <button class="btn btn-icon btn-link" clrLoading="" (click)="agree(metric,a)" #a>
+            <cds-icon shape="thumbs-up" [attr.solid]="metric.voted=='agree'"></cds-icon>
+        </button>
+        <div class="p4">{{metric.agree}}</div>
+    </div>
+    <div class="action-container">
+        <button class="btn btn-icon btn-link" clrLoading="" (click)="disagree(metric,d)" #d>
+            <cds-icon shape="thumbs-down" [attr.solid]="metric.voted=='disagree'"></cds-icon>
+        </button>
+        <div class="p4">{{metric.disagree}}</div>
+    </div>
+</div>

@@ -29,7 +29,8 @@ export class InaturalistFieldsService {
         rank: true,
         rank_level: true,
         default_photo: this.Photos,
-        is_active: true
+        is_active: true,
+        ancestor_ids: true
     }
 
     Taxon_search = {
@@ -42,7 +43,8 @@ export class InaturalistFieldsService {
         matched_term: true,
         default_photo: this.Photos,
         is_active: true,
-        wikipedia_summary: true
+        wikipedia_summary: true,
+        ancestor_ids: true
     }
 
     Identification = {
@@ -74,11 +76,20 @@ export class InaturalistFieldsService {
     Observation =  {
         uuid: true,
         id: true,
-        user: this.User,
+        user: {
+            id: true,
+            login: true,
+            icon: true
+        },
         place_guess: true,
-        taxon: this.Taxon,
+        taxon: { 
+            id: true,
+            name: true,
+            preferred_common_name: true,
+            rank: true,
+            rank_level: true,
+        },
         photos: this.Photos,
-        time_zone_offset: true,
         time_observed_at: true,
         created_at: true,
         faves_count: true,
@@ -87,10 +98,12 @@ export class InaturalistFieldsService {
         faves: this.Faves,
         quality_grade: true,
         comments: this.Comment,
-        uri: true,
-        comments_count: true,
-        identifications_count: true,
-        location: true
+        quality_metrics: {
+            id: true,
+            agree: true,
+            metric: true,
+            user_id: true 
+        }
     }
 
     UserAll = {

@@ -182,7 +182,16 @@ a {
 }
 
 .list-taxon{
-    flex: auto;
+    flex: 1 1 auto;
+}
+
+.taxon-rank-up{
+    align-self: center;
+    text-align: end;
+}
+
+.taxon-rank-up > .btn{
+    margin: 0;
 }
 
 .score{

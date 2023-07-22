@@ -12,7 +12,7 @@ export class PreferenceService {
   taxa: Preference[];
   places: Preference[];
   options: string[];
-  private _behaviorSubject: BehaviorSubject<null>
+  _behaviorSubject: BehaviorSubject<null>
   signal: Observable<null>;
 
   constructor() {
@@ -40,21 +40,21 @@ export class PreferenceService {
   updateTaxa(taxa:Preference[]){
     this.taxa = taxa;
     localStorage.setItem('taxa',JSON.stringify(taxa))
-    this._behaviorSubject.next(null)
+    //this._behaviorSubject.next(null)
   }
   
 
   updatePlace(places:Preference[]){
     this.places = places;
     localStorage.setItem('places',JSON.stringify(places))
-    this._behaviorSubject.next(null)
+    //this._behaviorSubject.next(null)
   }
 
 
   updateOptions(options:string[]){
     this.options = options;
     localStorage.setItem('options',JSON.stringify(this.options));
-    this._behaviorSubject.next(null)
+    //this._behaviorSubject.next(null)
   }
 
   getOptions():string[][]{

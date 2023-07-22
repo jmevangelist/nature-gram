@@ -7,6 +7,8 @@
 
 .search-list{
     list-style: none;
+    max-height: 15rem;
+    overflow-y: scroll;
 }
 
 .card {

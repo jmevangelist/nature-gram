@@ -74,12 +74,16 @@
     </div>
 
     <div class="search-list" [hidden]="!isIdentifying" [class.flex-auto]="auto">
-        <div class="card clickable" for="qTaxon" *ngFor="let sug of suggestions" 
-                (click)="identify(sug)">
+        <div class="card clickable" for="qTaxon" *ngFor="let sug of suggestions" (click)="identify(sug)">
             <app-taxon  [taxon]="sug.taxon" class="list-taxon"></app-taxon>
-            <ng-container *ngIf="sug.combined_score > 0">
-                <p class="p7 score">computer<br> vision<br> score:<br>{{(sug.combined_score/100) | percent}}</p>
-            </ng-container>
+            <div class="taxon-rank-up">
+                <button class="btn btn-sm btn-primary" [disabled]="sug.taxon.id == 48460" #r clrLoading="" (click)="rankup(sug,$event,r)">Rank up</button>
+                <ng-container *ngIf="sug.combined_score > 0 || sug.score">
+                    <p class="p7 score">{{( sug.score ? 'common ancestor' : 'computer vision score: ' )}}
+                        <span *ngIf="sug.combined_score">{{ (sug.combined_score/100) | percent}}</span>
+                    </p>
+                </ng-container>
+            </div>
         </div>
     </div>  
 </div>

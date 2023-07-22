@@ -24,6 +24,18 @@
     padding: 0 0.6rem;
 }
 
+.quality-metric{
+    padding: 0 0.6rem;
+    margin-top: 0.6rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.display-inline {
+    display: inline !important;
+}
+
 .taxon-grade{
     display: flex;
     flex-direction: row;
