@@ -144,7 +144,7 @@ export interface QualityMetric {
     id: number;
     agree: boolean;
     metric: string;
-    user: User;
+    user?: User;
     user_id: number;
 }
   
