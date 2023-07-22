@@ -33,3 +33,7 @@ body{
     top: 0;
     z-index: 10;
 }
+
+.p5{
+    line-height: 0.8rem !important;
+}

@@ -147,4 +147,3 @@ export interface QualityMetric {
     user?: User;
     user_id: number;
 }
-  

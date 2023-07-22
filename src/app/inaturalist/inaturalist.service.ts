@@ -17,7 +17,7 @@ export class InaturalistService {
     const url = new URL('v2/observations',this.base_url);
     const fields = this.inaturalistConfig.fields.observation;
     const params = [
-              ['photo_licensed','true'],
+              // ['photo_licensed','true'],
               ['photos', 'true'],
               ['fields', fields ]
             ];
@@ -87,8 +87,8 @@ export class InaturalistService {
       return undefined;
     }
     const url = new URL(`v2/users/${user[0].id}`,this.base_url);
-    params = [['fields',rison.encode(this.inaturalistConfig.UserAll)]];
-    url.search = new URLSearchParams(params).toString();
+    // params = [['fields',rison.encode(this.inaturalistConfig.UserAll)]];
+    url.search = new URLSearchParams([['fields','all']]).toString();
 
     response = await fetch(url);
     data = await response.json() ?? {};
@@ -124,7 +124,6 @@ export class InaturalistService {
     url.search = new URLSearchParams([
       ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
       ['q',q],
-      // ['per_page',5]
     ]).toString();
 
     let response = await fetch(url)
@@ -144,7 +143,6 @@ export class InaturalistService {
     url.search = new URLSearchParams([
       ['fields','id,display_name'],
       ['q',q],
-      // ['per_page','5'],
       ['geo','true']
     ]).toString();
 
@@ -182,6 +180,58 @@ export class InaturalistService {
     }
 
     
+  }
+
+  async getRelationships(q:string): Promise<any>{
+    const url = new URL('v2/relationships',this.base_url);
+    let token = this.authService.token;
+    url.search = new URLSearchParams([['fields','all'],['q',q],['following','yes']]).toString();
+    let response = await fetch(url,{ headers: {'Authorization': token} })
+    if(!response.ok){
+      if(response.status == 401){
+        this.authService.setExpired();
+      }
+      throw response.statusText
+    }
+    let res = await response.json();
+    return res.results; 
+  }
+
+  async relationships(relationship?:any): Promise<any>{
+
+    let token = this.authService.token;
+    let method = 'POST'
+    let options:{[key:string]:any} = {
+      headers: { 
+        "Authorization": token,
+        "Content-Type": "application/json" 
+      }
+    }
+
+    let _url = 'v2/relationships'
+    if(typeof relationship == 'number'){
+      method = 'DELETE';
+      _url = `${_url}/${relationship}`;
+    }else{
+      options['body'] = JSON.stringify({'fields':'all','relationship':relationship})
+    }
+    options['method'] = method
+
+    const url = new URL(_url,this.base_url);
+    let response = await fetch(url,options)
+
+    if(!response.ok){
+      if(response.status == 401){
+        this.authService.setExpired();
+      }
+      throw response.statusText
+    }
+
+    if(method=='POST'){
+      let res = await response.json()
+      return res.results
+    }
+
   }
 
   async fave(uuid:string,toFave:boolean){
