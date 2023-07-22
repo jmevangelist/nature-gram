@@ -21,6 +21,7 @@ export interface Observation {
     geojson: Geojson;
     geoprivacy?: string;
     obscured: boolean;
+    quality_metrics: QualityMetric[];
 }
 
 export interface User {
@@ -139,12 +140,11 @@ export interface ObservationsUpdates {
     fields?: string;
 }
 
-export interface Options<T> {
-    headers: (keyof T)[]
-    filename: string
-    items: T[]
-    transforms?: {
-      [K in keyof T]?: (property: T[K]) => string
-    }
-  }
+export interface QualityMetric {
+    id: number;
+    agree: boolean;
+    metric: string;
+    user: User;
+    user_id: number;
+}
   

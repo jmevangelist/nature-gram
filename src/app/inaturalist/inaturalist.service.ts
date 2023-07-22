@@ -203,6 +203,30 @@ export class InaturalistService {
     return true
   }
 
+  async quality(uuid:string,metric:string,agree:boolean,method:'POST'|'DELETE'){
+    const url = new URL(`v2/observations/${uuid}/quality/${metric}`,this.base_url);
+    let token = this.authService.token
+
+    url.search = new URLSearchParams([['agree',agree.toString()]]).toString();
+
+    let response = await fetch(url,{
+      method: method,
+      headers: { "Authorization": token }
+    })
+
+    if(!response.ok){
+      if(response.status == 401){
+        this.authService.setExpired();
+      }
+      throw response.statusText
+    }
+    if(response.status == 204){
+      return true
+    } else {
+      return false
+    }
+  }
+
   async comment(comment:CommentsCreate):Promise<Comment[]>{
     const url = new URL('v2/comments',this.base_url)
     let token = this.authService.token

@@ -69,6 +69,10 @@ h6{
     width: 26px !important;
 }
 
+.card-actions > * {
+    align-self: center;
+}
+
 a{
     text-decoration: unset;
 }

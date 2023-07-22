@@ -90,7 +90,6 @@ export class InaturalistFieldsService {
             rank_level: true,
         },
         photos: this.Photos,
-        // time_zone_offset: true,
         time_observed_at: true,
         created_at: true,
         faves_count: true,
@@ -99,10 +98,12 @@ export class InaturalistFieldsService {
         faves: this.Faves,
         quality_grade: true,
         comments: this.Comment,
-        // uri: true,
-        // comments_count: true,
-        // identifications_count: true,
-        // location: true
+        quality_metrics: {
+            id: true,
+            agree: true,
+            metric: true,
+            user_id: true 
+        }
     }
 
     UserAll = {

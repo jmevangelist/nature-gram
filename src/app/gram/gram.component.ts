@@ -9,6 +9,7 @@ import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon,
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { UrlifyDirective } from '../shared/urlify.directive';
+import { QualityMetricComponent } from '../quality-metric/quality-metric.component';
 
 @Component({
   selector: 'app-gram',
@@ -20,7 +21,8 @@ import { UrlifyDirective } from '../shared/urlify.directive';
     RouterLink, 
     RouterOutlet,
     ClarityModule,
-    UrlifyDirective
+    UrlifyDirective,
+    QualityMetricComponent
   ],
   templateUrl: './gram.component.html',
   styleUrls: ['./gram.component.css'],

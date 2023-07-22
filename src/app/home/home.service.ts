@@ -141,6 +141,9 @@ export class HomeService {
                     case 'Past year':
                         this.params['created_d1'] = new Date( d2 - 365*24*60*60*1000)
                         break;
+                    case 'All time':
+                        delete this.params['created_d1'];
+                        break;
                     default:
                         break;
                 }

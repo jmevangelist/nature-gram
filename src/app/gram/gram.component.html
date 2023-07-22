@@ -50,10 +50,13 @@
                 </button>
             </a>
             <span class="margin-auto"></span>
-            <button type="button"
+            <!-- <button type="button"
                 class="btn btn-icon btn-link bookmark" aria-label="fave" disabled (click)="bookmark()">
                 <cds-icon shape="bookmark" size="md" [attr.solid]="isBookmarked"></cds-icon>
-            </button>
+            </button> -->
+            <app-quality-metric [uuid]="this.observation.uuid" [metric]="['wild']"
+                [qualityMetric]="observation.quality_metrics" label="compact">
+            </app-quality-metric>
         </div>
 
         <p class="card-text p5">{{faveText()}}</p>

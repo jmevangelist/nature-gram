@@ -13,6 +13,7 @@ import { ClarityIcons, mapMarkerIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { UrlifyDirective } from '../shared/urlify.directive';
 import { MapComponent } from '../map/map.component';
+import { QualityMetricComponent } from '../quality-metric/quality-metric.component';
 
 @Component({
   selector: 'app-observation',
@@ -26,7 +27,8 @@ import { MapComponent } from '../map/map.component';
     CommentsComponent,
     ClarityModule,
     UrlifyDirective,
-    MapComponent
+    MapComponent,
+    QualityMetricComponent,
   ],
   templateUrl: './observation.component.html',
   styleUrls: ['./observation.component.css']

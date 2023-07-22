@@ -67,6 +67,11 @@
             <app-map class="map" *ngIf="observation.geojson" [geojson]="observation.geojson"></app-map>
         </div>
     </div>
+    <div class="quality-metric">
+        <app-quality-metric [qualityMetric]="observation.quality_metrics" 
+            [uuid]="observation.uuid">
+        </app-quality-metric>
+    </div>
     <div class="activity">
         <h6>Activity</h6>   
         <app-comments 
