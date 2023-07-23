@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { Observation, Relationship } from '../inaturalist/inaturalist.interface';
 import { HeaderComponent } from '../header/header.component';
 import { GramComponent } from '../gram/gram.component';
 import { AuthorizationService } from '../authorization/authorization.service';
+import { SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-following',
@@ -17,7 +18,7 @@ import { AuthorizationService } from '../authorization/authorization.service';
   templateUrl: './following.component.html',
   styleUrls: ['./following.component.css']
 })
-export class FollowingComponent implements OnInit, AfterViewInit {
+export class FollowingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   inat: InaturalistService;
   following: Relationship[];
@@ -27,6 +28,7 @@ export class FollowingComponent implements OnInit, AfterViewInit {
   intersectionObserver!: IntersectionObserver;
   page: number;
   auth: AuthorizationService;
+  sub!: SubscriptionLike;
 
   @ViewChildren('obs') obs!: QueryList<any>;
 
@@ -52,7 +54,11 @@ export class FollowingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.obs.changes.subscribe(this.afterObsRender.bind(this))
+    this.sub = this.obs.changes.subscribe(this.afterObsRender.bind(this))
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   afterObsRender(): void{
