@@ -65,9 +65,16 @@ export class QualityMetricComponent implements OnInit {
         if(method == 'POST'){
           metric.voted = 'agree';
           metric.agree++
+          this.qualityMetric.push({
+            id:0,
+            user_id:this.auth.me?.id ?? 0,
+            agree:true,
+            metric:metric.metric
+          })
         }else{
           metric.voted = undefined;
           metric.agree--
+          this.qualityMetric.pop();
         }
 
       }
@@ -84,9 +91,16 @@ export class QualityMetricComponent implements OnInit {
         if(method == 'POST'){
           metric.voted = 'disagree';
           metric.disagree++
+          this.qualityMetric.push({
+            id:0,
+            user_id:this.auth.me?.id ?? 0,
+            agree:false,
+            metric:metric.metric
+          })
         }else{
           metric.voted = undefined;
           metric.disagree--
+          this.qualityMetric.pop();
         }
       }
     }).finally(()=>{

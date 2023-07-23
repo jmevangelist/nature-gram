@@ -1,27 +1,30 @@
 
     <app-header [title]="'@'+user_login" class="sticky-top"></app-header>
 
-    <div class="user">
-        <div class="clr-row clr-align-items-center">
-            <div class="clr-col-auto">
-                <img [src]="user?.icon_url || 'assets/default.png'" 
+    <div class="user padding">
+        <img [src]="user?.icon_url || 'assets/default.png'" 
                 class="user-icon">
-            </div>
-            <div class="clr-col">
-                <h4>{{user_login}}</h4>
-                <ng-container *ngIf="user else loading">
-                    <p>{{user.name}}</p>
-                    <p>{{user.observations_count}} Observations</p>
-                </ng-container>
-            </div>
-        </div>
-        <div class="user-description" >
+        <div class="user-info">
             <ng-container *ngIf="user else loading">
-                <span #span [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')"
-                    (click)="span.classList.toggle('display-inline')">
-                </span>
+                <h5>{{user.name}}</h5>
+            </ng-container>
+            <div class="p5">@{{user_login}}</div>
+            <ng-container *ngIf="user else loading">
+                <div class="p5">{{user.observations_count}} Observations</div>
             </ng-container>
         </div>
+        <div>
+            <button class="btn btn-primary btn-sm m-0" clrLoading #b (click)="follow(b)">
+                {{ following ? 'Following':'Follow'}}</button>
+        </div>
+    </div>
+
+    <div class="user-description padding" >
+        <ng-container *ngIf="user else loading">
+            <div class="p5" 
+                [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')">
+            </div>
+        </ng-container>
     </div>
 
     <div class="clr-row" *ngIf="observations else loading">

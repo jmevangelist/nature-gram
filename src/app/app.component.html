@@ -9,7 +9,7 @@
         <cds-icon clrVerticalNavIcon shape="search"></cds-icon>
         Search
       </a>
-      <a clrVerticalNavLink [routerLink]="['']" disabled>
+      <a clrVerticalNavLink [routerLink]="['following']" disabled>
         <cds-icon clrVerticalNavIcon shape="image-gallery"></cds-icon>
         Following
       </a>
@@ -37,7 +37,7 @@
     <button class="btn btn-link btn-icon" disabled [routerLink]="['/']">
       <cds-icon shape="search" size="md"></cds-icon>
     </button>
-    <button class="btn btn-link btn-icon" disabled [routerLink]="['/']">
+    <button class="btn btn-link btn-icon" [routerLink]="['following']">
       <cds-icon shape="image-gallery" size="md"></cds-icon>
     </button>
     <button class="btn btn-link btn-icon" disabled [routerLink]="['/']">
