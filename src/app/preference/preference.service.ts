@@ -40,21 +40,18 @@ export class PreferenceService {
   updateTaxa(taxa:Preference[]){
     this.taxa = taxa;
     localStorage.setItem('taxa',JSON.stringify(taxa))
-    //this._behaviorSubject.next(null)
   }
   
 
   updatePlace(places:Preference[]){
     this.places = places;
     localStorage.setItem('places',JSON.stringify(places))
-    //this._behaviorSubject.next(null)
   }
 
 
   updateOptions(options:string[]){
     this.options = options;
     localStorage.setItem('options',JSON.stringify(this.options));
-    //this._behaviorSubject.next(null)
   }
 
   getOptions():string[][]{
@@ -81,12 +78,12 @@ export class PreferenceService {
   }
 
   baseOptions = [
-    { name: 'endemic', checked: false, label: 'Endemic' },
-    { name: 'captive', checked: false, label: 'Captive/Cultivated'},
-    { name: 'introduced', checked: false, label: 'Introduced' },
-    { name: 'native', checked: false, label: 'Native' },
-    { name: 'outOfRange', checked: false, label: 'Out of Range' },
-    { name: 'threatened', checked: false, label: 'Threatened' }  
+    { name: 'endemic', checked: false, label: 'Endemic', value:true },
+    { name: 'captive', checked: false, label: 'Captive/Cultivated', value: true},
+    { name: 'introduced', checked: false, label: 'Introduced', value:true },
+    { name: 'native', checked: false, label: 'Native', value: true },
+    { name: 'out_of_range', checked: false, label: 'Out of Range', value: true },
+    { name: 'threatened', checked: false, label: 'Threatened', value: true }
   ]
   
 }

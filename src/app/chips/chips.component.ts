@@ -33,7 +33,9 @@ export class ChipsComponent implements OnInit {
 
   selectChip(chip:Chip,value?:string){
     if(!this.multiSelect){ this.last.selected = false };
-    chip.option = value;
+    if(chip.options){
+      chip.option = value;
+    }
     
     if(this.multiSelect && !value){
       chip.selected = !chip.selected;

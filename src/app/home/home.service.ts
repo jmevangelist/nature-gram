@@ -105,6 +105,20 @@ export class HomeService {
         if(placesChips.length){
             this.chipGroup.push({chips:placesChips, multiSelect:true, key: 'place_id'})
         }
+
+        let options:Chip[] = []
+        this.prefservice.baseOptions.forEach(o=>{
+            options.push({
+                label: o.label,
+                option: o.name,
+                value: o.value.toString(),
+                selected: this.prefservice.options.includes(o.name)
+            })
+        })
+
+        if(options){
+            this.chipGroup.push({chips:options, multiSelect:true, key:'options'})
+        }
     }
 
     updateParams(chipG:any){
@@ -154,8 +168,16 @@ export class HomeService {
                 }
             }else{
                 delete this.params['created_d1'];
-                //delete this.params['created_d2'];
             }
+        }else if(chipG.key == 'options'){
+            chipG.chips.forEach((c:Chip) => {
+                if(c.selected){
+                    this.params[c.option ?? ''] = c.value
+                }else{
+                    delete this.params[c.option ?? '']
+                }
+            })
+
         }else if (chipG.multiSelect){
             let selected = chipG.chips.filter( (c:Chip) => (c.selected && !c.type) )
                 .map( (s:Chip) => s.value );
@@ -177,7 +199,6 @@ export class HomeService {
     }
 
     private extraParams(echo?:boolean):string[][]|undefined{
-        let pref = this.prefservice.getOptions();
         let paramsArray: string[][] = []
 
         if(!this.params.page){ return undefined } 
@@ -185,13 +206,6 @@ export class HomeService {
         paramsArray = Object.keys(this.params).map((key) => [key, this.params[key].toString()]);
         if(!echo){
             this.params.page += 1;
-        }
-
-        if(pref){
-            pref.forEach((v)=>{
-                paramsArray.push(...[v])
-            })
-
         }
 
         this.calls++
@@ -206,6 +220,8 @@ export class HomeService {
         this.observations.length = 0;
         this.observationsSubject.next([]);
         this.genChips();
+        delete this.params['taxon_id'];
+        delete this.params['place_id'];
         this.params.page = 1;
         this.chipGroup.forEach((cG:any)=>{
             this.updateParams(cG)
