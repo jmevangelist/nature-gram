@@ -5,7 +5,7 @@
     </span>
 </div>
 <div class="activity-container" [class.flex-auto]="auto">
-    <div *ngFor="let com of combination; trackBy:trackByItems" class="activity" #activity>
+    <div *ngFor="let com of combination; trackBy:trackByItems" class="activity" [class.opacity-5]="!com.current && com.taxon" #activity>
         <div class="clr-row activity-header">
             <div class="clr-col-auto">
 
@@ -17,13 +17,13 @@
             <div class="clr-col">
                 <p class="user-name" >
                 <span *urlify="['/naturalist',com.user.login]" class="p4">{{com.user.login}}</span>
-                ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{com.category}}</span></p>
+                ・ <span class="p7">{{com.created_at | dateTimeAgo:'short' | async }}</span> ・ <span class="p7">{{ (com.current||!com.taxon) ? com.category: 'withdrawn'}}</span></p>
             </div>
         </div>
         <div class="activity-body">
             <ng-container *ngIf="com.taxon">
                 <app-taxon [taxon]="com.taxon"></app-taxon>
-                <button #b *ngIf="com.category!='supporting' && com.taxon.is_active" 
+                <button #b *ngIf="com.category!='supporting' && com.taxon.is_active && com.current" 
                     [disabled]="authServ.isExpired"
                     (click)="agree(com.taxon,b)" clrLoading=""
                     class="btn btn-sm btn-success-outline btn-icon">

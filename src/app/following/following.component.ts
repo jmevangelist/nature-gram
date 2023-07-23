@@ -4,6 +4,7 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { Observation, Relationship } from '../inaturalist/inaturalist.interface';
 import { HeaderComponent } from '../header/header.component';
 import { GramComponent } from '../gram/gram.component';
+import { AuthorizationService } from '../authorization/authorization.service';
 
 @Component({
   selector: 'app-following',
@@ -25,23 +26,29 @@ export class FollowingComponent implements OnInit, AfterViewInit {
   loading: boolean;
   intersectionObserver!: IntersectionObserver;
   page: number;
+  auth: AuthorizationService;
 
   @ViewChildren('obs') obs!: QueryList<any>;
 
   constructor(){
-    this.loading = false;
+    this.loading = true;
     this.page = 1;
     this.inat = inject(InaturalistService);
+    this.auth = inject(AuthorizationService);
     this.following = [];
     this.observations = [];
     this.createIntersectionObserver();
   }
 
   ngOnInit(): void {
-    this.inat.getRelationships('').then((relationships:Relationship[])=>{
-      this.following = relationships;
-      this.loadObservations()
-    })
+    if(!this.auth.isExpired){
+      this.inat.getRelationships('').then((relationships:Relationship[])=>{
+        this.following = relationships;
+        this.loadObservations()
+      }).catch(()=>{
+        this.loading = false;
+      })
+    }
   }
 
   ngAfterViewInit(): void {

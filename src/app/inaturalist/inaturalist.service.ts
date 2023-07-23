@@ -87,7 +87,6 @@ export class InaturalistService {
       return undefined;
     }
     const url = new URL(`v2/users/${user[0].id}`,this.base_url);
-    // params = [['fields',rison.encode(this.inaturalistConfig.UserAll)]];
     url.search = new URLSearchParams([['fields','all']]).toString();
 
     response = await fetch(url);

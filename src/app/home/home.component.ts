@@ -47,6 +47,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChildren('grams') grams!: QueryList<any>;
 
   constructor(private router: Router, private view: ViewContainerRef){
+    ClarityIcons.addIcons(filterGridIcon)
     this.observations = this.homeService.observations$;
     this.loading = this.homeService.loading$;
     this.currentNavigation = this.router.getCurrentNavigation();
@@ -99,7 +100,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   private moreObservations(){
-    console.log('more')
     this.end = false;
     this.homeService.loadObservations().then((b)=>{
       this.end = !b;
@@ -142,6 +142,3 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
 }
-
-
-ClarityIcons.addIcons(filterGridIcon)

@@ -71,7 +71,7 @@
         <div *ngIf="comment">
             <p class="card-text p5">
                 <strong *urlify="['/naturalist',comment.user.login]">
-                    {{comment.user.login}}</strong>
+                    {{comment.user.login}} </strong>
                 <span [innerHtml]="comment.body"></span>
             </p>
         </div>

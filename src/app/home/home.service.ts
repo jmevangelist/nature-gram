@@ -33,7 +33,7 @@ export class HomeService {
       ]
 
     constructor(){
-        this.busy = new BehaviorSubject<boolean>(true);
+        this.busy = new BehaviorSubject<boolean>(false);
         this.observations = []
         this.observationsSubject = new BehaviorSubject<Observation[]>([]);
         this.loading$ = this.busy.asObservable();
@@ -61,7 +61,9 @@ export class HomeService {
 
         this.genChips();
         this.chipGroup.forEach((cG:any)=>{
-            this.updateParams(cG)
+            if(cG){
+                this.updateParams(cG)
+            }
         })
 
         this.prefservice.signal.pipe(skip(1)).subscribe(()=>{
@@ -87,7 +89,9 @@ export class HomeService {
                 selected: p.active
             })
         })
-        this.chipGroup.push({chips:taxonChips, multiSelect:true, key: 'taxon_id'});
+        if(taxonChips.length){
+            this.chipGroup.push({chips:taxonChips, multiSelect:true, key: 'taxon_id'});
+        }
 
         let placesChips:Chip[] = []
         this.prefservice.places.forEach(p=>{
@@ -98,8 +102,9 @@ export class HomeService {
             })
         })
 
-        this.chipGroup.push({chips:placesChips, multiSelect:true, key: 'place_id'})
-        
+        if(placesChips.length){
+            this.chipGroup.push({chips:placesChips, multiSelect:true, key: 'place_id'})
+        }
     }
 
     updateParams(chipG:any){
@@ -162,7 +167,10 @@ export class HomeService {
             }else{
                 delete this.params[chipG.key]
                 if(chipG.contraKey){
-                    this.updateParams(this.chipGroup.find((cg)=> cg.key == chipG.contraKey ))
+                    let contraGroup = this.chipGroup.find((cg)=> cg.key == chipG.contraKey )
+                    if(contraGroup){
+                        this.updateParams(contraGroup)
+                    }
                 }
             }
         }
@@ -212,7 +220,7 @@ export class HomeService {
     }
 
     async loadObservations():Promise<boolean>{
-        console.log('load')
+
         this.busy.next(true);
         let params = this.extraParams();
 

@@ -4,6 +4,7 @@
     width: 100%;
     overflow-x: scroll;
     padding: 0.3rem;
+    flex: none;
 }
 
 .user-container{
@@ -48,4 +49,16 @@
 .content{
     max-width: 768px;
     width: 100%;
+}
+
+.no-token{
+    margin: auto;
+}
+
+:host{
+    width: 100%;
+    max-width: 768px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }

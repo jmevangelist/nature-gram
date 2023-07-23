@@ -46,22 +46,19 @@ clr-dropdown > .btn > cds-icon{
 }
 
 .filters{
-    display: flex;
+    display: block;
     width: 100%;
-    flex-direction: row;
-    overflow: scroll;
-    padding: 0.3rem 0;
-    scrollbar-width: none;
+    padding: 0.3rem 0.3rem;
+    line-height: 1.5rem;
 }
 
 
 .btn-pref{
     min-width: 1.5rem !important;
     padding: 0 !important;
-    margin: 0 0 0 0.3rem !important;
-    align-self: center;
+    margin: 0 0.2rem 0 0 !important;
     background-color: hsl(198, 83%, 94%) !important;
-    display: block;
+    display: inline-block;
     border: none;
 }
 
