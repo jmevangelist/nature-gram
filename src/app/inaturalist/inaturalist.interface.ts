@@ -147,3 +147,10 @@ export interface QualityMetric {
     user?: User;
     user_id: number;
 }
+
+export interface Relationship {
+    created_at: string;
+    following: boolean;
+    friend_user: User;
+    id: number;
+} 

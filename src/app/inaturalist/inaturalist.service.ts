@@ -185,7 +185,17 @@ export class InaturalistService {
   async getRelationships(q:string): Promise<any>{
     const url = new URL('v2/relationships',this.base_url);
     let token = this.authService.token;
-    url.search = new URLSearchParams([['fields','all'],['q',q],['following','yes']]).toString();
+
+    let params = [
+      ['fields','all'],
+      ['following','yes'],
+      ['order_by','users.login'],
+      ['order','asc']
+    ]
+
+    if(q){ params.push(['q',q]) }
+
+    url.search = new URLSearchParams(params).toString();
     let response = await fetch(url,{ headers: {'Authorization': token} })
     if(!response.ok){
       if(response.status == 401){

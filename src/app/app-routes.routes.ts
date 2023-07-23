@@ -7,6 +7,7 @@ import { BookmarkComponent } from './bookmark/bookmark.component';
 import { NotificationComponent } from './notification/notification.component';
 import { ObservationComponent } from './observation/observation.component';
 import { MapComponent } from './map/map.component';
+import { FollowingComponent } from './following/following.component';
 
 const appRoutes: Routes = [
   {
@@ -47,6 +48,11 @@ const appRoutes: Routes = [
     path:'map',
     component: MapComponent,
     title:'Map'
+  },
+  {
+    path:'following',
+    component: FollowingComponent,
+    title:'Following'
   }
 ];
 

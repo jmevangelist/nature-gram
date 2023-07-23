@@ -1,0 +1,51 @@
+.following{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow-x: scroll;
+    padding: 0.3rem;
+}
+
+.user-container{
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 0.3rem;
+    width: 3.5rem;
+    min-width: 3.5rem;
+    overflow-x: hidden;
+    flex:none;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.selected{
+    background-color: var(--clr-color-action-50);
+}
+
+.user-container > div{
+    margin-top: 0.3rem;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-icon{
+    align-self: center;
+    height: 3rem;
+    width: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.spinner-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content{
+    max-width: 768px;
+    width: 100%;
+}

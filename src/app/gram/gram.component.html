@@ -3,12 +3,12 @@
         <div class="clr-row clr-align-items-center">
             <div class="clr-col-auto">
                 <img [src]="observation.user.icon || 'assets/default.png'" 
-                        *urlify="['naturalist',observation.user.login]"  
+                        *urlify="['/naturalist',observation.user.login]"  
                         class="user_icon">
             </div>
             <div class="clr-col">
                 <div class="card-text">
-                    <h6 *urlify="['naturalist',observation.user.login]" >{{observation.user.login}}</h6>
+                    <h6 *urlify="['/naturalist',observation.user.login]" >{{observation.user.login}}</h6>
                     <p class="p7">{{observation.place_guess}} 
                     <span><br>{{observation.time_observed_at | dateTimeAgo | async}}</span></p>
                 </div>
@@ -43,7 +43,7 @@
                 class="btn btn-icon btn-link">
                 <cds-icon shape="chat-bubble" size="md"></cds-icon>
             </button>
-            <a [routerLink]="['observation',observation.uuid]">
+            <a [routerLink]="['/observation',observation.uuid]">
                 <button type="button" 
                     class="btn btn-icon btn-link">
                     <cds-icon shape="info-standard" size="md"></cds-icon>
@@ -63,14 +63,14 @@
 
         <div *ngIf="currentIdentification">
             <p class="card-text p5">
-                <strong *urlify="['naturalist',currentIdentification.user.login]">
+                <strong *urlify="['/naturalist',currentIdentification.user.login]">
                     {{currentIdentification.user.login}}</strong>
                 <em> {{currentIdentification.taxon.name}}</em>
             </p>
         </div>
         <div *ngIf="comment">
             <p class="card-text p5">
-                <strong *urlify="['naturalist',comment.user.login]">
+                <strong *urlify="['/naturalist',comment.user.login]">
                     {{comment.user.login}}</strong>
                 <span [innerHtml]="comment.body"></span>
             </p>
@@ -101,12 +101,12 @@
                 <div class="modal-activity">
                     <div class="clr-row clr-align-items-center modal-obs-meta-lg">
                         <div class="clr-col-auto">
-                            <img *urlify="['naturalist',observation.user.login]" [src]="observation.user.icon || 'assets/default.png'" 
+                            <img *urlify="['/naturalist',observation.user.login]" [src]="observation.user.icon || 'assets/default.png'" 
                                     class="user_icon">
                         </div>
                         <div class="clr-col">
                             <div class="card-text">
-                                <h6 *urlify="['naturalist',observation.user.login]">{{observation.user.login}}</h6>
+                                <h6 *urlify="['/naturalist',observation.user.login]">{{observation.user.login}}</h6>
                                 <p class="p7">{{observation.place_guess}} 
                                 <span><br>{{observation.time_observed_at | dateTimeAgo | async}}</span></p>
                             </div>
