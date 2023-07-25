@@ -50,6 +50,8 @@ export class FollowingComponent implements OnInit, AfterViewInit, OnDestroy {
       }).catch(()=>{
         this.loading = false;
       })
+    }else{
+      this.loading = false;
     }
   }
 

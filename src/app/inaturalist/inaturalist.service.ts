@@ -17,7 +17,7 @@ export class InaturalistService {
     const url = new URL('v2/observations',this.base_url);
     const fields = this.inaturalistConfig.fields.observation;
     const params = [
-              // ['photo_licensed','true'],
+              ['photo_licensed','true'],
               ['photos', 'true'],
               ['fields', fields ]
             ];

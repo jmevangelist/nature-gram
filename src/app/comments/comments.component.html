@@ -5,7 +5,7 @@
     </span>
 </div>
 <div class="activity-container" [class.flex-auto]="auto">
-    <div *ngFor="let com of combination; trackBy:trackByItems" class="activity" [class.opacity-5]="!com.current && com.taxon" #activity>
+    <div *ngFor="let com of combination | slice:0:index; trackBy:trackByItems" class="activity" [class.opacity-5]="!com.current && com.taxon" #activity>
         <div class="clr-row activity-header">
             <div class="clr-col-auto">
 
@@ -29,9 +29,11 @@
                     class="btn btn-sm btn-success-outline btn-icon">
                     <cds-icon shape="check"></cds-icon>agree</button>
             </ng-container>
-            <p class="p5" [innerHTML]="com.body"></p>
+            <p class="p5 activity-body-body" [innerHTML]="com.body"></p>
         </div>
     </div>
+    <span appIntersectionObserver (intersected)="loadmorecomments()" 
+        [observe]="observe" [hidden]="!observe">...</span>
 </div>
 
 <div class="your-input" *ngIf="!authServ.isExpired">

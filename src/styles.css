@@ -37,3 +37,9 @@ body{
 .p5{
     line-height: 0.8rem !important;
 }
+
+@media screen and (max-width: 768px) {
+    button:focus,button:visited,button:active{
+        outline: none;
+    }
+}

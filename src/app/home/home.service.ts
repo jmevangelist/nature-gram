@@ -4,6 +4,7 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { BehaviorSubject, Observable, skip } from 'rxjs';
 import { PreferenceService } from '../preference/preference.service';
 import { Chip } from '../chips/chip.interface';
+import TileSource from 'ol/source/Tile';
 
 @Injectable({
     providedIn: 'root'
@@ -55,10 +56,11 @@ export class HomeService {
         this.params = {
             order_by: 'created_at',
             created_d2: new Date(),
-            per_page: 5,
+            per_page: 10,
             page: 1
         }    
 
+        this.chipGroup = [];
         this.genChips();
         this.chipGroup.forEach((cG:any)=>{
             if(cG){
@@ -74,10 +76,10 @@ export class HomeService {
     }
 
     genChips(){
-        this.chipGroup = [];
+        this.chipGroup.length = 0;
         this.chipGroup.push({chips:this.filterChips, key:'default'});
         
-        this.chipGroup.push({chips:[{label: 'Unknown',value:'false'}],
+        this.chipGroup.push({chips:[{label: 'Unidentified',value:'false'}],
             key:'identified',multiSelect:true, contraKey: 'taxon_id' })
         
         let taxonChips:Chip[] = []
@@ -108,15 +110,17 @@ export class HomeService {
 
         let options:Chip[] = []
         this.prefservice.baseOptions.forEach(o=>{
-            options.push({
-                label: o.label,
-                option: o.name,
-                value: o.value.toString(),
-                selected: this.prefservice.options.includes(o.name)
-            })
+            if(this.prefservice.options.includes(o.name)){
+                options.push({
+                    label: o.label,
+                    option: o.name,
+                    value: o.value.toString(),
+                    selected: true,
+                })
+            }
         })
 
-        if(options){
+        if(options.length){
             this.chipGroup.push({chips:options, multiSelect:true, key:'options'})
         }
     }
@@ -185,6 +189,12 @@ export class HomeService {
                 this.params[chipG.key] = selected                
                 if(chipG.contraKey){
                     delete this.params[chipG.contraKey]
+                    let cgi = this.chipGroup.findIndex((cg)=> cg.key == chipG.contraKey )
+                    if(cgi>=0){
+                        this.chipGroup[cgi].chips.forEach((c:Chip)=>{
+                            c.selected = false;
+                        })
+                    }
                 }
             }else{
                 delete this.params[chipG.key]
@@ -220,9 +230,12 @@ export class HomeService {
         this.observations.length = 0;
         this.observationsSubject.next([]);
         this.genChips();
-        delete this.params['taxon_id'];
-        delete this.params['place_id'];
-        this.params.page = 1;
+        this.params = {
+            order_by: 'created_at',
+            created_d2: new Date(),
+            per_page: 10,
+            page: 1
+        } 
         this.chipGroup.forEach((cG:any)=>{
             this.updateParams(cG)
         })

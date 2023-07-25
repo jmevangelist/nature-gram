@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
-import { Observable, filter, interval, startWith, switchMap } from 'rxjs';
+import { Observable, filter, interval, share, startWith, switchMap } from 'rxjs';
 import { AuthorizationService } from '../authorization/authorization.service';
 
 
@@ -19,13 +19,14 @@ export class NotificationService{
         if(localStorage.getItem('lastnotifcheck')){
             this.lastCheck = parseInt( localStorage.getItem('lastnotifcheck') ?? '0')           
         }else{
-            this.lastCheck = Date.parse('Jun 10 2023')
+            this.lastCheck = (Date.now() - 1000*60*60*24)
         }
 
         this.notification$ = interval(1000*60*5).pipe(
             startWith(-1),
             filter(()=> !this.authServe.isExpired ),
-            switchMap(()=> this.getUpdates(this.lastCheck) )
+            switchMap(()=> this.getUpdates(this.lastCheck)),
+            share()
         )
     }
 

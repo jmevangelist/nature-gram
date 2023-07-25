@@ -79,11 +79,11 @@ export class PreferenceService {
 
   baseOptions = [
     { name: 'endemic', checked: false, label: 'Endemic', value:true },
+    { name: 'native', checked: false, label: 'Native', value: true },
+    { name: 'threatened', checked: false, label: 'Threatened', value: true },
     { name: 'captive', checked: false, label: 'Captive/Cultivated', value: true},
     { name: 'introduced', checked: false, label: 'Introduced', value:true },
-    { name: 'native', checked: false, label: 'Native', value: true },
     { name: 'out_of_range', checked: false, label: 'Out of Range', value: true },
-    { name: 'threatened', checked: false, label: 'Threatened', value: true }
   ]
   
 }

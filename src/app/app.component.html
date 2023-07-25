@@ -1,7 +1,7 @@
 <clr-main-container>
   <div class="content-container">
     <clr-vertical-nav [clr-nav-level]="2">
-      <a clrVerticalNavLink [routerLink]="['/']" routerLinkActive="active">
+      <a clrVerticalNavLink [routerLink]="['home']" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="home"></cds-icon>
         Home
       </a>
@@ -9,7 +9,7 @@
         <cds-icon clrVerticalNavIcon shape="search"></cds-icon>
         Search
       </a>
-      <a clrVerticalNavLink [routerLink]="['following']" disabled>
+      <a clrVerticalNavLink [routerLink]="['following']" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="image-gallery"></cds-icon>
         Following
       </a>
@@ -21,7 +21,7 @@
         <cds-icon clrVerticalNavIcon shape="bookmark"></cds-icon>
         Bookmarks
       </a>
-      <a clrVerticalNavLink [routerLink]="['authorize']">
+      <a clrVerticalNavLink [routerLink]="['authorize']" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="key"></cds-icon>
         Authorize
       </a>
@@ -31,20 +31,21 @@
     </div>
   </div>
   <div class="mobile-footer">
-    <button class="btn btn-link btn-icon" [routerLink]="['/']" >
-      <cds-icon shape="home" size="md"></cds-icon>
+    <button class="btn btn-link btn-icon" [routerLink]="['home']" routerLinkActive #rlah="routerLinkActive">
+      <cds-icon shape="home" size="md" [attr.solid]="rlah.isActive" ></cds-icon>
     </button>
     <button class="btn btn-link btn-icon" disabled [routerLink]="['/']">
       <cds-icon shape="search" size="md"></cds-icon>
     </button>
-    <button class="btn btn-link btn-icon" [routerLink]="['following']">
-      <cds-icon shape="image-gallery" size="md"></cds-icon>
+    <button class="btn btn-link btn-icon" [routerLink]="['following']" routerLinkActive #rlaf="routerLinkActive">
+      <cds-icon shape="image-gallery" size="md" [attr.solid]="rlaf.isActive" ></cds-icon>
     </button>
     <button class="btn btn-link btn-icon" disabled [routerLink]="['/']">
       <cds-icon shape="bookmark" size="md"></cds-icon>
     </button>
-    <button class="btn btn-link btn-icon" [routerLink]="['authorize']">
-      <cds-icon shape="key" size="md" [attr.badge]="(authServ.expired$ | async) ? 'warning': null "></cds-icon>
+    <button class="btn btn-link btn-icon" [routerLink]="['authorize']" routerLinkActive #rlaa="routerLinkActive">
+      <cds-icon shape="key" size="md" 
+        [attr.badge]="(authServ.expired$ | async) ? 'warning': null " [attr.solid]="rlaa.isActive"></cds-icon>
     </button>
   </div>
 </clr-main-container>

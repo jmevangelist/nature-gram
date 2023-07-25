@@ -11,6 +11,7 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { TaxonComponent } from '../taxon/taxon.component';
 import { SubscriptionLike, debounceTime, from } from 'rxjs';
 import { UrlifyDirective } from '../shared/urlify.directive';
+import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
 
 @Component({
   selector: 'app-comments',
@@ -22,7 +23,8 @@ import { UrlifyDirective } from '../shared/urlify.directive';
     ReactiveFormsModule,
     FormsModule,
     TaxonComponent,
-    UrlifyDirective
+    UrlifyDirective,
+    IntersectionObserverDirective
   ],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
@@ -48,6 +50,8 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   sub: SubscriptionLike;
   id: IdentificationsCreate | undefined;
   selectedTaxon: Taxon | undefined;
+  index: number;
+  observe: boolean;
 
   @ViewChildren('activity') activity!: QueryList<any>
   @ViewChild('idInput') idInput!: ElementRef;
@@ -66,6 +70,8 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.computerVision = [];
     this.qTaxon = new FormControl('')
     this.auto = false
+    this.index = 10;
+    this.observe = true;
 
     this.sub = from(this.qTaxon.valueChanges).pipe(
       debounceTime(300)
@@ -94,6 +100,14 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   trackByItems(index: number, c: any): number { return c.uuid ?? c.id; }
+
+  loadmorecomments(){
+    console.log('load more')
+    this.index= this.index + 20;
+    if(this.index > this.combination.length){
+      this.observe = false;
+    }
+  }
 
   agree(taxon:Taxon,ref:ClrLoadingButton): void {
     ref.loadingStateChange(ClrLoadingState.LOADING)

@@ -99,7 +99,7 @@ a{
 }
 
 .modal-content{
-    max-height: 90dvh;
+    max-height: 95dvh;
     padding: 0.6rem;
 }
 
@@ -136,9 +136,14 @@ a{
     .modal-activity{
         flex: auto !important;
         width: 100% !important;
+        min-width: unset !important;
         max-height: 75dvh;
         height: auto !important;
     }
+}
+
+.modal-dialog{
+    width: 65rem;
 }
 
 .modal-obs-meta-sm{
@@ -156,12 +161,12 @@ a{
 .modal-body {
     display: flex;
     width: 100%;
-    height: 75dvh;
+    height: 85dvh;
 }
 
 .modal-activity{
-    width: 25rem;
-    flex: initial;
+    width: 20rem;
+    flex: none;
     height: inherit;
     display: flex;
     flex-direction: column;
@@ -172,7 +177,7 @@ a{
     border-width: thin;
     border-color: var(--clr-card-border-color);
     flex: auto;
-    height: 75dvh;
+    height: 85dvh;
     margin-right: 0.6rem;
     position: relative;
     width: 100%; 
@@ -194,9 +199,6 @@ a{
 
 .taxon {
     flex: 1 1 min-content;
-    /* display: flex;
-    flex-wrap: wrap;
-    align-items: center; */
 }
 
 .taxon > h6{

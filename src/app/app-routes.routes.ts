@@ -11,9 +11,16 @@ import { FollowingComponent } from './following/following.component';
 
 const appRoutes: Routes = [
   {
-    path: '',
+    path: '',redirectTo: '/home', pathMatch: 'full' },
+  {
+    path:'home',
     component: HomeComponent,
     title: 'natureGram'
+  },
+  {
+    path:'home/preference',
+    component: PreferenceComponent,
+    title: 'Preference'
   },
   {
     path:'authorize',
@@ -24,11 +31,6 @@ const appRoutes: Routes = [
     path:'bookmark',
     component: BookmarkComponent,
     title: 'Bookmarks'
-  },
-  {
-    path:'preference',
-    component: PreferenceComponent,
-    title: 'Preference'
   },
   {
     path:'naturalist/:user_login',

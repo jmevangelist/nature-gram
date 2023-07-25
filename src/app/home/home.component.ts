@@ -35,7 +35,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   loading: Observable<boolean>;
   end: boolean;
 
-  filterChips: Chip[];
   bellIcon: IconShapeTuple;
   notification$: Observable<number>;
   chipGroup: any[];
@@ -54,7 +53,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.createObserver()
     this.end = false;
 
-    this.filterChips = this.homeService.filterChips;
     this.bellIcon = bellIcon;
     this.notification$ = this.notificationService.notification$;
     this.chipGroup = this.homeService.chipGroup;
@@ -130,11 +128,12 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     });
   }
 
-  selectChip(chips?:any){
-    this.homeService.updateParams(chips)
+  selectChip(cG?:any){
+    this.homeService.updateParams(cG)
     this.homeService.reload().then((b)=>{
       this.end = !b;
     })
+    console.log(this.homeService.chipGroup)
   }
 
   goToNotifications(){
