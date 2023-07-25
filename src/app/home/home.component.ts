@@ -35,7 +35,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   loading: Observable<boolean>;
   end: boolean;
 
-  filterChips: Chip[];
   bellIcon: IconShapeTuple;
   notification$: Observable<number>;
   chipGroup: any[];
@@ -47,13 +46,13 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChildren('grams') grams!: QueryList<any>;
 
   constructor(private router: Router, private view: ViewContainerRef){
+    ClarityIcons.addIcons(filterGridIcon)
     this.observations = this.homeService.observations$;
     this.loading = this.homeService.loading$;
     this.currentNavigation = this.router.getCurrentNavigation();
     this.createObserver()
     this.end = false;
 
-    this.filterChips = this.homeService.filterChips;
     this.bellIcon = bellIcon;
     this.notification$ = this.notificationService.notification$;
     this.chipGroup = this.homeService.chipGroup;
@@ -99,7 +98,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   trackByItems(index: number, obs: Observation): number { return obs.id; }
 
   private moreObservations(){
-    console.log('more')
     this.end = false;
     this.homeService.loadObservations().then((b)=>{
       this.end = !b;
@@ -130,11 +128,12 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     });
   }
 
-  selectChip(chips?:any){
-    this.homeService.updateParams(chips)
+  selectChip(cG?:any){
+    this.homeService.updateParams(cG)
     this.homeService.reload().then((b)=>{
       this.end = !b;
     })
+    console.log(this.homeService.chipGroup)
   }
 
   goToNotifications(){
@@ -142,6 +141,3 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
 }
-
-
-ClarityIcons.addIcons(filterGridIcon)

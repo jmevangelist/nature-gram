@@ -14,6 +14,10 @@
     flex-direction: row;
 }
 
+/* .chip{
+    margin: 0.2rem auto;
+} */
+
 .label{
     align-self: center;
     border-radius: 0.3rem;
@@ -57,6 +61,6 @@ clr-dropdown > .label > cds-icon{
 
 
 :host{
-    display: inline-flex;
-    padding: 0.2rem;
+    display: inline;
+    /* padding: 0.2rem; */
 }

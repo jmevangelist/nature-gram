@@ -6,7 +6,8 @@ import { palmTreeIcon } from '@cds/core/icon/shapes/palm-tree';
 import { ClarityModule } from '@clr/angular';
 import { AuthorizationService } from './authorization/authorization.service';
 import { filter } from 'rxjs'
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import { NotificationService } from './notification/notification.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
     HomeComponent,
     RouterModule,
     ClarityModule,
-    CommonModule
+    CommonModule,
   ]
 })
 export class AppComponent implements AfterViewChecked{
@@ -27,11 +28,21 @@ export class AppComponent implements AfterViewChecked{
   @ViewChild('contentArea') contentArea!: ElementRef
   restoredScroll:number = 0;
   authServ:AuthorizationService = inject(AuthorizationService);
+  notification:NotificationService = inject(NotificationService);
 
-  constructor(private router: Router){
+  constructor(private router: Router, private location: Location){
     this.router.events.pipe(
       filter((e):e is NavigationStart => e instanceof NavigationStart)
     ).subscribe(this.onNavigationStart.bind(this))
+    this.notification.notification$.subscribe((n)=>{
+      console.log(`notifications: ${n}`)
+    })
+    let url = this.location.prepareExternalUrl('/assets/')
+    fetch(`${url}binoculars-outline.svg`).then((res)=>{
+      res.text().then((svg)=>{
+        ClarityIcons.addIcons(['binoculars',svg])
+      })
+    })
   }
 
   onNavigationStart(e:NavigationStart){

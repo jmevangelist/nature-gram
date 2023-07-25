@@ -51,7 +51,13 @@ p{
 
 .activity-body > .p5 {
     line-height: 0.8rem !important;
+}
+
+.activity-body-body{
     overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
 }
 
 .clr-col-auto{
@@ -148,6 +154,7 @@ a {
     width: 100%;
     padding-left: 1.7rem;
     margin-left: -1.5rem;
+    min-height: 1.2rem;
  }
 
  .user-identification > input {
@@ -156,6 +163,7 @@ a {
     background-color: hsl(198, 0%, 91%);
     margin-top: 0 !important;
     width: 100%;
+    min-height: 1.2rem;
     padding-right: 1.2rem;
     padding-left: 1.2rem;
 }
@@ -172,6 +180,9 @@ a {
     flex: initial;
 }
 
+.opacity-5{
+    opacity: 0.5
+}
 
 .search-list > .card {
     box-shadow: none !important;    

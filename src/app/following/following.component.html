@@ -5,6 +5,7 @@
         <div class="p8">{{u.friend_user.login}}</div>
     </div>
 </div>
+<div class="no-token" [hidden]="!auth.isExpired">Missing/expired token</div>
 <div class="content">
     <app-gram #obs *ngFor="let observation of observations;let isLast = last; trackBy: trackByItems" 
         [observation]="observation" [class.last]="isLast"></app-gram>

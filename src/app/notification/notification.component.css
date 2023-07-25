@@ -3,6 +3,8 @@
     margin: 0.6rem 0.3rem 0 0.3rem !important;
     border: solid 0.01rem var(--clr-card-border-color);
     line-height: 0.8rem !important;
+    white-space: break-spaces;
+    overflow-wrap: break-word;
 }
 
 .notification:hover{

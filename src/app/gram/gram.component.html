@@ -26,7 +26,7 @@
                 <h6>Unidentified</h6>
             </div>
         </ng-template>
-        <button class="btn btn-sm" 
+        <button class="btn btn-sm" *urlify="['/observation',observation.uuid]"
             [class.btn-success]="observation.quality_grade == 'research grade'"
             [class.btn-warning]="observation.quality_grade == 'needs_id'">
             {{observation.quality_grade.replace('_',' ')}}
@@ -43,12 +43,10 @@
                 class="btn btn-icon btn-link">
                 <cds-icon shape="chat-bubble" size="md"></cds-icon>
             </button>
-            <a [routerLink]="['/observation',observation.uuid]">
-                <button type="button" 
-                    class="btn btn-icon btn-link">
-                    <cds-icon shape="info-standard" size="md"></cds-icon>
-                </button>
-            </a>
+            <button type="button" *urlify="['/observation',observation.uuid]"
+                class="btn btn-icon btn-link">
+                <cds-icon shape="binoculars" size="md"></cds-icon>
+            </button>
             <span class="margin-auto"></span>
             <!-- <button type="button"
                 class="btn btn-icon btn-link bookmark" aria-label="fave" disabled (click)="bookmark()">
@@ -71,7 +69,7 @@
         <div *ngIf="comment">
             <p class="card-text p5">
                 <strong *urlify="['/naturalist',comment.user.login]">
-                    {{comment.user.login}}</strong>
+                    {{comment.user.login}} </strong>
                 <span [innerHtml]="comment.body"></span>
             </p>
         </div>

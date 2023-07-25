@@ -1,9 +1,11 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { Observation, Relationship } from '../inaturalist/inaturalist.interface';
 import { HeaderComponent } from '../header/header.component';
 import { GramComponent } from '../gram/gram.component';
+import { AuthorizationService } from '../authorization/authorization.service';
+import { SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-following',
@@ -16,7 +18,7 @@ import { GramComponent } from '../gram/gram.component';
   templateUrl: './following.component.html',
   styleUrls: ['./following.component.css']
 })
-export class FollowingComponent implements OnInit, AfterViewInit {
+export class FollowingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   inat: InaturalistService;
   following: Relationship[];
@@ -25,27 +27,40 @@ export class FollowingComponent implements OnInit, AfterViewInit {
   loading: boolean;
   intersectionObserver!: IntersectionObserver;
   page: number;
+  auth: AuthorizationService;
+  sub!: SubscriptionLike;
 
   @ViewChildren('obs') obs!: QueryList<any>;
 
   constructor(){
-    this.loading = false;
+    this.loading = true;
     this.page = 1;
     this.inat = inject(InaturalistService);
+    this.auth = inject(AuthorizationService);
     this.following = [];
     this.observations = [];
     this.createIntersectionObserver();
   }
 
   ngOnInit(): void {
-    this.inat.getRelationships('').then((relationships:Relationship[])=>{
-      this.following = relationships;
-      this.loadObservations()
-    })
+    if(!this.auth.isExpired){
+      this.inat.getRelationships('').then((relationships:Relationship[])=>{
+        this.following = relationships;
+        this.loadObservations()
+      }).catch(()=>{
+        this.loading = false;
+      })
+    }else{
+      this.loading = false;
+    }
   }
 
   ngAfterViewInit(): void {
-    this.obs.changes.subscribe(this.afterObsRender.bind(this))
+    this.sub = this.obs.changes.subscribe(this.afterObsRender.bind(this))
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   afterObsRender(): void{

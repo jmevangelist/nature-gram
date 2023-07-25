@@ -19,15 +19,17 @@
                 {{observation.quality_grade.replace('_',' ')}}
             </button>
         </div>
-        <div class="p5 description" [innerHTML]="taxonSummary?.wikipedia_summary" *urlify="observation.taxon?.wikipedia_url || ''"></div>
+        <div class="description p5" *ngIf="wiki">
+            <span [innerHTML]="wiki['extract_html']"></span>
+            <a [href]="wiki['uri']"> [wiki]</a>
+        </div>
         
         <div class="description p5" *ngIf="taxonSummary?.conservation_status">
             <strong>Conservation Status: </strong>
             <span>{{taxonSummary?.conservation_status.iucn_status.replace('_',' ') | titlecase}}</span>
         </div>
         <div class="description p5" *ngIf="taxonSummary?.listed_taxon">
-            <span>{{taxonSummary?.listed_taxon.establishment_means_label}}</span>
-            <span><em> ({{taxonSummary?.listed_taxon.establishment_means_description}})</em></span> in 
+            <span>{{taxonSummary?.listed_taxon.establishment_means_label}}</span> in 
             <span>{{taxonSummary?.listed_taxon.place.display_name}}</span>
         </div>
 
@@ -42,12 +44,16 @@
             </div>
             <div class="actions">
                 <div>
-                    <cds-icon shape="star" size="md" (click)="fave()" [attr.solid]="isFaved()"></cds-icon>
+                    <button class="btn btn-icon btn-link" [disabled]="authService.isExpired" clrLoading="" #b (click)="fave(b)">
+                        <cds-icon shape="star" size="md" [attr.solid]="isFaved()"></cds-icon>
+                    </button>
                     <h6>{{observation.faves_count}}</h6>
                 </div>
-                <div>
-                    <cds-icon shape="chat-bubble" size="md"></cds-icon>
-                    <h6>{{observation.identifications.length + observation.comments_count}}</h6>
+                <div (click)="share()">
+                    <button class="btn btn-icon btn-link">
+                        <cds-icon shape="share" size="md"></cds-icon>
+                    </button>
+                    <h6>Share</h6>
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { BehaviorSubject, Observable, skip } from 'rxjs';
 import { PreferenceService } from '../preference/preference.service';
 import { Chip } from '../chips/chip.interface';
+import TileSource from 'ol/source/Tile';
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +34,7 @@ export class HomeService {
       ]
 
     constructor(){
-        this.busy = new BehaviorSubject<boolean>(true);
+        this.busy = new BehaviorSubject<boolean>(false);
         this.observations = []
         this.observationsSubject = new BehaviorSubject<Observation[]>([]);
         this.loading$ = this.busy.asObservable();
@@ -55,13 +56,16 @@ export class HomeService {
         this.params = {
             order_by: 'created_at',
             created_d2: new Date(),
-            per_page: 5,
+            per_page: 10,
             page: 1
         }    
 
+        this.chipGroup = [];
         this.genChips();
         this.chipGroup.forEach((cG:any)=>{
-            this.updateParams(cG)
+            if(cG){
+                this.updateParams(cG)
+            }
         })
 
         this.prefservice.signal.pipe(skip(1)).subscribe(()=>{
@@ -72,10 +76,10 @@ export class HomeService {
     }
 
     genChips(){
-        this.chipGroup = [];
+        this.chipGroup.length = 0;
         this.chipGroup.push({chips:this.filterChips, key:'default'});
         
-        this.chipGroup.push({chips:[{label: 'Unknown',value:'false'}],
+        this.chipGroup.push({chips:[{label: 'Unidentified',value:'false'}],
             key:'identified',multiSelect:true, contraKey: 'taxon_id' })
         
         let taxonChips:Chip[] = []
@@ -87,7 +91,9 @@ export class HomeService {
                 selected: p.active
             })
         })
-        this.chipGroup.push({chips:taxonChips, multiSelect:true, key: 'taxon_id'});
+        if(taxonChips.length){
+            this.chipGroup.push({chips:taxonChips, multiSelect:true, key: 'taxon_id'});
+        }
 
         let placesChips:Chip[] = []
         this.prefservice.places.forEach(p=>{
@@ -98,8 +104,25 @@ export class HomeService {
             })
         })
 
-        this.chipGroup.push({chips:placesChips, multiSelect:true, key: 'place_id'})
-        
+        if(placesChips.length){
+            this.chipGroup.push({chips:placesChips, multiSelect:true, key: 'place_id'})
+        }
+
+        let options:Chip[] = []
+        this.prefservice.baseOptions.forEach(o=>{
+            if(this.prefservice.options.includes(o.name)){
+                options.push({
+                    label: o.label,
+                    option: o.name,
+                    value: o.value.toString(),
+                    selected: true,
+                })
+            }
+        })
+
+        if(options.length){
+            this.chipGroup.push({chips:options, multiSelect:true, key:'options'})
+        }
     }
 
     updateParams(chipG:any){
@@ -149,8 +172,16 @@ export class HomeService {
                 }
             }else{
                 delete this.params['created_d1'];
-                //delete this.params['created_d2'];
             }
+        }else if(chipG.key == 'options'){
+            chipG.chips.forEach((c:Chip) => {
+                if(c.selected){
+                    this.params[c.option ?? ''] = c.value
+                }else{
+                    delete this.params[c.option ?? '']
+                }
+            })
+
         }else if (chipG.multiSelect){
             let selected = chipG.chips.filter( (c:Chip) => (c.selected && !c.type) )
                 .map( (s:Chip) => s.value );
@@ -158,18 +189,26 @@ export class HomeService {
                 this.params[chipG.key] = selected                
                 if(chipG.contraKey){
                     delete this.params[chipG.contraKey]
+                    let cgi = this.chipGroup.findIndex((cg)=> cg.key == chipG.contraKey )
+                    if(cgi>=0){
+                        this.chipGroup[cgi].chips.forEach((c:Chip)=>{
+                            c.selected = false;
+                        })
+                    }
                 }
             }else{
                 delete this.params[chipG.key]
                 if(chipG.contraKey){
-                    this.updateParams(this.chipGroup.find((cg)=> cg.key == chipG.contraKey ))
+                    let contraGroup = this.chipGroup.find((cg)=> cg.key == chipG.contraKey )
+                    if(contraGroup){
+                        this.updateParams(contraGroup)
+                    }
                 }
             }
         }
     }
 
     private extraParams(echo?:boolean):string[][]|undefined{
-        let pref = this.prefservice.getOptions();
         let paramsArray: string[][] = []
 
         if(!this.params.page){ return undefined } 
@@ -177,13 +216,6 @@ export class HomeService {
         paramsArray = Object.keys(this.params).map((key) => [key, this.params[key].toString()]);
         if(!echo){
             this.params.page += 1;
-        }
-
-        if(pref){
-            pref.forEach((v)=>{
-                paramsArray.push(...[v])
-            })
-
         }
 
         this.calls++
@@ -198,7 +230,12 @@ export class HomeService {
         this.observations.length = 0;
         this.observationsSubject.next([]);
         this.genChips();
-        this.params.page = 1;
+        this.params = {
+            order_by: 'created_at',
+            created_d2: new Date(),
+            per_page: 10,
+            page: 1
+        } 
         this.chipGroup.forEach((cG:any)=>{
             this.updateParams(cG)
         })
@@ -212,7 +249,7 @@ export class HomeService {
     }
 
     async loadObservations():Promise<boolean>{
-        console.log('load')
+
         this.busy.next(true);
         let params = this.extraParams();
 

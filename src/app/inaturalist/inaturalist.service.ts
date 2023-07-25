@@ -17,7 +17,7 @@ export class InaturalistService {
     const url = new URL('v2/observations',this.base_url);
     const fields = this.inaturalistConfig.fields.observation;
     const params = [
-              // ['photo_licensed','true'],
+              ['photo_licensed','true'],
               ['photos', 'true'],
               ['fields', fields ]
             ];
@@ -87,7 +87,6 @@ export class InaturalistService {
       return undefined;
     }
     const url = new URL(`v2/users/${user[0].id}`,this.base_url);
-    // params = [['fields',rison.encode(this.inaturalistConfig.UserAll)]];
     url.search = new URLSearchParams([['fields','all']]).toString();
 
     response = await fetch(url);

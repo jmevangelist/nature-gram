@@ -81,7 +81,11 @@
               "browserTarget": "nature-gram:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "sslKey": "keys/key.pem",
+            "sslCert": "keys/cert.pem"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
