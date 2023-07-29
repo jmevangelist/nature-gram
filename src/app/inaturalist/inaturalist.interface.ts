@@ -22,6 +22,7 @@ export interface Observation {
     geoprivacy?: string;
     obscured: boolean;
     quality_metrics: QualityMetric[];
+    tags: string[];
 }
 
 export interface User {

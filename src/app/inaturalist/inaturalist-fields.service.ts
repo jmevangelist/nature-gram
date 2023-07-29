@@ -79,7 +79,8 @@ export class InaturalistFieldsService {
         user: {
             id: true,
             login: true,
-            icon: true
+            icon: true,
+            icon_url: true
         },
         place_guess: true,
         taxon: { 
@@ -103,7 +104,8 @@ export class InaturalistFieldsService {
             agree: true,
             metric: true,
             user_id: true 
-        }
+        },
+        tags: true
     }
 
     UserAll = {

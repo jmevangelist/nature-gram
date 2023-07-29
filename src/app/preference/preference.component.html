@@ -1,4 +1,4 @@
-<app-header title="Your Preferences"></app-header>
+<app-header title="Preferences"></app-header>
 <div class="preference-container">
 
     <form [formGroup]="prefForm" (submit)="onSubmit()">
@@ -23,6 +23,7 @@
                 {{t.taxon?.rank == 'species'? '' : t.taxon?.rank | titlecase}} <em>{{t.taxon?.name}}</em> 
                 <cds-icon (click)="removeTaxa(t.taxon)" shape="close"></cds-icon>
             </span>
+            <p class="p5">Ticked taxon will be included in the filter by default</p>
         </div>
 
 

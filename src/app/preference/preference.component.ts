@@ -124,7 +124,7 @@ export class PreferenceComponent implements OnDestroy {
 
 
   selectTaxon(taxon:Taxon):void{
-    let selected = { active: true, taxon: taxon }
+    let selected = { active: false, taxon: taxon }
 
     if(this.taxa.filter((t)=> t.taxon?.id === selected?.taxon?.id ).length === 0){
       this.taxa.push(selected)
@@ -135,7 +135,7 @@ export class PreferenceComponent implements OnDestroy {
   }
 
   selectPlace(place:Place):void{
-    let selected = { active: true, place: place }
+    let selected = { active: false, place: place }
 
     if(this.places.filter((t)=> t.place?.id === selected?.place?.id ).length === 0){
       this.places.push(selected)

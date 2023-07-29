@@ -5,11 +5,12 @@ import { DateTimeAgoPipe } from '../shared/date-time-ago.pipe'
 import { CarouselComponent } from '../carousel/carousel.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
-import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon, checkCircleIcon } from '@cds/core/icon';
+import { ClarityIcons, starIcon, bookmarkIcon, chatBubbleIcon, infoStandardIcon, checkCircleIcon, mapMarkerIcon, eyeIcon } from '@cds/core/icon';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { UrlifyDirective } from '../shared/urlify.directive';
 import { QualityMetricComponent } from '../quality-metric/quality-metric.component';
+import { AlbumComponent } from '../album/album.component';
 
 @Component({
   selector: 'app-gram',
@@ -22,7 +23,8 @@ import { QualityMetricComponent } from '../quality-metric/quality-metric.compone
     RouterOutlet,
     ClarityModule,
     UrlifyDirective,
-    QualityMetricComponent
+    QualityMetricComponent,
+    AlbumComponent
   ],
   templateUrl: './gram.component.html',
   styleUrls: ['./gram.component.css'],
@@ -42,20 +44,28 @@ export class GramComponent implements OnInit {
   currentIdentification!: Identification | undefined;
   comment!: Comment;
   isCommentsOpen: boolean = false;
+  activitySummary!: any[];
 
   ngOnInit(){
     this.isFaved = Boolean(this.observation.faves.filter((f)=> f.user_id == this.authService.me?.id).length)
 
     this.authorized = !this.authService.isExpired;
-    this.currentIdentification = this.observation.identifications
+    let currentIdentification = this.observation.identifications
     .filter((i) => ((i.category=="leading"||i.category=='improving')&&i.current) )
-    .sort((a,b) => ( Date.parse(a.created_at) - Date.parse(b.created_at) )  ).pop()
+    .sort((a,b) => ( Date.parse(b.created_at) - Date.parse(a.created_at) )  )
+
+    if(currentIdentification.length){
+      this.currentIdentification = currentIdentification[0]
+    }
 
     if(this.observation.quality_grade == 'research'){
-      this.observation.quality_grade+=' grade'
+      this.observation.quality_grade ='RG'
+    }else{
+      this.observation.quality_grade = ''
     }
+
     if(this.observation.comments?.length){
-      this.comment = this.observation.comments[0]
+      this.comment = this.observation.comments.sort((a,b)=> Date.parse(b.created_at) - Date.parse(a.created_at))[0]
     }
   }
 
@@ -114,4 +124,4 @@ export class GramComponent implements OnInit {
   }
 }
 
-ClarityIcons.addIcons(starIcon,bookmarkIcon,chatBubbleIcon,infoStandardIcon,checkCircleIcon)
+ClarityIcons.addIcons(starIcon,bookmarkIcon,chatBubbleIcon,infoStandardIcon,checkCircleIcon,mapMarkerIcon,eyeIcon)

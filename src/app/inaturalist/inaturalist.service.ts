@@ -54,7 +54,7 @@ export class InaturalistService {
     for (let obs of observations){
       if(obs.photos){
         for (let photo of obs.photos){
-          photo.url = photo.url.replace('square','medium')
+          photo.url = photo.url.replace('square','original')
         }
       }
     }

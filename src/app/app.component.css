@@ -12,6 +12,7 @@
     width: 8rem;
 }
 
+
 .content-area{
     padding: 0 !important;
 }
@@ -58,6 +59,9 @@ clr-dropdown > .btn > cds-icon{
 
 .clr-vertical-nav{
     background-color: white;
+    width: 8rem;
+    box-shadow: 0.05rem 0.1rem 0.05rem var(--clr-card-box-shadow-color);
+    margin-right: 0.1rem;
 }
 
 .nav-dropdown {

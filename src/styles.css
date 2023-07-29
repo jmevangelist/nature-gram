@@ -30,12 +30,16 @@ body{
 
 .sticky-top{
     position: sticky;
-    top: 0;
+    top: 0px;
     z-index: 10;
 }
 
 .p5{
     line-height: 0.8rem !important;
+}
+
+.m-0{
+    margin: 0 !important;
 }
 
 @media screen and (max-width: 768px) {
