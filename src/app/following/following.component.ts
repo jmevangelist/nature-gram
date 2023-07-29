@@ -6,6 +6,7 @@ import { HeaderComponent } from '../header/header.component';
 import { GramComponent } from '../gram/gram.component';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { SubscriptionLike } from 'rxjs';
+import { UrlifyDirective } from '../shared/urlify.directive';
 
 @Component({
   selector: 'app-following',
@@ -13,7 +14,8 @@ import { SubscriptionLike } from 'rxjs';
   imports: [
     CommonModule,
     HeaderComponent,
-    GramComponent
+    GramComponent,
+    UrlifyDirective
   ],
   templateUrl: './following.component.html',
   styleUrls: ['./following.component.css']

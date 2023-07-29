@@ -1,9 +1,12 @@
 <app-header title="Following" class="sticky-top"></app-header>
-<div class="following">
-    <div *ngFor="let u of following" class="user-container" [class.selected]="u.id==selected?.id">
-        <img [src]="u.friend_user.icon_url" class="user-icon" (click)="select(u)">
-        <div class="p8">{{u.friend_user.login}}</div>
+<div class="following-container">
+    <div class="following">
+        <div *ngFor="let u of following" class="user-container" [class.selected]="u.id==selected?.id">
+            <img [src]="u.friend_user.icon_url" class="user-icon" (click)="select(u)">
+            <div class="p8">{{u.friend_user.login}}</div>
+        </div>
     </div>
+    <button class="btn btn-link" *urlify="['/following-list']">All</button>
 </div>
 <div class="no-token" [hidden]="!auth.isExpired">Missing/expired token</div>
 <div class="content">

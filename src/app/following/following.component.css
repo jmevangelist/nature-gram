@@ -1,10 +1,20 @@
 .following{
     display: flex;
     flex-direction: row;
-    width: 100%;
     overflow-x: scroll;
     padding: 0.3rem;
+    flex: auto;
+}
+
+.following-container{
+    display:flex;
+    align-items: center;
+}
+
+.following-container > .btn{
     flex: none;
+    margin: 0;
+    min-width: unset;
 }
 
 .user-container{
@@ -47,7 +57,7 @@
 }
 
 .content{
-    max-width: 768px;
+    max-width: 850px;
     width: 100%;
 }
 
@@ -57,7 +67,7 @@
 
 :host{
     width: 100%;
-    max-width: 768px;
+    max-width: 850px;
     display: flex;
     flex-direction: column;
     height: 100%;
