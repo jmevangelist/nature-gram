@@ -1,0 +1,23 @@
+<div class="fullscreen">
+    <button class="btn btn-icon btn-link close" (click)="close.emit()">
+        <cds-icon shape="close" size="md"></cds-icon>
+    </button>
+
+    <button class="btn btn-icon btn-link left" (click)="left()" [class.invisible]="index==0">
+        <cds-icon shape="angle" size="md" direction="left"></cds-icon>
+    </button>
+    
+    <div class="fullscreen-img-container">
+        <div #cPhotos *ngFor="let photo of photos;let i = index" (click)="close.emit()">
+            <img #img [src]="photo.url.replace('medium','original')" (click)="$event.stopPropagation()" 
+            [attr.width]="photo.original_dimensions.width"
+            [attr.height]="photo.original_dimensions.height" >
+            <div class="index" *ngIf="photos.length > 1">{{i+1}}/{{photos.length}}</div>
+            <div class="attribution">{{photo.attribution}}</div>
+        </div>
+    </div>
+    
+    <button class="btn btn-icon btn-link right" (click)="right()" [class.invisible]="index==photos.length-1">
+        <cds-icon shape="angle" size="md" direction="right"></cds-icon>
+    </button>
+</div>

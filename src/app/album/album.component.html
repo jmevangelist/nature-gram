@@ -1,0 +1,13 @@
+<div class="container">
+    <div *ngFor="let photo of photos| slice:0:3;let first=first; let odd=odd; let last=last; let i=index" 
+    class="img-container" [class.span]="first&&photos.length!=2" #p [class.half-span]="odd&&last&&photos.length!=2"
+    (click)="openPhoto(i)">
+        <img  [src]="photo.url" [class.contain]="first&&photos.length!=2&&(photo.original_dimensions.height-photo.original_dimensions.width > 100)"
+            [attr.width]="photo.original_dimensions.width"
+            [attr.height]="photo.original_dimensions.height">
+        <div *ngIf="first" class="attribution">{{photo.attribution}}</div>
+        <div *ngIf="last&&photos.length>3" class="index">+{{photos.length-3}}</div>
+    </div>
+</div>
+
+<app-fullscreen-carousel [hidden]="!fullscreen" [photos]="photos" [index]="index" (close)="fullscreen=false"></app-fullscreen-carousel>

@@ -1,7 +1,6 @@
 .container{
     display: flex;
     flex-direction: column;
-    max-width: 768px;
     width: 100%;
 }
 
@@ -12,10 +11,28 @@
     padding: 0 0.6rem;
 }
 
+@media screen and (min-width: 768px) {
+    app-album{
+        display: block;
+    }
+    app-carousel{
+        display: none !important;
+    }
+    .container{
+        padding-right: 5rem;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .album{
         height: 100vw;
         padding: 0;
+    }
+    app-album{
+        display:none;
+    }
+    app-carousel{
+        display: block;
     }
 }
 

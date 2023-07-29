@@ -6,7 +6,7 @@
             <img #img [src]="photo.url" loading="lazy" 
             [width]="photo.original_dimensions.width" 
             [height]="photo.original_dimensions.height"
-            (click)="img.classList.toggle('contain')" >
+            (click)="fullscreen=true;index=i" >
             <div class="attribution p7" #att (click)="att.classList.toggle('display')">{{photo.attribution}}</div>
         </li>
     </ul>
@@ -24,3 +24,5 @@
     <cds-icon shape="angle" direction="right"></cds-icon>
 </button>
 
+<app-fullscreen-carousel [hidden]="!fullscreen" 
+[photos]="photos" [index]="index" (close)="fullscreen=false"></app-fullscreen-carousel>

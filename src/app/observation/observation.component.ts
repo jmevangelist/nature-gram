@@ -14,6 +14,7 @@ import { AuthorizationService } from '../authorization/authorization.service';
 import { UrlifyDirective } from '../shared/urlify.directive';
 import { MapComponent } from '../map/map.component';
 import { QualityMetricComponent } from '../quality-metric/quality-metric.component';
+import { AlbumComponent } from '../album/album.component';
 
 @Component({
   selector: 'app-observation',
@@ -29,6 +30,7 @@ import { QualityMetricComponent } from '../quality-metric/quality-metric.compone
     UrlifyDirective,
     MapComponent,
     QualityMetricComponent,
+    AlbumComponent
   ],
   templateUrl: './observation.component.html',
   styleUrls: ['./observation.component.css']
@@ -98,18 +100,20 @@ export class ObservationComponent implements OnInit {
   }
 
   wikipediaSummary():void{
-    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${this.observation?.taxon?.name?.replace(' ','_')}?redirect=true`
-    ).then(res=>{
-      if(res.ok){
-        res.json().then((data:any)=>{
-          console.log(data)
-          this.wiki = {};
-          this.wiki['extract_html'] = data.extract_html.replace('<p>','').replace('</p>','');
-          this.wiki['uri'] = data.content_urls.desktop.page;
-        })
-      }
+    if(this.observation?.taxon){
+      fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${this.observation?.taxon?.name?.replace(' ','_')}?redirect=true`
+      ).then(res=>{
+        if(res.ok){
+          res.json().then((data:any)=>{
+            console.log(data)
+            this.wiki = {};
+            this.wiki['extract_html'] = data.extract_html.replace('<p>','').replace('</p>','');
+            this.wiki['uri'] = data.content_urls.desktop.page;
+          })
+        }
 
-    })
+      })
+    }
   }
 
   share(){

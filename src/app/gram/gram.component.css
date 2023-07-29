@@ -1,20 +1,26 @@
 .card{
     width: 100%;
-    box-shadow: unset !important;
+    max-width: 768px;
+    box-shadow: unset;
     border-style: unset !important;
     margin: 0 auto 1rem auto;
+    padding: 0.3rem 0;
+    line-height: 1px;
 }
 
 @media screen and (min-width: 768px) {
     .card{
         border-style: solid !important;
+        box-shadow: 0.05rem 0.1rem 0.05rem var(--clr-card-box-shadow-color);
+        border-radius: 0.3rem;
+        background-color: white;
     }   
 }
 
 .user_icon{
     border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
+    width: 1.8rem;
+    height: 1.8rem;
     object-fit: cover;
 }
 
@@ -38,6 +44,7 @@
 
 h6{
     margin: 0;
+    line-height: 1rem;
 }
 
 .clr-col-auto{
@@ -48,7 +55,8 @@ h6{
     position: relative;
     width: 100%; 
     display: inline-block;
-    height: 25rem;
+    height: 450px;
+    flex:none;
 }
 
 .clr-row {
@@ -61,9 +69,23 @@ h6{
 }
 
 .card-block{
-    padding: 0 .6rem .3rem !important;
+    padding: 0 .6rem !important;
     border: none !important;
 }
+
+.gram-header{
+    display: flex;
+    align-items: center;
+}
+
+.gram-meta{
+    padding: 0 0.3rem;
+}
+
+.gram-meta > * {
+    margin-top: 0;
+}
+
 
 .card-actions > .btn{
     width: 26px !important;
@@ -104,7 +126,22 @@ a{
 }
 
 
+@media screen and (min-width: 768px) {
+    .album{
+        display: block;
+    }
+    .carousel{
+        display: none !important;
+    }
+}
+
 @media screen and (max-width: 768px) {
+    .album{
+        display:none;
+    }
+    .carousel{
+        display: block;
+    }
     .card{
         width: 100% !important;
     }
@@ -187,18 +224,24 @@ a{
 .taxon-grade{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     align-items: center;
     max-width: 100%;
+    padding: 0.3rem 0;
 }
 
-
-.taxon-grade > .btn{
-    margin: 0;
+.taxon-grade-label{
+    border-radius: 50%;
+    font-size: var(--clr-label-font-size);
+    background-color: var(--clr-label-success-bg-color);
+    color: var(--clr-label-success-font-color);
+    padding: 0.25rem;
 }
 
 .taxon {
-    flex: 1 1 min-content;
+    flex: auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .taxon > h6{

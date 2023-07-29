@@ -1,7 +1,10 @@
 <app-header title="Observation" class="sticky-top"></app-header>
 
 <div class="container" *ngIf="observation">
-    <div class="album"><app-carousel [photos]="observation.photos"></app-carousel></div>
+    <div class="album">
+        <app-carousel [photos]="observation.photos"></app-carousel>
+        <app-album [photos]="observation.photos"></app-album>
+    </div>
     <div class="sub-header">
         <div class="taxon-grade">
             <div class="taxon" *ngIf="observation.taxon else unknown">
