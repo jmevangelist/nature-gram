@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren, inject, AfterViewInit, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observation } from '../inaturalist/inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
@@ -6,12 +6,12 @@ import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
 import { Navigation, Router, RouterLink } from '@angular/router';
 import { Observable, SubscriptionLike } from 'rxjs';
-import { ClarityIcons, angleIcon, filterGridIcon, bellIcon, bellIconName } from '@cds/core/icon';
+import { ClarityIcons, filterGridIcon, bellIcon } from '@cds/core/icon';
 import { HeaderComponent } from '../header/header.component';
 import { ChipsComponent } from '../chips/chips.component';
-import { Chip } from '../chips/chip.interface';
 import { IconShapeTuple } from '@cds/core/icon/interfaces/icon.interfaces';
 import { NotificationService } from '../notification/notification.service';
+import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
 
 @Component({
   selector: 'app-home',
@@ -22,12 +22,13 @@ import { NotificationService } from '../notification/notification.service';
     ClarityModule,
     RouterLink,
     HeaderComponent,
-    ChipsComponent
+    ChipsComponent,
+    IntersectionObserverDirective
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
 
   observations: Observable<Observation[]>;
   homeService: HomeService = inject(HomeService);
@@ -39,18 +40,14 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   notification$: Observable<number>;
   chipGroup: any[];
 
-  private observer: IntersectionObserver | undefined;  
   private currentNavigation: Navigation | null;
   private sub?: SubscriptionLike;
-
-  @ViewChildren('grams') grams!: QueryList<any>;
 
   constructor(private router: Router, private view: ViewContainerRef){
     ClarityIcons.addIcons(filterGridIcon)
     this.observations = this.homeService.observations$;
     this.loading = this.homeService.loading$;
     this.currentNavigation = this.router.getCurrentNavigation();
-    this.createObserver()
     this.end = false;
 
     this.bellIcon = bellIcon;
@@ -72,26 +69,8 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  ngAfterViewInit(){
-    let lastElement = document.querySelector('.last');
-    if(lastElement){  
-      this.observer?.observe(lastElement);
-    }
-
-    this.sub = this.grams.changes.subscribe(this.ngForRendered.bind(this))
-  }
-
-  ngForRendered(t:any){
-    let lastElement = document.querySelector('.last');
-    if(lastElement){  
-      this.observer?.observe(lastElement);
-    }
-    
-  }
-
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
-    this.observer?.disconnect();
     this.homeService.saveDefaultFilter();
   }
 
@@ -102,22 +81,6 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.homeService.loadObservations().then((b)=>{
       this.end = !b;
     })
-  }
-
-  private createObserver(){
-    const options = {
-      rootMargin: '0px',
-      threshold: 0.05
-    }
-    
-    this.observer = new IntersectionObserver((entries,observer)=>{
-      entries.forEach((entry)=>{
-        if(entry.isIntersecting){
-          this.moreObservations()
-          observer.unobserve(entry.target)
-        }
-      })
-    },options)
   }
 
   reload(){
@@ -133,11 +96,14 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.homeService.reload().then((b)=>{
       this.end = !b;
     })
-    console.log(this.homeService.chipGroup)
   }
 
   goToNotifications(){
     this.router.navigateByUrl('/notifications')
+  }
+
+  intersected(){
+    this.moreObservations();
   }
 
 }

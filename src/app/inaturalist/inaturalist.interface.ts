@@ -35,6 +35,7 @@ export interface User {
     description?: string;
     roles?: string[];
     species_count?: number;
+    last_active?: string;
 }
 
 export interface Vote {

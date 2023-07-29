@@ -4,10 +4,14 @@
     (click)="openPhoto(i)">
         <img  [src]="photo.url" [class.contain]="first&&photos.length!=2&&(photo.original_dimensions.height-photo.original_dimensions.width > 100)"
             [attr.width]="photo.original_dimensions.width"
-            [attr.height]="photo.original_dimensions.height">
+            [attr.height]="photo.original_dimensions.height"
+            loading="lazy" >
         <div *ngIf="first" class="attribution">{{photo.attribution}}</div>
         <div *ngIf="last&&photos.length>3" class="index">+{{photos.length-3}}</div>
     </div>
 </div>
 
-<app-fullscreen-carousel [hidden]="!fullscreen" [photos]="photos" [index]="index" (close)="fullscreen=false"></app-fullscreen-carousel>
+<ng-template #fullscreenTemplate></ng-template>
+
+<!-- <app-fullscreen-carousel *ngIf="fullscreen" [photos]="photos" [index]="index" (close)="fullscreen=false">
+</app-fullscreen-carousel> -->
