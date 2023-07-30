@@ -47,6 +47,24 @@ export class InaturalistFieldsService {
         ancestor_ids: true
     }
 
+    Taxon_verbose = {
+        id: true,
+        name: true,
+        iconic_taxon_name: true,
+        preferred_common_name: true,
+        rank: true,
+        rank_level: true,
+        matched_term: true,
+        default_photo: this.Photos,
+        taxon_photos: {taxon: true, photo: this.Photos},
+        is_active: true,
+        wikipedia_summary: true,
+        wikipedia_url: true,
+        ancestor_ids: true,
+        ancestors: this.Taxon_search,
+        children: this.Taxon_search
+    }
+
     Identification = {
         id: true,
         uuid: true,

@@ -16,7 +16,9 @@
         <p class="card-text p5" [innerHTML]="observation.description"></p>
         <div class="taxon-grade">
             <div class="taxon" *ngIf="observation.taxon else unknown">
-                <h6>{{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} <em>{{observation.taxon.name}}</em></h6>
+                <h6 *urlify="['/taxon',observation.taxon.id]">
+                    {{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} 
+                    <em>{{observation.taxon.name}}</em></h6>&nbsp;
                 <p class="p7">{{observation.taxon.preferred_common_name}}</p>
             </div>
             <ng-template #unknown>

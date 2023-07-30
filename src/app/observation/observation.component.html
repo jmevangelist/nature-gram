@@ -8,8 +8,8 @@
     <div class="sub-header">
         <div class="taxon-grade">
             <div class="taxon" *ngIf="observation.taxon else unknown">
-                <h3>{{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} <em>{{observation.taxon.name}}</em></h3>
-                <p class="p5">{{observation.taxon.preferred_common_name}}</p>
+                <h3 *urlify="['/taxon',observation.taxon.id]">{{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} <em>{{observation.taxon.name}}</em></h3>
+                <p *urlify="['/taxon',observation.taxon.id]" class="p5">{{observation.taxon.preferred_common_name}}</p>
             </div>
             <ng-template #unknown>
                 <div class="taxon">

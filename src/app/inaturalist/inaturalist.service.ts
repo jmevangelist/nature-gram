@@ -101,10 +101,15 @@ export class InaturalistService {
 
   }
 
-  async getTaxa(id:string[]):Promise<Taxon[]>{
+  async getTaxa(id:string[],fields?:string):Promise<Taxon[]>{
     const url = new URL(`/v2/taxa/${id}`,this.base_url);
+    if(!fields){
+      fields = rison.encode(this.inaturalistConfig.Taxon_search)
+    }else if(fields == 'all'){
+      fields = rison.encode(this.inaturalistConfig.Taxon_verbose)
+    }
     url.search = new URLSearchParams([
-      ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
+      ['fields', fields ?? 'all' ],
     ]).toString();
 
     let response = await fetch(url)

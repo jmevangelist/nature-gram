@@ -58,6 +58,14 @@ export interface Taxon {
     is_active?: boolean;
     wikipedia_summary?: string;
     wikipedia_url?: string;
+    taxon_photos?: TaxonPhoto[];
+    children?: Taxon[];
+    ancestors?: Taxon[];
+}
+
+export interface TaxonPhoto{
+    taxon: Taxon;
+    photo: Photo;
 }
 
 export interface Photo {

@@ -34,6 +34,8 @@
 .display{
     width: fit-content !important;
     opacity: 1 !important;
+    white-space: pre-wrap;
+    text-align: left;
 }
 
 

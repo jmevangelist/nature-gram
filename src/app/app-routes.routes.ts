@@ -9,6 +9,7 @@ import { ObservationComponent } from './observation/observation.component';
 import { MapComponent } from './map/map.component';
 import { FollowingComponent } from './following/following.component';
 import { FollowingListComponent } from './following-list/following-list.component';
+import { TaxonInfoComponent } from './taxon-info/taxon-info.component';
 
 const appRoutes: Routes = [
   {
@@ -60,6 +61,12 @@ const appRoutes: Routes = [
   {
     path: 'following-list',
     component: FollowingListComponent,
+    title: 'Following'
+  },
+  {
+    path:'taxon/:id',
+    component: TaxonInfoComponent,
+    title: 'Taxon'
   }
 ];
 

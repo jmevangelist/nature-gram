@@ -141,7 +141,7 @@ a {
     box-shadow: none !important;    
 }
 
-.card-id > app-taxon{
+.card-id > span{
     flex: auto;
 }
 

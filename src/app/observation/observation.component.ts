@@ -64,7 +64,7 @@ export class ObservationComponent implements OnInit {
         if(this.observation?.quality_grade == 'research'){
           this.observation.quality_grade = 'research grade'
         }
-        this.wikipediaSummary();
+        this.wikipediaSummary(this.observation?.taxon?.wikipedia_url);
     })
     this.inaturalistService.getObservationTaxonSummaryByUUID(this.uuid).then((data:any)=>{
       console.log(data)
@@ -99,9 +99,10 @@ export class ObservationComponent implements OnInit {
     return Boolean(this.observation?.faves.find((f)=> f.user_id == this.authService.me?.id ))
   }
 
-  wikipediaSummary():void{
-    if(this.observation?.taxon){
-      fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${this.observation?.taxon?.name?.replace(' ','_')}?redirect=true`
+  wikipediaSummary(uri?:string):void{
+    let title = uri?.substring(uri.lastIndexOf('/')+1)
+    if(title){
+      fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}?redirect=true`
       ).then(res=>{
         if(res.ok){
           res.json().then((data:any)=>{

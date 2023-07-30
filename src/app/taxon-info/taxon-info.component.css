@@ -1,0 +1,75 @@
+.photos{
+    width: 100%;
+    display: inline-block;
+}
+
+.container{
+    max-width: 100%;
+    padding: 0.3rem 5rem 0.3rem 0.6rem;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+app-map{
+    display: inline-block;
+}
+
+.taxonomy{
+    flex:none;
+    min-width: 15rem;
+}
+
+.about{
+    flex: 1 1 400px;
+}
+
+@media screen and (max-width:768px)  {
+    .container{
+        padding: 0.6rem;
+    }
+
+    .photos{
+        height: 100vw;
+    }
+    app-album{
+        display:none !important;
+    }
+    app-map{
+        width: 100%;
+        height: 70vw;
+    }
+}
+
+@media screen and (min-width:768px) {
+    app-carousel{
+        display:none !important;
+    }
+    .photos{
+        height: 500px;
+        padding: 0.3rem 5rem 0.3rem 0.6rem;
+    }
+    app-map{
+        min-width: 400px;
+        width: 100%;
+        height: 350px;
+    }
+    .taxonomy{
+        padding-left: 0.6rem;
+    }
+}
+
+.classification{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.ancestry{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.current-taxon{
+    background-color: var(--clr-color-action-50);
+}
+
