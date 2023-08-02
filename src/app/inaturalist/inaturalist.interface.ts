@@ -4,17 +4,17 @@ export interface Observation {
     user: User;
     place_guess?: string;
     taxon?: Taxon;
-    photos: Photo[] | [];
+    photos: Photo[];
     time_observed_at: string;
     time_zone_offset: string;
     created_at: string;
     faves_count: number;
     faves: Vote[];
-    identifications: Identification[] | [];
+    identifications: Identification[];
     identifications_count: number,
     description: string | null;
     quality_grade: string;
-    comments: Comment[] | [];
+    comments: Comment[];
     comments_count: number;
     uri?: string;
     location?: string;
@@ -23,6 +23,7 @@ export interface Observation {
     obscured: boolean;
     quality_metrics: QualityMetric[];
     tags: string[];
+    project_observations: ProjectObservation[];
 }
 
 export interface User {
@@ -164,3 +165,19 @@ export interface Relationship {
     friend_user: User;
     id: number;
 } 
+
+export interface Project {
+    id: number;
+    created_at: string;
+    description: string;
+    header_image_url: string;
+    icon: string;
+    title: string;
+}
+
+export interface ProjectObservation {
+    id: number;
+    project: Project;
+    project_id: number;
+    uuid: string;
+}

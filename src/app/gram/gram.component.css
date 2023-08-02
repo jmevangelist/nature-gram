@@ -14,6 +14,7 @@
         box-shadow: 0.05rem 0.1rem 0.05rem var(--clr-card-box-shadow-color);
         border-radius: 0.3rem;
         background-color: white;
+        width: 700px;
     }   
 }
 
@@ -129,6 +130,7 @@ a{
 @media screen and (min-width: 768px) {
     .album{
         display: block;
+        height: auto !important;
     }
     .carousel{
         display: none !important;

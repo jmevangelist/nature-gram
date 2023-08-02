@@ -1,11 +1,14 @@
-<div class="container">
-    <div *ngFor="let photo of photos| slice:0:3;let first=first; let odd=odd; let last=last; let i=index" 
-    class="img-container" [class.span]="first&&photos.length!=2" #p [class.half-span]="odd&&last&&photos.length!=2"
+<div class="grid-container" [class.solo]="photos.length == 1" 
+    [class.duo]="photos.length == 2" [class.trio]="photos.length >= 3" >
+    <div *ngFor="let photo of photos| slice:0:3;let last=last; let i=index; let first=first" 
+    class="grid-item" [class.first]="first" [class.second]="i==1"
+    [class.tall]="((photo.original_dimensions.width/photo.original_dimensions.height) < 0.8)"
+    [class.wide]="((photo.original_dimensions.width/photo.original_dimensions.height) > 1.4)"
+    [class.square]="0.8 <= (photo.original_dimensions.width/photo.original_dimensions.height) &&
+    (photo.original_dimensions.width/photo.original_dimensions.height) <= 1.4 "
     (click)="openPhoto(i)">
-        <img  [src]="photo.url" [class.contain]="first&&photos.length!=2&&(photo.original_dimensions.height-photo.original_dimensions.width > 100)"
-            [attr.width]="photo.original_dimensions.width"
-            [attr.height]="photo.original_dimensions.height"
-            loading="lazy" >
+        <img [src]="photo.url" [attr.width]="photo.original_dimensions.width"
+        [attr.height]="photo.original_dimensions.height" loading="lazy">
         <div *ngIf="first" class="attribution">{{photo.attribution}}</div>
         <div *ngIf="last&&photos.length>3" class="index">+{{photos.length-3}}</div>
     </div>
@@ -13,5 +16,3 @@
 
 <ng-template #fullscreenTemplate></ng-template>
 
-<!-- <app-fullscreen-carousel *ngIf="fullscreen" [photos]="photos" [index]="index" (close)="fullscreen=false">
-</app-fullscreen-carousel> -->

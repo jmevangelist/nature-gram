@@ -45,7 +45,8 @@ export class InaturalistService {
 
   async getObservationsByUUID(uuid:string[]): Promise<Observation[]>{
     const url = new URL(`v2/observations/${uuid}`,this.base_url)
-    url.search = new URLSearchParams([['fields','all']]).toString();
+    let fields = this.inaturalistConfig.fields.observation_verbose;
+    url.search = new URLSearchParams([['fields',fields]]).toString();
 
     const response = await fetch(url);
     const data = await response.json() ?? {};

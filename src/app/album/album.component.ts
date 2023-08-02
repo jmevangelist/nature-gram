@@ -20,7 +20,7 @@ export class AlbumComponent implements OnInit {
   @ViewChildren('cPhotos') carouselPhotos!: QueryList<any>;
 
   ngOnInit(): void {
-    this.photos.sort((a,b)=>b.original_dimensions.width-a.original_dimensions.width)
+    // this.photos.sort((a,b)=>b.original_dimensions.width-a.original_dimensions.width)
   }
 
   openPhoto(index:number){

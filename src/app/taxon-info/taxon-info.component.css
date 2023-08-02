@@ -45,7 +45,8 @@ app-map{
         display:none !important;
     }
     .photos{
-        height: 500px;
+        /* height: 500px; */
+        height: auto;
         padding: 0.3rem 5rem 0.3rem 0.6rem;
     }
     app-map{

@@ -27,8 +27,9 @@ export class MapComponent implements OnInit {
 
   @Input() geojson!: Geojson;
   @Input() obscured!: boolean;
-  @Input() taxon!: number;
+  @Input() taxon!: number | undefined;
   @Input() displayObsLayer!: boolean;
+  @Input() exceptID!: string | undefined;
   map: any;
   private iconStyle!: Style;
 
@@ -59,6 +60,27 @@ export class MapComponent implements OnInit {
       view: new View({center: [0,0], zoom: 1})
     });
 
+    if(this.taxon){
+      let url = `https://api.inaturalist.org/v2/taxon_ranges/${this.taxon}/{z}/{x}/{y}.png`
+      let range = new TileLayer({
+        source: new XYZ({
+          url: url,
+        }),
+      })
+      this.map.addLayer(range);
+
+      if(this.displayObsLayer){
+        url = `https://api.inaturalist.org/v2/points/{z}/{x}/{y}.png?taxon_id=${this.taxon}`
+        if(this.exceptID){ url +=  `&not_id=${this.exceptID}`}
+        let grid = new TileLayer({
+          source: new XYZ({
+            url: url
+          })
+        })
+        this.map.addLayer(grid);
+      }
+    }
+
     if(this.geojson){
       let coordinates = fromLonLat(this.geojson.coordinates)
       let vl = new VectorLayer({
@@ -75,26 +97,6 @@ export class MapComponent implements OnInit {
       this.map.addLayer(vl)
       this.map.getView().setCenter(coordinates);
       this.map.getView().setZoom(9);
-    }
-
-    if(this.taxon){
-      let url = `https://api.inaturalist.org/v2/taxon_ranges/${this.taxon}/{z}/{x}/{y}.png`
-      let range = new TileLayer({
-        source: new XYZ({
-          url: url,
-        }),
-      })
-      this.map.addLayer(range);
-
-      if(this.displayObsLayer){
-        url = `https://api.inaturalist.org/v2/points/{z}/{x}/{y}.png?taxon_id=${this.taxon}&quality_grade=research`;
-        let grid = new TileLayer({
-          source: new XYZ({
-            url: url
-          })
-        })
-        this.map.addLayer(grid);
-      }
     }
   
 

@@ -126,6 +126,57 @@ export class InaturalistFieldsService {
         tags: true
     }
 
+    Observation_verbose =  {
+        uuid: true,
+        id: true,
+        user: {
+            id: true,
+            login: true,
+            icon: true,
+            icon_url: true,
+            observations_count: true
+        },
+        place_guess: true,
+        taxon: { 
+            id: true,
+            name: true,
+            preferred_common_name: true,
+            rank: true,
+            rank_level: true,
+        },
+        photos: this.Photos,
+        time_observed_at: true,
+        created_at: true,
+        faves_count: true,
+        identifications: this.Identification,
+        description: true,
+        faves: this.Faves,
+        quality_grade: true,
+        comments: this.Comment,
+        quality_metrics: {
+            id: true,
+            agree: true,
+            metric: true,
+            user_id: true 
+        },
+        tags: true,
+        project_observations: {
+            id: true,
+            uuid: true,
+            project: {
+                id: true,
+                description: true,
+                icon: true,
+                title: true
+            }
+        },
+        geojson: { 
+            coordinates: true,
+            type: true
+        },
+        uri: true
+    }
+
     UserAll = {
         id: true,
         name: true,
@@ -138,6 +189,7 @@ export class InaturalistFieldsService {
 
     fields = {
         observation: rison.encode(this.Observation),
+        observation_verbose: rison.encode(this.Observation_verbose)
     }
 
 }
