@@ -45,7 +45,6 @@ export class UserComponent implements OnInit {
   }
 
   intersected(){
-    console.log('intersected')
     this.getObservations();
   }
 

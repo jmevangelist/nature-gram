@@ -19,6 +19,7 @@ body{
 :root{
     --clr-header-2-bg-color: hsl(198, 0%, 98%);
     --clr-header-font-color: hsl(198, 0%, 20%);
+    --bg-black-semi-transparent: rgba(0,0,0,0.5);
 }
 
 @media screen and (max-width: 768px) {
