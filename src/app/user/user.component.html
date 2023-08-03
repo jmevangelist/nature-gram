@@ -29,6 +29,32 @@
 
     <div *ngIf="observations else loading" class="observations">
         <h5>Observations</h5>
+
+        <div class="taxonomy" *ngIf="taxonomy else loading">
+            <span *ngFor="let s of taxonomy; let i=index; let last=last">
+                <clr-dropdown *ngIf="s.descendant?.length else end">
+                    <span clrDropdownTrigger class="p5 taxon-item" clrDropdownTrigger >
+                        <ng-container *ngIf="s.rank_level != 100 && s.rank_level != 10 && s.rank_level !=5">
+                            {{s.rank | titlecase}}&nbsp;</ng-container>
+                        {{s.name | titlecase}}&nbsp;({{s.descendant_obs_count}}) 
+                        <cds-icon shape="angle" size="sm" [attr.direction]="last ? 'down':'right'"></cds-icon>
+                    </span>
+                    <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+                        <span class="p5" *ngFor="let c of s.descendant" clrDropdownItem 
+                        (click)="selectTaxon(c,i)">
+                        <ng-container *ngIf="c.rank_level != 100 && c.rank_level != 10 && c.rank_level !=5">
+                            {{c.rank | titlecase}}&nbsp;</ng-container>
+                        <em>{{c.name}}</em> ({{c.descendant_obs_count}})</span>
+                    </clr-dropdown-menu>
+                </clr-dropdown>
+                <ng-template #end>
+                    <span class="p5 taxon-item"><ng-container *ngIf="s.rank_level != 100 && s.rank_level != 10 && s.rank_level !=5">
+                        {{s.rank | titlecase}}&nbsp;</ng-container>
+                        <em>{{s.name}} ({{s.descendant_obs_count}})</em></span>
+                </ng-template>
+            </span>
+        </div>
+
         <div class="grid-container">
             <div class="grid-item" *ngFor="let observation of observations; let last=last"
             [class.tall]="observation.photos[0].original_dimensions.width/observation.photos[0].original_dimensions.height < 0.7"
@@ -51,8 +77,9 @@
             </div>
         </div>
     </div>
+
     <div class="spinner-container" appIntersectionObserver (intersected)="intersected()" [observe]="observe">
-        <span class="spinner spinner-md" [hidden]="!observe">
+        <span class="spinner spinner-md" [hidden]="!loadingObs">
             Loading...
         </span>
     </div>

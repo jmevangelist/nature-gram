@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates } from './inaturalist.interface';
+import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates, SpeciesCount, TaxonomyResult } from './inaturalist.interface';
 import { InaturalistFieldsService } from './inaturalist-fields.service'
 import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
@@ -61,6 +61,36 @@ export class InaturalistService {
     }
 
     return observations
+  }
+
+  async getObservationsSpeciesCount(opt_params?:string[][]): Promise<SpeciesCount[]>{
+    const url = new URL('v2/observations/species_counts',this.base_url);
+    const fields = this.inaturalistConfig.fields.speciesCount;
+    const params = [
+              ['photo_licensed','true'],
+              ['photos', 'true'],
+              ['fields', fields ]
+            ];
+    
+    if(opt_params){
+      params.push(...opt_params)
+    }
+
+    url.search =  new URLSearchParams(params).toString()
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data.results
+
+  } 
+
+  async getObservationsTaxonomy(opt_params?:string[][]): Promise<TaxonomyResult>{
+    const url = new URL('v1/observations/taxonomy', this.base_url);
+    url.search = new URLSearchParams(opt_params).toString();
+    const response = await fetch(url);
+    const data = await response.json();
+    return data
   }
 
   async getObservationTaxonSummaryByUUID(uuid:string): Promise<any>{

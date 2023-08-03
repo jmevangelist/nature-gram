@@ -65,6 +65,11 @@ export class InaturalistFieldsService {
         children: this.Taxon_search
     }
 
+    SpeciesCount = {
+        count: true,
+        taxon: this.Taxon_verbose
+    }
+
     Identification = {
         id: true,
         uuid: true,
@@ -189,7 +194,8 @@ export class InaturalistFieldsService {
 
     fields = {
         observation: rison.encode(this.Observation),
-        observation_verbose: rison.encode(this.Observation_verbose)
+        observation_verbose: rison.encode(this.Observation_verbose),
+        speciesCount: rison.encode(this.SpeciesCount)
     }
 
 }

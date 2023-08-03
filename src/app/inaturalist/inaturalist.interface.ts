@@ -62,6 +62,7 @@ export interface Taxon {
     taxon_photos?: TaxonPhoto[];
     children?: Taxon[];
     ancestors?: Taxon[];
+    ancestor_ids: number[];
 }
 
 export interface TaxonPhoto{
@@ -180,4 +181,34 @@ export interface ProjectObservation {
     project: Project;
     project_id: number;
     uuid: string;
+}
+
+export interface SpeciesCount {
+    count: number;
+    taxon: Taxon;
+}
+
+export interface SpeciesTreeCount {
+    count: number;
+    id: number;
+    name?: string;
+    children: SpeciesTreeCount[];
+}
+
+export interface TaxonomyNode{
+    id: number;
+    count?: number;
+    name: string;
+    rank?: string;
+    rank_level?: number;
+    parent_id?: number;
+    descendant_obs_count: number;
+    direct_obs_count?: number;
+    descendant?: TaxonomyNode[];
+}
+
+export interface TaxonomyResult {
+    count_without_taxon: number;
+    size: number;
+    results: TaxonomyNode[];
 }
