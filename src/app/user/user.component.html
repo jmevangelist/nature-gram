@@ -39,7 +39,7 @@
                         {{s.name | titlecase}}&nbsp;({{s.descendant_obs_count}}) 
                         <cds-icon shape="angle" size="sm" [attr.direction]="last ? 'down':'right'"></cds-icon>
                     </span>
-                    <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+                    <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
                         <span class="p5" *ngFor="let c of s.descendant" clrDropdownItem 
                         (click)="selectTaxon(c,i)">
                         <ng-container *ngIf="c.rank_level != 100 && c.rank_level != 10 && c.rank_level !=5">
@@ -50,12 +50,12 @@
                 <ng-template #end>
                     <span class="p5 taxon-item"><ng-container *ngIf="s.rank_level != 100 && s.rank_level != 10 && s.rank_level !=5">
                         {{s.rank | titlecase}}&nbsp;</ng-container>
-                        <em>{{s.name}} ({{s.descendant_obs_count}})</em></span>
+                        <em>{{s.name}}</em> ({{s.descendant_obs_count}})</span>
                 </ng-template>
             </span>
         </div>
 
-        <div class="grid-container">
+        <div class="grid-container" #container [style.grid-auto-rows]="rowCalc">
             <div class="grid-item" *ngFor="let observation of observations; let last=last"
             [class.tall]="observation.photos[0].original_dimensions.width/observation.photos[0].original_dimensions.height < 0.7"
             [class.wide]="observation.photos[0].original_dimensions.width/observation.photos[0].original_dimensions.height > 1.4"

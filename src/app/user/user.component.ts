@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
-import { Observation, User, SpeciesCount, SpeciesTreeCount, Taxon, TaxonomyNode } from '../inaturalist/inaturalist.interface';
+import { Observation, User, SpeciesCount, SpeciesTreeCount, Taxon, TaxonomyNode, TaxonomyResult } from '../inaturalist/inaturalist.interface';
 import { ClarityModule, ClrLoadingButton, ClrLoadingState } from '@clr/angular'
 import { HeaderComponent } from '../header/header.component';
 import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
@@ -22,7 +22,7 @@ import { UrlifyDirective } from '../shared/urlify.directive';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterViewInit {
   route: ActivatedRoute = inject(ActivatedRoute);
   inaturalistService: InaturalistService = inject(InaturalistService)
 
@@ -37,8 +37,11 @@ export class UserComponent implements OnInit {
   loadingObs: boolean = true;
   params!: string[][];
   taxonomy!: TaxonomyNode[];
+  rowCalc!: string;
 
-  constructor(){
+  @ViewChild('container') container!: ElementRef;
+
+  constructor(private changeRef:ChangeDetectorRef){
     this.user_login = this.route.snapshot.params['user_login'];
     this.following = false;
     this.inaturalistService.getUserByLogin(this.user_login)
@@ -64,7 +67,17 @@ export class UserComponent implements OnInit {
           this.relationshipID = r[0].id;
         }
       }
+    }).catch((e)=>{
+      console.log(e)
     })
+  }
+
+  ngAfterViewInit(): void {
+    console.log(this.container)
+    let c = getComputedStyle(this.container.nativeElement).getPropertyValue('grid-template-columns')
+    console.log(c)
+    this.rowCalc = c.split(' ').at(0)
+    this.changeRef.detectChanges();
   }
 
   follow(button:ClrLoadingButton){
@@ -109,6 +122,13 @@ export class UserComponent implements OnInit {
 
   private async getTaxonomy(){
     let tx = await this.inaturalistService.getObservationsTaxonomy([['user_login',this.user_login]])
+    let tHead = this.buildTaxonTree(tx)
+    this.simplifyTaxonTree(tHead)
+    this.taxonomy = [tHead];
+    console.log(tHead)
+  }
+
+  private buildTaxonTree(tx:TaxonomyResult):TaxonomyNode{
     let tHead:TaxonomyNode = {
       id: 0,
       name: 'All',
@@ -135,9 +155,9 @@ export class UserComponent implements OnInit {
         }
         arrtx[t.parent_id].descendant?.push(t)
       }else{
-        tHead.descendant?.push(t)
-        tHead.descendant_obs_count = (t.descendant_obs_count ?? 0) 
-        if( t.descendant_obs_count < (this.user?.observations_count ?? 0)){
+        if( (t.direct_obs_count ?? 0) < tx.count_without_taxon){
+          tHead.descendant?.push(t)
+          tHead.descendant_obs_count = (t.descendant_obs_count ?? 0) 
           tHead.descendant?.push({
             id: -1,
             name: 'Unidentified',
@@ -145,17 +165,17 @@ export class UserComponent implements OnInit {
             descendant_obs_count: tx.count_without_taxon - (t.direct_obs_count ?? 0),
             descendant: []
           })
+          tHead.descendant_obs_count = tx.count_without_taxon - (t.direct_obs_count ?? 0) + t.descendant_obs_count
+        }else{
+          tHead = t
         }
       }
     })
-    
-    tHead.descendant_obs_count = this.user?.observations_count ?? 0
-    this.simplifyTaxonTree(tHead)
-    this.taxonomy = [tHead];
-    console.log(tHead)
+
+    return tHead
   }
 
-  simplifyTaxonTree(node:TaxonomyNode){
+  private simplifyTaxonTree(node:TaxonomyNode){
     node.descendant?.forEach((d,i)=>{
       if((d.direct_obs_count == 0)&&(d.descendant?.length == 1)){
         if(node.descendant){

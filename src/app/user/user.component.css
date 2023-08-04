@@ -65,7 +65,7 @@ p{
 
 .grid-container{
     display: grid;
-    gap: 0.2rem;
+    gap: 0.2rem;    
     grid-template-columns: repeat( auto-fill, minmax(min(7rem,32dvw),1fr) );
     grid-auto-flow: dense;
 }
@@ -79,19 +79,18 @@ p{
 
 .grid-item{
     position: relative;
-    aspect-ratio: 1/1;
 }
 
 
 @media screen and (min-width:768px) {
     .grid-item.tall{
         grid-row: auto/ span 2;
-        aspect-ratio: 1/2;
+        /* aspect-ratio: 1/ calc(2 + 0.2rem); */
     }
     
     .grid-item.wide{
         grid-column: auto/ span 2;
-        aspect-ratio: 2/1;
+        /* aspect-ratio: 2/1; */
     }
 
     .grid-item.square{
@@ -106,13 +105,13 @@ p{
     .grid-item.popular.tall{
         grid-column: auto / span 2;
         grid-row: auto /span 3;
-        aspect-ratio: 2/3;
+        /* aspect-ratio: 2/3; */
     }
     
     .grid-item.popular.wide{
         grid-column: auto / span 3;
         grid-row: auto /span 2;
-        aspect-ratio: 3/2;
+        /* aspect-ratio: 3/2; */
     }    
 }
 
@@ -124,13 +123,13 @@ p{
     .grid-item.popular.tall{
         grid-column: auto / span 1;
         grid-row: auto /span 2;
-        aspect-ratio: 1/2;
+        /* aspect-ratio: 1/2; */
     }
     
     .grid-item.popular.wide{
         grid-column: auto / span 2;
         grid-row: auto /span 1;
-        aspect-ratio: 2/1;
+        /* aspect-ratio: 2/1; */
     }
 }
 
@@ -168,6 +167,10 @@ p{
     margin: auto;
 }
 
+.observations > h5 {
+    padding: 0 0.3rem;
+}
+
 
 .spinner-container{
     display: flex;
@@ -185,6 +188,15 @@ p{
     background-color: var(--clr-color-action-50);
     border-radius: 0.2rem;
     white-space: nowrap;
+}
+
+clr-dropdown-menu {
+    max-height: 15rem;
+    overflow-y: scroll;
+}
+
+clr-dropdown-menu > .dropdown-item {
+    flex: none;
 }
 
 clr-dropdown > .taxon-item > cds-icon{
