@@ -82,16 +82,16 @@ p{
     position: relative;
 }
 
+.grid-item.tall{
+    grid-row: auto/ span 2;
+}
+
+.grid-item.wide{
+    grid-column: auto/ span 2;
+}
+
 
 @media screen and (min-width:768px) {
-    .grid-item.tall{
-        grid-row: auto/ span 2;
-    }
-    
-    .grid-item.wide{
-        grid-column: auto/ span 2;
-    }
-
     .grid-item.square{
         grid-column: auto/span 2;
         grid-row: auto/span 2;
@@ -116,15 +116,6 @@ p{
     .grid-item.popular:not(.tall):not(.wide){
         grid-column: auto / span 2;
         grid-row: auto /span 2;
-    }
-    .grid-item.popular.tall{
-        grid-column: auto / span 1;
-        grid-row: auto /span 2;
-    }
-    
-    .grid-item.popular.wide{
-        grid-column: auto / span 2;
-        grid-row: auto /span 1;
     }
 }
 
@@ -210,4 +201,9 @@ clr-dropdown-menu > .p5{
 
 .taxonomy{
     padding: 0.3rem;
+}
+
+.taxonomy > .btn{
+    padding: 0;
+    margin: 0 0.3rem 0 0;
 }

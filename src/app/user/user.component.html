@@ -31,6 +31,9 @@
         <h5>Observations</h5>
 
         <div class="taxonomy" *ngIf="taxonomy else loading">
+            <button class="btn btn-icon btn-link btn-sm" (click)="resetTaxonomy()" [disabled]="taxonomy.length==1">
+                <cds-icon shape="refresh" size="sm"></cds-icon>
+            </button>
             <span *ngFor="let s of taxonomy; let i=index; let last=last">
                 <clr-dropdown *ngIf="s.descendant?.length else end">
                     <span clrDropdownTrigger class="p5 taxon-item" clrDropdownTrigger >

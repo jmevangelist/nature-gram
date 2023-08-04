@@ -8,6 +8,7 @@ import { HeaderComponent } from '../header/header.component';
 import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
 import { UrlifyDirective } from '../shared/urlify.directive';
 import { SquareGridDirective } from '../shared/square-grid.directive';
+import { ClarityIcons, refreshIcon } from '@cds/core/icon';
 
 @Component({
   selector: 'app-user',
@@ -51,6 +52,7 @@ export class UserComponent implements OnInit {
     this.params = [
       ['user_login',this.user_login],
       ['page',this.page.toString()]]
+    ClarityIcons.addIcons(refreshIcon);
   }
 
   intersected(){
@@ -203,6 +205,17 @@ export class UserComponent implements OnInit {
     }
     this.observations = [];
 
+  }
+
+  resetTaxonomy(){
+    this.taxonomy.length = 1;
+    this.observe = true;
+    this.page = 1;
+    this.params = [
+      ['user_login',this.user_login],
+      ['page',this.page.toString()]]
+
+    this.observations = [];
   }
 
 }
