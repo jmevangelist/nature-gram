@@ -47,14 +47,16 @@ export class TaxonInfoComponent implements OnInit {
   getTaxa(){
     this.taxon = undefined;
     this.wiki = undefined;
+    this.photos = [];
     this.inat.getTaxa([this.id.toString()],'all').then((taxa:Taxon[])=>{
       if(taxa.length){
         this.taxon = taxa[0];
         console.log(this.taxon)
-        this.photos = this.taxon.taxon_photos?.map((tp)=>tp.photo) ?? [];
-        this.photos.forEach((p)=>{
+        let photos = this.taxon.taxon_photos?.map((tp)=>tp.photo) ?? [];
+        photos.forEach((p)=>{
           p.url = p.url.replace('square','original')
         })
+        this.photos = photos;
         this.wikipediaSummary(this.taxon?.wikipedia_url)
       }
     })

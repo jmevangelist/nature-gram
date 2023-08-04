@@ -23,7 +23,6 @@ export class FullscreenCarouselComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.photos.sort((a,b)=>b.original_dimensions.width-a.original_dimensions.width)
   }
 
   ngAfterViewInit(): void {

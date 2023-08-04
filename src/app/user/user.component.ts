@@ -7,6 +7,7 @@ import { ClarityModule, ClrLoadingButton, ClrLoadingState } from '@clr/angular'
 import { HeaderComponent } from '../header/header.component';
 import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
 import { UrlifyDirective } from '../shared/urlify.directive';
+import { SquareGridDirective } from '../shared/square-grid.directive';
 
 @Component({
   selector: 'app-user',
@@ -17,12 +18,13 @@ import { UrlifyDirective } from '../shared/urlify.directive';
     HeaderComponent,
     RouterLink,
     IntersectionObserverDirective,
-    UrlifyDirective
+    UrlifyDirective,
+    SquareGridDirective
   ],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit, AfterViewInit {
+export class UserComponent implements OnInit {
   route: ActivatedRoute = inject(ActivatedRoute);
   inaturalistService: InaturalistService = inject(InaturalistService)
 
@@ -37,11 +39,8 @@ export class UserComponent implements OnInit, AfterViewInit {
   loadingObs: boolean = true;
   params!: string[][];
   taxonomy!: TaxonomyNode[];
-  rowCalc!: string;
 
-  @ViewChild('container') container!: ElementRef;
-
-  constructor(private changeRef:ChangeDetectorRef){
+  constructor(){
     this.user_login = this.route.snapshot.params['user_login'];
     this.following = false;
     this.inaturalistService.getUserByLogin(this.user_login)
@@ -70,14 +69,6 @@ export class UserComponent implements OnInit, AfterViewInit {
     }).catch((e)=>{
       console.log(e)
     })
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.container)
-    let c = getComputedStyle(this.container.nativeElement).getPropertyValue('grid-template-columns')
-    console.log(c)
-    this.rowCalc = c.split(' ').at(0)
-    this.changeRef.detectChanges();
   }
 
   follow(button:ClrLoadingButton){

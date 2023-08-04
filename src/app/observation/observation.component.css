@@ -135,7 +135,6 @@
 }
 
 .description {
-    /* margin-top: 0.6rem !important; */
     margin-bottom: 0.3rem !important;
 }
 
@@ -150,12 +149,15 @@
 .activity{
     width: 100%;
     flex: auto;
-    max-width: 25rem;
-    /* padding: 0 0.6rem; */
+    /* max-width: 25rem; */
 }
 
 .activity > h6{
     margin-top: 0.6rem;
+}
+
+.activity > app-comments{
+    max-height: 90dvh;
 }
 
 .obs-meta-map > h6{
@@ -165,6 +167,7 @@
 .two-part{
     display: flex;
     flex-wrap: wrap-reverse;
+    gap: 0.6rem;
 }
 
 .footer{

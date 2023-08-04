@@ -16,11 +16,9 @@ export class AlbumComponent implements OnInit {
   index: number = 0;
 
   @ViewChild('fullscreenTemplate',{read: ViewContainerRef}) fullscreenTemplate!: ViewContainerRef;
-
   @ViewChildren('cPhotos') carouselPhotos!: QueryList<any>;
 
   ngOnInit(): void {
-    // this.photos.sort((a,b)=>b.original_dimensions.width-a.original_dimensions.width)
   }
 
   openPhoto(index:number){

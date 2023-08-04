@@ -66,9 +66,10 @@ p{
 .grid-container{
     display: grid;
     gap: 0.2rem;    
-    grid-template-columns: repeat( auto-fill, minmax(min(7rem,32dvw),1fr) );
+    grid-template-columns: repeat( auto-fill, minmax(min(7rem,24dvw),1fr) );
     grid-auto-flow: dense;
 }
+
 
 .obs-img {
     height: 100%;
@@ -85,12 +86,10 @@ p{
 @media screen and (min-width:768px) {
     .grid-item.tall{
         grid-row: auto/ span 2;
-        /* aspect-ratio: 1/ calc(2 + 0.2rem); */
     }
     
     .grid-item.wide{
         grid-column: auto/ span 2;
-        /* aspect-ratio: 2/1; */
     }
 
     .grid-item.square{
@@ -105,13 +104,11 @@ p{
     .grid-item.popular.tall{
         grid-column: auto / span 2;
         grid-row: auto /span 3;
-        /* aspect-ratio: 2/3; */
     }
     
     .grid-item.popular.wide{
         grid-column: auto / span 3;
         grid-row: auto /span 2;
-        /* aspect-ratio: 3/2; */
     }    
 }
 
@@ -123,13 +120,11 @@ p{
     .grid-item.popular.tall{
         grid-column: auto / span 1;
         grid-row: auto /span 2;
-        /* aspect-ratio: 1/2; */
     }
     
     .grid-item.popular.wide{
         grid-column: auto / span 2;
         grid-row: auto /span 1;
-        /* aspect-ratio: 2/1; */
     }
 }
 
@@ -171,6 +166,11 @@ p{
     padding: 0 0.3rem;
 }
 
+@media screen and (min-width: 768px) {
+    .observations > .grid-container{
+        padding: 0 0.3rem;
+    }
+}
 
 .spinner-container{
     display: flex;

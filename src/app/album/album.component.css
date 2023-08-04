@@ -51,6 +51,7 @@
 .grid-container{
     width: inherit;
     gap: 0.3rem;
+    display: grid;
 }
 
 .grid-item > img:hover{
@@ -58,7 +59,6 @@
 }
 
 .solo{
-    display: grid;
     grid-template-columns: 1fr;
 }
 
@@ -68,10 +68,10 @@
 
 .solo > .tall{
     margin: auto;
+    height: 500px
 }
 
 .duo{
-    display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
@@ -80,14 +80,22 @@
 }
 
 .trio{
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+.trio:has(.wide.first){
+    grid-auto-rows: minmax(100px,250px);
+}
 
-.trio > .wide.second, .trio > .square.second{
+.trio:has(.tall.first) > .grid-item{
+    max-height: 500px;
+}
+
+.trio > .wide.first{
     grid-column: auto/ span 2;
     grid-row: auto/ span 2;
 }
+
+
 
 
