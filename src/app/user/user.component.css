@@ -57,7 +57,9 @@ p{
 
 .user-description > .p5{
     margin-top: 0 !important;
+    overflow-wrap: break-word;
 }
+
 
 .user-header{
     position: absolute;

@@ -21,9 +21,9 @@
 
     <div class="user-description padding" >
         <ng-container *ngIf="user else loading">
-            <div class="p5" 
+            <p class="p5" 
                 [innerHTML]="user.description?.replaceAll('\r\n\r\n','<br>')?.replaceAll('\r\n','<br>')">
-            </div>
+            </p>
         </ng-container>
     </div>
 

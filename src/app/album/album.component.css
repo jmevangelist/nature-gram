@@ -83,7 +83,7 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-.trio:has(.wide.first){
+.trio:has(.wide.first), .trio:has(.square.first){
     grid-auto-rows: minmax(100px,250px);
 }
 
@@ -91,7 +91,7 @@
     max-height: 500px;
 }
 
-.trio > .wide.first{
+.trio > .wide.first, .trio >.square.first{
     grid-column: auto/ span 2;
     grid-row: auto/ span 2;
 }

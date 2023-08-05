@@ -105,7 +105,8 @@ export interface Comment {
 
 export interface Place {
     id: number;
-    display_name: string;
+    display_name?: string;
+    point_geojson: Geojson;
 }
 
 export interface CommentsCreate {
@@ -211,4 +212,21 @@ export interface TaxonomyResult {
     count_without_taxon: number;
     size: number;
     results: TaxonomyNode[];
+}
+
+export interface ResultsSearch {
+    total_results: number;
+    page: number;
+    per_page: number;
+    results: Search[];
+}
+
+export interface Search {
+    score?: number;
+    type: 'place'| 'project' | 'taxon' | 'user';
+    place?: Place;
+    project?: Project;
+    taxon?: Taxon;
+    user?: User
+
 }
