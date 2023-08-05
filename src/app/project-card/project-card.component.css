@@ -1,0 +1,64 @@
+.project{
+    box-shadow: 0.05rem 0.1rem 0.05rem var(--clr-card-box-shadow-color);
+    border-radius: 0.3rem;
+    border-width: var(--clr-card-border-width, 0.05rem);
+    border-color: var(--clr-card-border-color, hsl(198, 0%, 87%));
+    border-style: solid;
+    overflow: hidden;
+    width: 100%;
+}
+
+.project-icon{
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 50%;
+    border: solid;
+    border-width: 0.02rem;
+    border-color: var(--clr-card-border-color);
+    margin: 0 0.6rem;
+    transform: translateY(50%);
+    background-color: white;
+}
+
+.project-banner{
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5/2;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.banner-img{
+    object-fit:cover;
+    width: 100%;
+    height: 100%;
+}
+
+.project-body{
+    padding: 0 0.3rem;
+    -webkit-line-clamp: 7;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.3rem;
+
+}
+
+.project-title{
+    margin-top: 1rem;
+}
+
+
+.project-description{
+    margin-top: 0.3rem !important;
+}
+
+:host{
+    display: flex;
+}

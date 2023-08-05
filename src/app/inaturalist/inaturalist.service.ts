@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates, SpeciesCount, TaxonomyResult } from './inaturalist.interface';
+import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates, SpeciesCount, TaxonomyResult, Project } from './inaturalist.interface';
 import { InaturalistFieldsService } from './inaturalist-fields.service'
 import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
@@ -103,8 +103,6 @@ export class InaturalistService {
     return data 
   }
 
-  
-
   async getUserByLogin(user_login:string): Promise<User | undefined>{
     const url_autocomplete = new URL('v2/users/autocomplete',this.base_url);
     let params = [['q',user_login],['fields','login']];
@@ -191,6 +189,26 @@ export class InaturalistService {
 
     return data.results
 
+  }
+
+  async getProjectsByUserID(id:number):Promise<Project[]>{
+    const url = new URL(`v2/users/${id}/projects`,this.base_url);
+    url.search = new URLSearchParams([['fields','id,description,icon,title,header_image_url,banner_color']]).toString();
+    let response = await fetch(url);
+    let data = await response.json();
+    return data.results
+  }
+
+  async getProjects(opt_params?:string[][]):Promise<Project[]>{
+    const url = new URL('v2/projects',this.base_url);
+    let params = [['fields','title,description,icon,id,header_image_url,banner_color,slug']]
+    if(opt_params){
+      params.push(...opt_params);
+    }
+    url.search = new URLSearchParams(params).toString();
+    let response = await fetch(url);
+    let data = await response.json();
+    return data.results
   }
 
   async getMe(token:string): Promise<User | undefined>{

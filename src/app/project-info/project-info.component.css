@@ -1,0 +1,49 @@
+.project-icon{
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: solid;
+    border-width: 0.02rem;
+    border-color: var(--clr-card-border-color);
+    background-color: white;
+}
+
+.project-banner{
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5/2;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    backdrop-filter: blur(10px);
+}
+
+.wave-bg{
+    background-image: url('/assets/wave-bg.png');
+}
+
+.banner-img{
+    object-fit:cover;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin:auto;
+}
+
+.project-header{
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    padding: 0.3rem 0;
+}
+
+.project-description{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}

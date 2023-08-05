@@ -10,6 +10,9 @@ import { MapComponent } from './map/map.component';
 import { FollowingComponent } from './following/following.component';
 import { FollowingListComponent } from './following-list/following-list.component';
 import { TaxonInfoComponent } from './taxon-info/taxon-info.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { ProjectListComponent } from './project-list/project-list.component';
+import { ProjectInfoComponent } from './project-info/project-info.component';
 
 const appRoutes: Routes = [
   {
@@ -67,6 +70,23 @@ const appRoutes: Routes = [
     path:'taxon/:id',
     component: TaxonInfoComponent,
     title: 'Taxon'
+  },
+  {
+    path:'projects',
+    component: ProjectsComponent,
+    title: 'Projects',
+    children: [
+      {
+        path: '',
+        component: ProjectListComponent,
+        title: 'Projects'
+      },
+      {
+        path: ':slug',
+        component: ProjectInfoComponent,
+        title: 'Project'
+      }
+    ]
   }
 ];
 

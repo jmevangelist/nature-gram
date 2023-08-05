@@ -1,0 +1,15 @@
+.projects-container{
+    display: grid;
+    gap: 0.6rem;
+    margin: auto;
+    grid-template-columns: repeat(auto-fill,minmax(12rem,1fr));
+}
+
+.spinner-container{
+    display:flex;
+    min-height: 5rem;
+}
+
+.spinner-container > .spinner{
+    margin: auto;
+}

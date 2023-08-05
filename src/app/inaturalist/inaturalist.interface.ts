@@ -172,9 +172,11 @@ export interface Project {
     id: number;
     created_at: string;
     description: string;
-    header_image_url: string;
+    header_image_url?: string;
     icon: string;
     title: string;
+    banner_color?: string;
+    slug?: string;
 }
 
 export interface ProjectObservation {

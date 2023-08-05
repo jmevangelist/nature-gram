@@ -1,0 +1,12 @@
+<h5>{{projectListHeadline}}</h5>
+
+<div class="projects-container">
+    <app-project-card *ngFor="let project of projects" [project]="project">
+    </app-project-card>
+</div>
+
+<div class="spinner-container" appIntersectionObserver (intersected)="intersected()" [observe]="observe">
+    <span class="spinner spinner-md" [hidden]="!loading">
+        Loading...
+    </span>
+</div>

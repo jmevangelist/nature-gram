@@ -1,0 +1,11 @@
+<div class="project-banner" [ngStyle]="{
+    'background-color': project?.banner_color}" [class.wave-bg]="!project?.header_image_url">
+    <img *ngIf="project?.header_image_url" [src]="project?.header_image_url" class="banner-img">
+</div>
+<div class="project-header">
+    <img  [src]="project?.icon ?? '/assets/default.png'" class="project-icon">
+    <div>
+        <h6 class="m-0">{{project?.title}}</h6>
+        <p class="m-0 p5 project-description">{{project?.description}}</p>
+    </div>
+</div>
