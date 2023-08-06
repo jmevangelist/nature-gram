@@ -19,9 +19,9 @@
 </div>
 
 <div class="home">
-    <app-gram #grams *ngFor="let observation of observations | async; let isLast = last; trackBy: trackByItems" 
-        [class.last]="isLast" 
-        [observation]="observation">
+    <app-gram *ngFor="let observation of observations | async; let isLast = last; trackBy: trackByItems" 
+        [observation]="observation"
+        appIntersectionObserver [observe]="isLast" (intersected)="intersected()">
     </app-gram>
 
     <ng-container *ngIf="end">

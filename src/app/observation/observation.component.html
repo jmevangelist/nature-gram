@@ -8,8 +8,8 @@
     <div class="sub-header">
         <div class="taxon-grade">
             <div class="taxon" *ngIf="observation.taxon else unknown">
-                <h3>{{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} <em>{{observation.taxon.name}}</em></h3>
-                <p class="p5">{{observation.taxon.preferred_common_name}}</p>
+                <h3 class="m-0" *urlify="['/taxon',observation.taxon.id]">{{ ( (observation.taxon.rank_level) > 10 ? observation.taxon.rank : '') | titlecase }} <em>{{observation.taxon.name}}</em></h3>
+                <p class="m-0" *urlify="['/taxon',observation.taxon.id]" class="p5">{{observation.taxon.preferred_common_name}}</p>
             </div>
             <ng-template #unknown>
                 <div class="taxon">
@@ -21,10 +21,6 @@
                 [class.btn-warning]="observation.quality_grade == 'needs_id'">
                 {{observation.quality_grade.replace('_',' ')}}
             </button>
-        </div>
-        <div class="description p5" *ngIf="wiki">
-            <span [innerHTML]="wiki['extract_html']"></span>
-            <a [href]="wiki['uri']"> [wiki]</a>
         </div>
         
         <div class="description p5" *ngIf="taxonSummary?.conservation_status">
@@ -60,35 +56,55 @@
                 </div>
             </div>
         </div>
-        <div class="p5 description" [innerHTML]="observation.description"></div>
-        <div class="obs-meta-map">
-            <div class="obs-meta">
-                <div class="p5" *ngIf="observation.time_observed_at">
-                    Observed on {{observation.time_observed_at | date: 'MMM d, y h:mm a z':observation.time_zone_offset}}</div>
-                
-                <div class="p5" *ngIf="observation.created_at">
-                    Posted on {{observation.created_at | date: 'MMM d, y h:mm a z': observation.created_at.substring(observation.created_at.length-6) }}</div>
-                <div class="p5" *ngIf="observation.place_guess || observation.location">
-                    <cds-icon shape="map-marker" size="sm"></cds-icon> {{observation.place_guess}}
-                        {{ observation.location }} {{ observation.obscured ? '(obscured)': ''}}
+        <div class="two-part">
+            <div class="description-activity">
+                <div class="activity">
+                    <h6>Activity</h6>   
+                    <app-comments 
+                        [comments]="observation.comments" 
+                        [identifications]="observation.identifications"
+                        [uuid]="observation.uuid"
+                        [auto]="true">
+                    </app-comments>
                 </div>
             </div>
-            <app-map class="map" *ngIf="observation.geojson" [geojson]="observation.geojson"></app-map>
+            <div class="obs-meta-map">
+                <h6 *ngIf="observation.description">Observation Notes</h6>
+                <div class="p5 description" *ngIf="observation.description" [innerHTML]="observation.description"></div>
+                <div class="obs-meta">
+                    <div class="p5" *ngIf="observation.time_observed_at">
+                        Observed on {{observation.time_observed_at | date: 'MMM d, y h:mm a z':observation.time_zone_offset}}</div>
+                    
+                    <div class="p5" *ngIf="observation.created_at">
+                        Posted on {{observation.created_at | date: 'MMM d, y h:mm a z': observation.created_at.substring(observation.created_at.length-6) }}</div>
+                    <div class="p5" *ngIf="observation.place_guess || observation.location">
+                        <cds-icon shape="map-marker" size="sm"></cds-icon> {{observation.place_guess}}
+                            {{ observation.location }} {{ observation.obscured ? '(obscured)': ''}}
+                    </div>
+                </div>
+                <app-map class="map" *ngIf="observation.geojson" 
+                [taxon]="observation.taxon?.id" [displayObsLayer]="true" 
+                [geojson]="observation.geojson" [exceptID]="observation.uuid"></app-map>
+
+                <h6 *ngIf="observation.tags.length">Tags</h6>
+                <div>
+                    <label class="label clickable" *ngFor="let tag of observation.tags">{{tag}}</label>
+                </div>
+                <h6>Quality Metric</h6>
+                <div class="quality-metric">
+                    <app-quality-metric [qualityMetric]="observation.quality_metrics" 
+                        [uuid]="observation.uuid" [metric]="['wild','evidence','recent','location','date']">
+                    </app-quality-metric>
+                </div>
+                <h6 *ngIf="observation.project_observations.length">Projects</h6>
+                <div class="projects">
+                    <div *ngFor="let p of observation.project_observations">
+                        <img class="project-icon" [src]="p.project.icon">
+                        <span class="p4">{{p.project.title}}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="quality-metric">
-        <app-quality-metric [qualityMetric]="observation.quality_metrics" 
-            [uuid]="observation.uuid">
-        </app-quality-metric>
-    </div>
-    <div class="activity">
-        <h6>Activity</h6>   
-        <app-comments 
-            [comments]="observation.comments" 
-            [identifications]="observation.identifications"
-            [uuid]="observation.uuid"
-            [auto]="true">
-        </app-comments>
     </div>
 
     <div class="footer">

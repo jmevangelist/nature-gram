@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Photo } from '../inaturalist/inaturalist.interface';
 import { ClarityModule } from '@clr/angular';
@@ -23,7 +23,6 @@ export class FullscreenCarouselComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.photos.sort((a,b)=>b.original_dimensions.width-a.original_dimensions.width)
   }
 
   ngAfterViewInit(): void {
@@ -34,14 +33,30 @@ export class FullscreenCarouselComponent implements OnInit, AfterViewInit {
   }
 
   left(){
-    this.index--
-    let cP = this.carouselPhotos.get(this.index);
-    cP.nativeElement.scrollIntoView();
+    if(this.index > 0){
+      this.index--
+      let cP = this.carouselPhotos.get(this.index);
+      cP.nativeElement.scrollIntoView();
+    }
   }
 
   right(){
-    this.index++
-    let cP = this.carouselPhotos.get(this.index);
-    cP.nativeElement.scrollIntoView();
+    if(this.index < this.photos.length-1){
+      this.index++
+      let cP = this.carouselPhotos.get(this.index);
+      cP.nativeElement.scrollIntoView();
+    }
+  }
+
+  @HostListener('document:keydown',['$event'])
+  key(e:KeyboardEvent){
+    if(e.key=='ArrowLeft'){
+      this.left()
+    }else if(e.key=='ArrowRight'){
+      this.right()
+    }else if(e.key=='Escape'){
+      this.close.emit();
+    }
+    e.stopPropagation();
   }
 }

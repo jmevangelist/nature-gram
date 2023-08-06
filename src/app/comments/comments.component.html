@@ -22,7 +22,7 @@
         </div>
         <div class="activity-body">
             <ng-container *ngIf="com.taxon">
-                <app-taxon [taxon]="com.taxon"></app-taxon>
+                <app-taxon *urlify="['/taxon',com.taxon.id]" [taxon]="com.taxon"></app-taxon>
                 <button #b *ngIf="com.category!='supporting' && com.taxon.is_active && com.current" 
                     [disabled]="authServ.isExpired"
                     (click)="agree(com.taxon,b)" clrLoading=""
@@ -46,7 +46,8 @@
         <div class="clr-col">
             <ng-container *ngIf="selectedTaxon">
                 <div class="card card-id">
-                    <app-taxon [taxon]="selectedTaxon"></app-taxon>
+                    <app-taxon *urlify="['/taxon',selectedTaxon.id]" [taxon]="selectedTaxon"></app-taxon>
+                    <span></span>
                     <cds-icon (click)="selectedTaxon=undefined;id=undefined" [attr.shape]="'close'"></cds-icon>
                 </div>
             </ng-container>
@@ -76,10 +77,14 @@
     </div>
 
     <div class="search-list" [hidden]="!isIdentifying" [class.flex-auto]="auto">
-        <div class="card clickable" for="qTaxon" *ngFor="let sug of suggestions" (click)="identify(sug)">
-            <app-taxon  [taxon]="sug.taxon" class="list-taxon"></app-taxon>
+        <div class="card clickable" for="qTaxon" *ngFor="let sug of suggestions">
+            <app-taxon [taxon]="sug.taxon" class="list-taxon" *urlify="['/taxon',sug.taxon.id]"></app-taxon>
+            <span class="list-taxon"></span>
             <div class="taxon-rank-up">
-                <button class="btn btn-sm btn-primary" [disabled]="sug.taxon.id == 48460" #r clrLoading="" (click)="rankup(sug,$event,r)">Rank up</button>
+                <button class="btn btn-sm btn-primary btn-icon" [disabled]="sug.taxon.id == 48460" #r clrLoading="" 
+                (click)="rankup(sug,$event,r)"><cds-icon shape="arrow" direction="up"></cds-icon></button>
+                <button class="btn btn-sm btn-success btn-icon" (click)="identify(sug)">
+                    <cds-icon shape="check"></cds-icon></button>
                 <ng-container *ngIf="sug.combined_score > 0 || sug.score">
                     <p class="p7 score">{{( sug.score ? 'common ancestor' : 'computer vision score: ' )}}
                         <span *ngIf="sug.combined_score">{{ (sug.combined_score/100) | percent}}</span>

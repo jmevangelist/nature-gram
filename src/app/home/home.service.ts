@@ -69,7 +69,6 @@ export class HomeService {
         })
 
         this.prefservice.signal.pipe(skip(1)).subscribe(()=>{
-            console.log('signal')
             this.refresh();
             this.loadObservations();
         })

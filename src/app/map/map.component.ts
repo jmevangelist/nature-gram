@@ -13,6 +13,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 import { style } from '@angular/animations';
+import { Tile } from 'ol';
 
 
 @Component({
@@ -26,11 +27,15 @@ export class MapComponent implements OnInit {
 
   @Input() geojson!: Geojson;
   @Input() obscured!: boolean;
+  @Input() taxon!: number | undefined;
+  @Input() displayObsLayer!: boolean;
+  @Input() exceptID!: string | undefined;
   map: any;
   private iconStyle!: Style;
 
   constructor(private location: Location){
     let url = this.location.prepareExternalUrl('/assets/icons/icon-72x72.png')
+    this.displayObsLayer = false;
 
     this.iconStyle = new Style({
       image: new Icon({
@@ -43,19 +48,6 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let coordinates = fromLonLat(this.geojson.coordinates)
-
-    let vl = new VectorLayer({
-      source: new VectorSource({
-        features: [
-            new Feature({
-              geometry: new Point(coordinates)
-            })
-          ]
-        }),
-      style: this.iconStyle
-    });
-
     this.map = new Map({
       target: 'map',
       layers: [
@@ -63,14 +55,50 @@ export class MapComponent implements OnInit {
           source: new XYZ({
             url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
           })
-        }),
-        vl
+        })
       ],
-      view: new View({
-        center: coordinates,
-        zoom: 9
-      })
+      view: new View({center: [0,0], zoom: 1})
     });
+
+    if(this.taxon){
+      let url = `https://api.inaturalist.org/v2/taxon_ranges/${this.taxon}/{z}/{x}/{y}.png`
+      let range = new TileLayer({
+        source: new XYZ({
+          url: url,
+        }),
+      })
+      this.map.addLayer(range);
+
+      if(this.displayObsLayer){
+        url = `https://api.inaturalist.org/v2/points/{z}/{x}/{y}.png?taxon_id=${this.taxon}`
+        if(this.exceptID){ url +=  `&not_id=${this.exceptID}`}
+        let grid = new TileLayer({
+          source: new XYZ({
+            url: url
+          })
+        })
+        this.map.addLayer(grid);
+      }
+    }
+
+    if(this.geojson){
+      let coordinates = fromLonLat(this.geojson.coordinates)
+      let vl = new VectorLayer({
+        source: new VectorSource({
+          features: [
+              new Feature({
+                geometry: new Point(coordinates)
+              })
+            ]
+          }),
+        style: this.iconStyle
+      });
+
+      this.map.addLayer(vl)
+      this.map.getView().setCenter(coordinates);
+      this.map.getView().setZoom(9);
+    }
+  
 
   }
 

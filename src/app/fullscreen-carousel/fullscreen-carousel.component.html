@@ -11,7 +11,7 @@
         <div #cPhotos *ngFor="let photo of photos;let i = index" (click)="close.emit()">
             <img #img [src]="photo.url.replace('medium','original')" (click)="$event.stopPropagation()" 
             [attr.width]="photo.original_dimensions.width"
-            [attr.height]="photo.original_dimensions.height" >
+            [attr.height]="photo.original_dimensions.height" loading="lazy">
             <div class="index" *ngIf="photos.length > 1">{{i+1}}/{{photos.length}}</div>
             <div class="attribution">{{photo.attribution}}</div>
         </div>

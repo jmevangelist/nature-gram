@@ -1,0 +1,46 @@
+.projects-container{
+    display: grid;
+    gap: 0.6rem;
+    margin: auto;
+    grid-template-columns: repeat(auto-fill,minmax(12rem,1fr));
+}
+
+.spinner-container{
+    display:flex;
+    min-height: 5rem;
+}
+
+.spinner-container > .spinner{
+    margin: auto;
+}
+
+.filter{
+    padding: 0.3rem 0rem;
+    display: inline-block;
+    white-space: pre-wrap;
+}
+
+.filter > .btn{
+    margin: 0;
+    padding: 0;
+    width: 1rem;
+}
+
+.search {
+    margin-left: -1rem;
+    padding-left: 1rem;
+    border: none;
+    border-radius: 0.2rem;
+    background-color: hsl(198, 0%, 91%);
+    display: none;
+    margin-top: 0 !important;
+    height: 1.2rem;
+}
+
+form{
+    display: inline !important;
+}
+
+.display{
+    display: inline-block !important;
+}

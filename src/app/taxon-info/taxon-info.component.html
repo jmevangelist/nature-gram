@@ -1,0 +1,26 @@
+<app-header [title]="taxon ? taxon.name ?? '': ' '" class="sticky-top"></app-header>
+<app-album *ngIf="photos" class="photos" [photos]="photos"></app-album>
+<app-carousel *ngIf="photos" class="photos" [photos]="photos"></app-carousel>
+
+<div class="container" *ngIf="taxon">
+    <div class="about">
+        <h4><ng-container *ngIf="taxon.rank_level > 10">{{taxon.rank | titlecase}}&nbsp;</ng-container> 
+            <em>{{taxon.name}}</em>&nbsp; <span class="p2">{{taxon.preferred_common_name}}</span></h4>
+        <p *ngIf="wiki" class="p5"><span [innerHTML]="wiki"></span> <span *urlify="taxon.wikipedia_url ?? ''">[wiki]</span></p>
+        <h4>Range and Observations</h4>
+        <app-map [taxon]="taxon.id" [displayObsLayer]="true"></app-map>
+    </div>
+
+    <div class="taxonomy">
+        <h4>Taxonomy</h4>
+        <div *ngFor="let ancestor of taxon.ancestors; let i = index">
+            <app-taxon [taxon]="ancestor" *urlify="['/taxon',ancestor.id]"></app-taxon>
+        </div>
+        <div class="current-taxon">
+            <app-taxon [taxon]="taxon"></app-taxon>
+        </div>
+        <div *ngFor="let child of taxon.children">
+            <app-taxon [taxon]="child" *urlify="['/taxon',child.id]"></app-taxon>
+        </div>
+    </div>
+</div>

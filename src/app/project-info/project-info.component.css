@@ -1,0 +1,96 @@
+.project-icon{
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: solid;
+    border-width: 0.02rem;
+    border-color: var(--clr-card-border-color);
+    background-color: white;
+}
+
+.project-banner{
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5/2;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    backdrop-filter: blur(10px);
+}
+
+.wave-bg{
+    background-image: url('/assets/wave-bg.png');
+}
+
+.banner-img{
+    object-fit:cover;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    margin:auto;
+}
+
+.project-header{
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    padding: 0.3rem 0;
+}
+
+.project-description{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.project-obs{
+    padding: 0.6rem 0;
+}
+
+.grid-container{
+    display: grid;
+    gap: 0.2rem;    
+    grid-template-columns: repeat( auto-fill, minmax(min(7rem,24dvw),1fr) );
+    grid-auto-flow: dense;
+}
+.obs-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    max-height: 100%;
+}
+.grid-item{
+    position: relative;
+}
+
+.grid-item:hover .hover-label{
+    visibility: visible;
+}
+
+.hover-label{
+    visibility: hidden;
+    background-color: var(--bg-black-semi-transparent);
+    color: white;
+    position: absolute;
+    z-index: 5;
+    line-height: 0.6rem;
+    margin: 0.2rem;
+    padding: 0.1rem;
+    font-size: x-small;
+}
+
+.taxon{    
+    top: 0;
+    right: 0;
+    text-align: end;
+}
+
+.attribution{
+    bottom: 0;
+    left: 0;
+    text-align: start;
+}

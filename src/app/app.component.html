@@ -13,7 +13,7 @@
         <cds-icon clrVerticalNavIcon shape="image-gallery"></cds-icon>
         Following
       </a>
-      <a clrVerticalNavLink [routerLink]="['/']" disabled>
+      <a clrVerticalNavLink [routerLink]="['projects']" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="briefcase"></cds-icon>
         Projects
       </a>
@@ -40,8 +40,8 @@
     <button class="btn btn-link btn-icon" [routerLink]="['following']" routerLinkActive #rlaf="routerLinkActive">
       <cds-icon shape="image-gallery" size="md" [attr.solid]="rlaf.isActive" ></cds-icon>
     </button>
-    <button class="btn btn-link btn-icon" disabled [routerLink]="['/']">
-      <cds-icon shape="bookmark" size="md"></cds-icon>
+    <button class="btn btn-link btn-icon" [routerLink]="['projects']" routerLinkActive #rlap="routerLinkActive">
+      <cds-icon shape="briefcase" size="md" [attr.solid]="rlap.isActive"></cds-icon>
     </button>
     <button class="btn btn-link btn-icon" [routerLink]="['authorize']" routerLinkActive #rlaa="routerLinkActive">
       <cds-icon shape="key" size="md" 

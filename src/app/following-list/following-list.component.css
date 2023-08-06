@@ -1,0 +1,56 @@
+.user-icon{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+}
+
+.following{
+    padding: 0.3rem;
+}
+
+
+.user-container{
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+    max-width: 20rem;
+    border-radius: 0.2rem;
+}
+
+.user-container:hover{
+    background-color: var(--clr-color-action-50);
+}
+
+.user-label{
+    flex:auto;
+    line-height: 1px;
+}
+
+.user-label > * {
+    margin-top: 0 !important;
+    padding-left: 0.3rem;
+}
+
+.user-label > span{
+    line-height: 0.8rem;
+}
+
+
+.container{
+    display: flex;
+    flex-direction: column;
+    flex:auto;
+}
+
+.container > span{
+    margin: auto;
+    align-self: center;
+}
+
+:host{
+    width: 100%;
+    max-width: 768px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

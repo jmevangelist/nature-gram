@@ -6,7 +6,6 @@
 
 .album{
     width: 100%;
-    height: 25rem;
     position: relative;
     padding: 0 0.6rem;
 }
@@ -42,8 +41,7 @@
 }
 
 .quality-metric{
-    padding: 0 0.6rem;
-    margin-top: 0.6rem;
+    /* margin-top: 0.6rem; */
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -137,7 +135,11 @@
 }
 
 .description {
-    margin-top: 0.6rem !important;
+    margin-bottom: 0.3rem !important;
+}
+
+.description-activity{
+    flex: 1 1 15rem;
 }
 
 .description > a {
@@ -147,11 +149,25 @@
 .activity{
     width: 100%;
     flex: auto;
-    padding: 0 0.6rem;
+    /* max-width: 25rem; */
 }
 
 .activity > h6{
     margin-top: 0.6rem;
+}
+
+.activity > app-comments{
+    max-height: 90dvh;
+}
+
+.obs-meta-map > h6{
+    margin-top: 0.6rem;
+}
+
+.two-part{
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 0.6rem;
 }
 
 .footer{
@@ -164,9 +180,10 @@
 }
 
 .obs-meta-map{
-    margin-top: 0.6rem;
+    /* margin-top: 0.6rem; */
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex: 1 1 min-content;
 
 }
 
@@ -177,8 +194,27 @@
 }
 
 .map{
-    flex: 2 0 auto;
+    /* flex: 2 0 auto; */
     width: 100%;
     height: 8rem;
     display: block;
+}
+
+
+.projects > div {
+    padding: 0.3rem 0;
+    display:block;
+}
+
+.projects > div:hover{
+    background-color: var(--clr-color-action-50);
+    cursor: pointer;
+}
+
+.project-icon{
+    height: 1.5rem;
+    width: 1.5rem;
+    object-fit: cover;
+    border-radius: 0.2rem;
+    margin-right: 0.3rem;
 }

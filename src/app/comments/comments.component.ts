@@ -102,7 +102,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   trackByItems(index: number, c: any): number { return c.uuid ?? c.id; }
 
   loadmorecomments(){
-    console.log('load more')
     this.index= this.index + 20;
     if(this.index > this.combination.length){
       this.observe = false;

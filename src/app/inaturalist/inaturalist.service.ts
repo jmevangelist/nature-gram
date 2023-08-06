@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates } from './inaturalist.interface';
+import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates, SpeciesCount, TaxonomyResult, Project } from './inaturalist.interface';
 import { InaturalistFieldsService } from './inaturalist-fields.service'
 import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
@@ -45,7 +45,8 @@ export class InaturalistService {
 
   async getObservationsByUUID(uuid:string[]): Promise<Observation[]>{
     const url = new URL(`v2/observations/${uuid}`,this.base_url)
-    url.search = new URLSearchParams([['fields','all']]).toString();
+    let fields = this.inaturalistConfig.fields.observation_verbose;
+    url.search = new URLSearchParams([['fields',fields]]).toString();
 
     const response = await fetch(url);
     const data = await response.json() ?? {};
@@ -62,6 +63,36 @@ export class InaturalistService {
     return observations
   }
 
+  async getObservationsSpeciesCount(opt_params?:string[][]): Promise<SpeciesCount[]>{
+    const url = new URL('v2/observations/species_counts',this.base_url);
+    const fields = this.inaturalistConfig.fields.speciesCount;
+    const params = [
+              ['photo_licensed','true'],
+              ['photos', 'true'],
+              ['fields', fields ]
+            ];
+    
+    if(opt_params){
+      params.push(...opt_params)
+    }
+
+    url.search =  new URLSearchParams(params).toString()
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data.results
+
+  } 
+
+  async getObservationsTaxonomy(opt_params?:string[][]): Promise<TaxonomyResult>{
+    const url = new URL('v1/observations/taxonomy', this.base_url);
+    url.search = new URLSearchParams(opt_params).toString();
+    const response = await fetch(url);
+    const data = await response.json();
+    return data
+  }
+
   async getObservationTaxonSummaryByUUID(uuid:string): Promise<any>{
     const url = new URL(`v2/observations/${uuid}/taxon_summary`,this.base_url)
     url.search = new URLSearchParams([['fields','all']]).toString();
@@ -71,8 +102,6 @@ export class InaturalistService {
 
     return data 
   }
-
-  
 
   async getUserByLogin(user_login:string): Promise<User | undefined>{
     const url_autocomplete = new URL('v2/users/autocomplete',this.base_url);
@@ -101,10 +130,15 @@ export class InaturalistService {
 
   }
 
-  async getTaxa(id:string[]):Promise<Taxon[]>{
+  async getTaxa(id:string[],fields?:string):Promise<Taxon[]>{
     const url = new URL(`/v2/taxa/${id}`,this.base_url);
+    if(!fields){
+      fields = rison.encode(this.inaturalistConfig.Taxon_search)
+    }else if(fields == 'all'){
+      fields = rison.encode(this.inaturalistConfig.Taxon_verbose)
+    }
     url.search = new URLSearchParams([
-      ['fields',rison.encode(this.inaturalistConfig.Taxon_search) ],
+      ['fields', fields ?? 'all' ],
     ]).toString();
 
     let response = await fetch(url)
@@ -155,6 +189,26 @@ export class InaturalistService {
 
     return data.results
 
+  }
+
+  async getProjectsByUserID(id:number):Promise<Project[]>{
+    const url = new URL(`v2/users/${id}/projects`,this.base_url);
+    url.search = new URLSearchParams([['fields','id,description,icon,title,header_image_url,banner_color']]).toString();
+    let response = await fetch(url);
+    let data = await response.json();
+    return data.results
+  }
+
+  async getProjects(opt_params?:string[][]):Promise<Project[]>{
+    const url = new URL('v2/projects',this.base_url);
+    let params = [['fields','title,description,icon,id,header_image_url,banner_color,slug']]
+    if(opt_params){
+      params.push(...opt_params);
+    }
+    url.search = new URLSearchParams(params).toString();
+    let response = await fetch(url);
+    let data = await response.json();
+    return data.results
   }
 
   async getMe(token:string): Promise<User | undefined>{
