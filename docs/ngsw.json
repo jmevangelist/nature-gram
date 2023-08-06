@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1690612363643,
+  "timestamp": 1691314894869,
   "index": "/nature-gram/index.html",
   "assetGroups": [
     {
@@ -11,14 +11,15 @@
         "ignoreVary": true
       },
       "urls": [
+        "/nature-gram/141.c777b3541924f8ca.js",
         "/nature-gram/favicon.ico",
         "/nature-gram/index.html",
-        "/nature-gram/main.f9cc7506b9d72a93.js",
+        "/nature-gram/main.01a7f90fb0d114eb.js",
         "/nature-gram/manifest.webmanifest",
         "/nature-gram/polyfills.2017c4f5c37bc885.js",
-        "/nature-gram/runtime.ea4cced7a6cd4e8f.js",
+        "/nature-gram/runtime.4a70c151886efb20.js",
         "/nature-gram/scripts.9ae1ca3def9d3b64.js",
-        "/nature-gram/styles.1d94f17b2281cb1a.css"
+        "/nature-gram/styles.b7edb2c1724379cb.css"
       ],
       "patterns": []
     },
@@ -43,13 +44,15 @@
         "/nature-gram/assets/icons/icon-72x72.png",
         "/nature-gram/assets/icons/icon-96x96.png",
         "/nature-gram/assets/logo.svg",
-        "/nature-gram/assets/share.svg"
+        "/nature-gram/assets/share.svg",
+        "/nature-gram/assets/wave-bg.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
+    "/nature-gram/141.c777b3541924f8ca.js": "00c4fb67649ae8ab993d2b23d3c38a415ab59c52",
     "/nature-gram/assets/binoculars-outline.svg": "a540841aa48260629fb01cf7f52e41acba80460b",
     "/nature-gram/assets/binoculars.svg": "2a165945d6b4f156a0ae0542315d560859640e0e",
     "/nature-gram/assets/default.png": "c27e4c9338a7802e62ab770126e5fe6687dea35a",
@@ -64,14 +67,15 @@
     "/nature-gram/assets/icons/icon-96x96.png": "d9eb6902faa1f75851e7b2ab8086a2597d2c3172",
     "/nature-gram/assets/logo.svg": "cefddea519f431d7cf4b6b062cfe19d7b18ee9e7",
     "/nature-gram/assets/share.svg": "1d4e113028c385b7c56d1438d8e6229aa4f51a4e",
+    "/nature-gram/assets/wave-bg.png": "32f4fe2e43e757154093faac928e80aec3a08ea1",
     "/nature-gram/favicon.ico": "b05d0b57bf9a62b45e25bcb3cc0198b96d3e7251",
-    "/nature-gram/index.html": "6cd73eedd343898d5f24878f9c9c0f0263dbfc48",
-    "/nature-gram/main.f9cc7506b9d72a93.js": "6d98026f45ed410965cd20be8266e2ebb3ecbb5e",
+    "/nature-gram/index.html": "eb942ba568a9b954a843f06ce69f75adfcec1bc9",
+    "/nature-gram/main.01a7f90fb0d114eb.js": "17b219662ad23ea0dc5afc733e88aee0f5823959",
     "/nature-gram/manifest.webmanifest": "de730ee5fd804b0328d1060955c518bacdcf58ef",
     "/nature-gram/polyfills.2017c4f5c37bc885.js": "002c49fd15baf3c646c64abd10f3fdb43cc76430",
-    "/nature-gram/runtime.ea4cced7a6cd4e8f.js": "5c65a2ca00b5a7a6b4069d678afd01110c273028",
+    "/nature-gram/runtime.4a70c151886efb20.js": "1c8e835aa9b25604a5f50efe9b988717698daedb",
     "/nature-gram/scripts.9ae1ca3def9d3b64.js": "cbf24afa5b5eab3b694ef3734d594bbd540dc25b",
-    "/nature-gram/styles.1d94f17b2281cb1a.css": "6bdf65cfe15b9c1eaedb4072ce27bf717171c506"
+    "/nature-gram/styles.b7edb2c1724379cb.css": "e4feb1de3c86839f9b19ff388b3c064df3f2d5bc"
   },
   "navigationUrls": [
     {
