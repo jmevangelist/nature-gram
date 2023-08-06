@@ -1,5 +1,6 @@
 <div class="project-banner"  [ngStyle]="{
-    'background-color': project?.banner_color}" [class.wave-bg]="!project?.header_image_url">
+    'background-image': 'url('+bgUrl+')',
+    'background-color': project?.banner_color}">
     <img *ngIf="project?.header_image_url" [src]="project?.header_image_url" class="banner-img">
 </div>
 <div class="project-header">

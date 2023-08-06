@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observation, Project } from '../inaturalist/inaturalist.interface';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
@@ -24,8 +24,10 @@ export class ProjectInfoComponent implements OnInit {
   project: Project | undefined;
   inat: InaturalistService;
   observations: Observation[] | undefined;
+  bgUrl: string;
 
-  constructor(private route: ActivatedRoute){
+  constructor(private route: ActivatedRoute,private location:Location){
+    this.bgUrl = this.location.prepareExternalUrl('/assets/') + 'wave-bg.png';
     this.slug = this.route.snapshot.params['slug'];
     this.inat = inject(InaturalistService);
   }
