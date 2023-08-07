@@ -1,5 +1,5 @@
 <div class="taxon-container">
-    <img [hidden]="textOnly" [src]="taxon.default_photo?.url || 'assets/default.png'" class="taxon-img">
+    <img [hidden]="textOnly" *urlify="['/taxon',taxon.id]" [src]="taxon.default_photo?.url || 'assets/default.png'" class="taxon-img">
     <div class="taxon-taxon" [class.not-active]="!taxon.is_active">
         <h6 class="taxon-name"><ng-container *ngIf="taxon.rank_level > 10">{{taxon.rank | titlecase}} </ng-container><em>{{taxon.name}}</em></h6>
         <p class="p5 taxon-common">{{taxon.preferred_common_name}}</p>

@@ -1,0 +1,12 @@
+.user{
+    display: flex;
+    gap: 0.3rem;
+    padding: 0.3rem;
+}
+
+.user-icon{
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+}

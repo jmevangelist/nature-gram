@@ -5,7 +5,7 @@
         <cds-icon clrVerticalNavIcon shape="home"></cds-icon>
         Home
       </a>
-      <a clrVerticalNavLink [routerLink]="['']" disabled>
+      <a clrVerticalNavLink [routerLink]="['search']" disabled>
         <cds-icon clrVerticalNavIcon shape="search"></cds-icon>
         Search
       </a>
@@ -17,10 +17,10 @@
         <cds-icon clrVerticalNavIcon shape="briefcase"></cds-icon>
         Projects
       </a>
-      <a clrVerticalNavLink [routerLink]="['bookmark']">
+      <!-- <a clrVerticalNavLink [routerLink]="['bookmark']">
         <cds-icon clrVerticalNavIcon shape="bookmark"></cds-icon>
         Bookmarks
-      </a>
+      </a> -->
       <a clrVerticalNavLink [routerLink]="['authorize']" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="key"></cds-icon>
         Authorize
@@ -34,8 +34,8 @@
     <button class="btn btn-link btn-icon" [routerLink]="['home']" routerLinkActive #rlah="routerLinkActive">
       <cds-icon shape="home" size="md" [attr.solid]="rlah.isActive" ></cds-icon>
     </button>
-    <button class="btn btn-link btn-icon" disabled [routerLink]="['/']">
-      <cds-icon shape="search" size="md"></cds-icon>
+    <button class="btn btn-link btn-icon" [routerLink]="['search']" routerLinkActive #rlas="routerLinkActive">
+      <cds-icon shape="search" size="md" [attr.solid]="rlas.isActive"></cds-icon>
     </button>
     <button class="btn btn-link btn-icon" [routerLink]="['following']" routerLinkActive #rlaf="routerLinkActive">
       <cds-icon shape="image-gallery" size="md" [attr.solid]="rlaf.isActive" ></cds-icon>

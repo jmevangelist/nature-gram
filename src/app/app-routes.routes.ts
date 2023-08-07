@@ -13,6 +13,7 @@ import { TaxonInfoComponent } from './taxon-info/taxon-info.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectInfoComponent } from './project-info/project-info.component';
+import { SearchComponent } from './search/search.component';
 
 const appRoutes: Routes = [
   {
@@ -87,6 +88,15 @@ const appRoutes: Routes = [
         title: 'Project'
       }
     ]
+  },{
+    path:'search',
+    component: SearchComponent,
+    title: 'Search'
+  },
+  {
+    path:'search/:source',
+    component: SearchComponent,
+    title: 'Search'
   }
 ];
 
