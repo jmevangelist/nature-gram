@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
@@ -9,6 +9,7 @@ import { UrlifyDirective } from '../shared/urlify.directive';
 import { TaxonComponent } from '../taxon/taxon.component';
 import { CarouselComponent } from '../carousel/carousel.component';
 import { MapComponent } from '../map/map.component';
+import { SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-taxon-info',
@@ -25,23 +26,28 @@ import { MapComponent } from '../map/map.component';
   templateUrl: './taxon-info.component.html',
   styleUrls: ['./taxon-info.component.css']
 })
-export class TaxonInfoComponent implements OnInit {
+export class TaxonInfoComponent implements OnInit, OnDestroy {
   id!: number;
   route: ActivatedRoute = inject(ActivatedRoute);
   inat: InaturalistService = inject(InaturalistService);
   taxon!: Taxon | undefined;
   photos!: Photo[]; 
   wiki!: string | undefined;
+  sub!: SubscriptionLike;
 
   constructor(){
     this.id = this.route.snapshot.params['id']; 
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
       this.getTaxa();
     })
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   getTaxa(){

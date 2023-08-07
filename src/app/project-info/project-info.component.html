@@ -6,13 +6,16 @@
 <div class="project-header">
     <img  [src]="project?.icon ?? '/assets/default.png'" class="project-icon">
     <div>
-        <h6 class="m-0">{{project?.title}}</h6>
+        <div class="project-title">
+            <h4 class="m-0">{{project?.title}}</h4>  
+            <button class="btn btn-primary btn-sm">join</button>
+        </div>
         <p class="m-0 p5 project-description" [innerHTML]="project?.description"></p>
     </div>
 </div>
 
 <div class="project-obs">
-    <h6>Recent Observations</h6>
+    <h6 class="m-0">Latest Observations</h6>
     <div class="grid-container" squareGrid>
         <div class="grid-item" *ngFor="let observation of observations; let last=last">
             <img [src]="observation.photos[0].url" loading="lazy" 

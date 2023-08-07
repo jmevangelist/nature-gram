@@ -54,10 +54,6 @@
     display: grid;
 }
 
-.grid-item > img:hover{
-    cursor: pointer;
-}
-
 .solo{
     grid-template-columns: 1fr;
 }

@@ -6,6 +6,6 @@
     </div>
     <div class="project-body">  
         <h6 class="project-title">{{project.title}}</h6>
-        <p class="p5 project-description">{{project.description}}</p>
+        <p class="p5 project-description" #description [innerHTML]="project.description"></p>
     </div>
 </div>

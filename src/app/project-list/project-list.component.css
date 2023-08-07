@@ -44,3 +44,9 @@ form{
 .display{
     display: inline-block !important;
 }
+
+.container{
+    /* max-width: 950px; */
+    padding: 0 0.6rem;
+    margin: auto;
+}
