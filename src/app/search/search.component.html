@@ -1,6 +1,6 @@
 <div class="search-bar">
     <cds-icon shape="search" size="sm"></cds-icon>
-    <input type="search" class="p5" [formControl]="searchControl" name="search" autofocus>
+    <input type="search" class="p5" placeholder="Search" autoFocus [formControl]="searchControl" name="search" autofocus>
     <span class="loading">
         <span class="spinner spinner-sm" *ngIf="loading">
             Loading...
@@ -10,7 +10,7 @@
 
 <app-chips [chips]="sources" [multiSelect]="true" (chipSelect)="selectSource($event)"></app-chips>
 
-<div class="container">
+<div class="container" masonryGrid>
     <div *ngFor="let s of searchResults">
         <div class="material-card taxon" *ngIf="s.type == 'taxon' && s.taxon">
             <app-taxon [taxon]="s.taxon"></app-taxon>

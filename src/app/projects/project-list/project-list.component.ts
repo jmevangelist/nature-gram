@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthorizationService } from '../authorization/authorization.service'
-import { InaturalistService } from '../inaturalist/inaturalist.service';
-import { Project } from '../inaturalist/inaturalist.interface';
-import { HeaderComponent } from '../header/header.component';
+import { AuthorizationService } from '../../authorization/authorization.service'
+import { InaturalistService } from '../../inaturalist/inaturalist.service';
+import { Project } from '../../inaturalist/inaturalist.interface';
+import { HeaderComponent } from '../../header/header.component';
 import { ProjectCardComponent } from '../project-card/project-card.component';
-import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
-import { ChipsComponent } from '../chips/chips.component';
-import { Chip } from '../chips/chip.interface';
+import { IntersectionObserverDirective } from '../../shared/intersection-observer.directive';
+import { ChipsComponent } from '../../chips/chips.component';
+import { Chip } from '../../chips/chip.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubscriptionLike } from 'rxjs';
 import { ClarityModule } from '@clr/angular';

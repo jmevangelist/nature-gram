@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ClarityIcons, homeIcon, cogIcon, keyIcon, searchIcon, imageGalleryIcon, briefcaseIcon } from '@cds/core/icon';
@@ -22,15 +22,16 @@ import { NotificationService } from './notification/notification.service';
     CommonModule,
   ]
 })
-export class AppComponent implements AfterViewChecked{
+export class AppComponent implements AfterViewChecked, AfterViewInit{
   title = 'natureGram';
   scrollVal:number[] = []
   @ViewChild('contentArea') contentArea!: ElementRef
   restoredScroll:number = 0;
   authServ:AuthorizationService = inject(AuthorizationService);
   notification:NotificationService = inject(NotificationService);
+  collapsed: boolean = false;
 
-  constructor(private router: Router, private location: Location){
+  constructor(private router: Router, private location: Location, private changeRef: ChangeDetectorRef){
     this.router.events.pipe(
       filter((e):e is NavigationStart => e instanceof NavigationStart)
     ).subscribe(this.onNavigationStart.bind(this))
@@ -43,6 +44,7 @@ export class AppComponent implements AfterViewChecked{
         ClarityIcons.addIcons(['binoculars',svg])
       })
     })
+    ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon,searchIcon,briefcaseIcon,imageGalleryIcon)
   }
 
   onNavigationStart(e:NavigationStart){
@@ -52,13 +54,29 @@ export class AppComponent implements AfterViewChecked{
     }
   }
 
+  ngAfterViewInit(): void {
+    if(window.innerWidth < 900 ){
+      this.collapsed = true;
+    }else{
+      this.collapsed = false;
+    }
+    this.changeRef.detectChanges();
+  }
+
   ngAfterViewChecked(): void {
     if(this.restoredScroll){
       this.contentArea.nativeElement.scrollTo({top: this.restoredScroll })
       this.restoredScroll = 0
     }
   }
+
+  @HostListener('window:resize',['$event'])
+  onResize(event:any){
+    if(event.target.innerWidth < 900 ){
+      this.collapsed = true;
+    }else{
+      this.collapsed = false;
+    }
+  }
 }
 
-
-ClarityIcons.addIcons(palmTreeIcon,homeIcon,cogIcon,keyIcon,searchIcon,briefcaseIcon,imageGalleryIcon)

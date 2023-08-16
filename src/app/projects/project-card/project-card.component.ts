@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { Project } from '../inaturalist/inaturalist.interface';
-import { UrlifyDirective } from '../shared/urlify.directive';
+import { Project } from '../../inaturalist/inaturalist.interface';
+import { UrlifyDirective } from '../../shared/urlify.directive';
 
 @Component({
   selector: 'app-project-card',

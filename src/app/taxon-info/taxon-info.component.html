@@ -1,6 +1,6 @@
 <app-header [title]="taxon ? taxon.name ?? '': ' '" class="sticky-top"></app-header>
-<app-album *ngIf="photos" class="photos" [photos]="photos"></app-album>
-<app-carousel *ngIf="photos" class="photos" [photos]="photos"></app-carousel>
+<app-album *ngIf="photos.length" class="photos" [photos]="photos"></app-album>
+<app-carousel *ngIf="photos.length" class="photos" [photos]="photos"></app-carousel>
 
 <div class="container" *ngIf="taxon">
     <div class="about">

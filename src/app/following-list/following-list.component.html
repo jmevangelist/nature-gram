@@ -2,13 +2,14 @@
 
 <div class="following">
     <div *ngFor="let u of following">
-        <div class="user-container" *urlify="['/naturalist',u.friend_user.login]">
+        <app-user-card [user]="u.friend_user"></app-user-card>
+        <!-- <div class="user-container" *urlify="['/naturalist',u.friend_user.login]">
             <img [src]="u.friend_user.icon_url" class="user-icon">
             <div class="user-label">
                 <h6>{{u.friend_user.login}}</h6>
                 <span class="p7" *ngIf="u.friend_user.name">{{u.friend_user.name}}</span>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

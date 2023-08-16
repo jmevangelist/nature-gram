@@ -5,11 +5,12 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { Relationship } from '../inaturalist/inaturalist.interface';
 import { HeaderComponent } from '../header/header.component';
 import { UrlifyDirective } from '../shared/urlify.directive';
+import { UserCardComponent } from '../user-card/user-card.component';
 
 @Component({
   selector: 'app-following-list',
   standalone: true,
-  imports: [CommonModule,HeaderComponent,UrlifyDirective],
+  imports: [CommonModule,HeaderComponent,UrlifyDirective,UserCardComponent],
   templateUrl: './following-list.component.html',
   styleUrls: ['./following-list.component.css']
 })

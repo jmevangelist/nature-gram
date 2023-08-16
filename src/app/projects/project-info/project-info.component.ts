@@ -1,11 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observation, Project } from '../inaturalist/inaturalist.interface';
-import { InaturalistService } from '../inaturalist/inaturalist.service';
+import { Observation, Project } from '../../inaturalist/inaturalist.interface';
+import { InaturalistService } from '../../inaturalist/inaturalist.service';
 import { ProjectCardComponent } from '../project-card/project-card.component';
-import { UrlifyDirective } from '../shared/urlify.directive';
-import { SquareGridDirective } from '../shared/square-grid.directive';
+import { UrlifyDirective } from '../../shared/urlify.directive';
+import { SquareGridDirective } from '../../shared/square-grid.directive';
 
 @Component({
   selector: 'app-project-info',

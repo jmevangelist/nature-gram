@@ -6,13 +6,15 @@ import { SubscriptionLike, debounceTime } from 'rxjs';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { ResultsSearch, Search } from '../inaturalist/inaturalist.interface';
 import { TaxonComponent } from '../taxon/taxon.component';
-import { ProjectCardComponent } from '../project-card/project-card.component';
+import { ProjectCardComponent } from '../projects/project-card/project-card.component';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { PlaceCardComponent } from '../place-card/place-card.component';
 import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
 import { ChipsComponent } from '../chips/chips.component';
 import { Chip } from '../chips/chip.interface';
 import { ActivatedRoute } from '@angular/router';
+import { AutoFocusDirective } from '../shared/auto-focus.directive';
+import { MasonryGridDirective } from '../shared/masonry-grid.directive';
 
 
 @Component({
@@ -27,7 +29,9 @@ import { ActivatedRoute } from '@angular/router';
     UserCardComponent,
     PlaceCardComponent,
     IntersectionObserverDirective,
-    ChipsComponent
+    ChipsComponent,
+    AutoFocusDirective,
+    MasonryGridDirective
   ],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
@@ -95,7 +99,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  async search(q:string,page:number,sources?:string[]):Promise<void>{
+  private async search(q:string,page:number,sources?:string[]):Promise<void>{
     this.loading = true;
     let res:ResultsSearch;
 
@@ -117,7 +121,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.observe = false;
     if(this.maxPage >= this.page){
       let sources = this.sources.filter(s=>s.selected).map(s=>s.label)
-      console.log(sources)
       this.search(q,this.page,sources).then(()=>{
         this.observe = true;
       }).catch((e)=>{

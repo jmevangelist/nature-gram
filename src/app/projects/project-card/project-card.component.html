@@ -1,7 +1,7 @@
 <div class="project">
     <div class="project-banner" [ngStyle]="{
         'background-image': 'url('+ (project.header_image_url || bgUrl )+')',
-        'background-color': project.banner_color}" *urlify="[project.slug]">
+        'background-color': project.banner_color}" *urlify="['/projects',project.slug]">
         <img [src]="project.icon" class="project-icon">
     </div>
     <div class="project-body">  
