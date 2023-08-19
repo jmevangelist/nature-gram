@@ -99,7 +99,7 @@
                 <h6 *ngIf="observation.project_observations.length">Projects</h6>
                 <div class="projects">
                     <div *ngFor="let p of observation.project_observations">
-                        <img class="project-icon" [src]="p.project.icon">
+                        <img class="project-icon" [src]="p.project.icon" *urlify="['/projects',p.project.slug]">
                         <span class="p4">{{p.project.title}}</span>
                     </div>
                 </div>

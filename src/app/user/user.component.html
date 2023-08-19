@@ -4,16 +4,16 @@
     <div class="user padding">
         <img [src]="user?.icon_url || 'assets/default.png'" 
                 class="user-icon">
-        <div class="user-info">
-            <ng-container *ngIf="user else loading">
-                <h5>{{user.name}}</h5>
-            </ng-container>
-            <div class="p5">@{{user_login}}</div>
-            <ng-container *ngIf="user else loading">
-                <div class="p5">{{user.observations_count}} Observations</div>
-            </ng-container>
-        </div>
-        <div>
+        <div class="flex-wrap">
+            <div class="user-info">
+                <ng-container *ngIf="user else loading">
+                    <h2>{{user.name}}</h2>
+                </ng-container>
+                <div class="p5">@{{user_login}}</div>
+                <ng-container *ngIf="user else loading">
+                    <div class="p5">{{user.observations_count}} Observations</div>
+                </ng-container>
+            </div>
             <button class="btn btn-primary btn-sm m-0" clrLoading #b (click)="follow(b)">
                 {{ following ? 'Following':'Follow'}}</button>
         </div>
@@ -27,7 +27,7 @@
         </ng-container>
     </div>
 
-    <div *ngIf="observations else loading" class="observations">
+    <div class="observations">
         <h5>Observations</h5>
 
         <div class="taxonomy" *ngIf="taxonomy else loading">
@@ -58,35 +58,9 @@
             </span>
         </div>
 
-        <div class="grid-container" squareGrid>
-            <div class="grid-item" *ngFor="let observation of observations; let last=last"
-            [class.tall]="observation.photos[0].original_dimensions.width/observation.photos[0].original_dimensions.height < 0.7"
-            [class.wide]="observation.photos[0].original_dimensions.width/observation.photos[0].original_dimensions.height > 1.4"
-            [class.square]="observation.photos[0].original_dimensions.width==observation.photos[0].original_dimensions.height"
-            [class.popular]="observation.faves_count > 0">
-                <img [src]="observation.photos[0].url" loading="lazy" 
-                    [width]="observation.photos[0].original_dimensions.width" 
-                    [height]="observation.photos[0].original_dimensions.height" class="obs-img"
-                    *urlify="['/observation',observation.uuid]">
-                <div class="taxon hover-label" *ngIf="observation.taxon else unidentified"><em>{{observation.taxon.name}}</em>
-                    <span *ngIf="observation.taxon.preferred_common_name"><br>{{observation.taxon.preferred_common_name}}</span>
-                </div>
-                <ng-template #unidentified>
-                    <div class="taxon hover-label">Unidentified</div>
-                </ng-template>
-                <div class="attribution hover-label">
-                    <span>{{observation.photos[0].attribution}}</span>
-                </div>
-            </div>
-        </div>
+        <app-observation-grid [query]="obsQuery" [retrieveOnScroll]="true" [styled]="true"></app-observation-grid>
     </div>
-
-    <div class="spinner-container" appIntersectionObserver (intersected)="intersected()" [observe]="observe">
-        <span class="spinner spinner-md" [hidden]="!loadingObs">
-            Loading...
-        </span>
-    </div>
-
+    
     <ng-template #loading>
         <clr-progress-bar clrLoop></clr-progress-bar>
-    </ng-template>
+    </ng-template> 

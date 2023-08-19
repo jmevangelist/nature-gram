@@ -10,6 +10,7 @@ import { TaxonComponent } from '../taxon/taxon.component';
 import { CarouselComponent } from '../carousel/carousel.component';
 import { MapComponent } from '../map/map.component';
 import { SubscriptionLike } from 'rxjs';
+import { ObservationGridComponent } from '../observation-grid/observation-grid.component';
 
 @Component({
   selector: 'app-taxon-info',
@@ -21,7 +22,8 @@ import { SubscriptionLike } from 'rxjs';
     UrlifyDirective,
     TaxonComponent,
     CarouselComponent,
-    MapComponent
+    MapComponent,
+    ObservationGridComponent
   ],
   templateUrl: './taxon-info.component.html',
   styleUrls: ['./taxon-info.component.css']

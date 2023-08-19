@@ -170,9 +170,9 @@ export class InaturalistFieldsService {
             uuid: true,
             project: {
                 id: true,
-                description: true,
                 icon: true,
-                title: true
+                title: true,
+                slug: true
             }
         },
         geojson: { 

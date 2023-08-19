@@ -89,6 +89,11 @@ export class InaturalistService {
     const url = new URL('v1/observations/taxonomy', this.base_url);
     url.search = new URLSearchParams(opt_params).toString();
     const response = await fetch(url);
+    
+    if(!response.ok){
+      throw response.status 
+    }
+
     const data = await response.json();
     return data
   }

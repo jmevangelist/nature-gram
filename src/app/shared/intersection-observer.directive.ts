@@ -26,7 +26,7 @@ export class IntersectionObserverDirective {
   }
 
   createObserver():void{
-    this.observer = new IntersectionObserver((entries,observer)=>{
+    this.observer = new IntersectionObserver((entries)=>{
       entries.forEach((entry)=>{
         if(entry.isIntersecting){
           this.intersected.emit()

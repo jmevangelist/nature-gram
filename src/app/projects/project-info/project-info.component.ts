@@ -6,6 +6,7 @@ import { InaturalistService } from '../../inaturalist/inaturalist.service';
 import { ProjectCardComponent } from '../project-card/project-card.component';
 import { UrlifyDirective } from '../../shared/urlify.directive';
 import { SquareGridDirective } from '../../shared/square-grid.directive';
+import { ObservationGridComponent } from 'src/app/observation-grid/observation-grid.component';
 
 @Component({
   selector: 'app-project-info',
@@ -13,8 +14,7 @@ import { SquareGridDirective } from '../../shared/square-grid.directive';
   imports: [
     CommonModule,
     ProjectCardComponent,
-    UrlifyDirective,
-    SquareGridDirective
+    ObservationGridComponent
   ],
   templateUrl: './project-info.component.html',
   styleUrls: ['./project-info.component.css']
@@ -23,7 +23,6 @@ export class ProjectInfoComponent implements OnInit {
   slug!: string;
   project: Project | undefined;
   inat: InaturalistService;
-  observations: Observation[] | undefined;
   bgUrl: string;
 
   constructor(private route: ActivatedRoute,private location:Location){
@@ -36,7 +35,6 @@ export class ProjectInfoComponent implements OnInit {
     this.getProjectDetail().then((project:Project|null)=>{
       if(project){
         this.project = project;
-        this.getRecentObs();
       }
     })
   }
@@ -55,11 +53,5 @@ export class ProjectInfoComponent implements OnInit {
     }
   }
 
-  getRecentObs(){
-    let params = [['project_id',this.project?.id.toString() || ''],
-    ['order_by','created_at']]
-    this.inat.getObservations(params).then((obs:Observation[])=>{
-      this.observations = obs;
-    })
-  }
+
 }

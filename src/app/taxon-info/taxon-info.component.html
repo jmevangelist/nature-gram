@@ -23,4 +23,9 @@
             <app-taxon [taxon]="child" *urlify="['/taxon',child.id]"></app-taxon>
         </div>
     </div>
+
+</div>
+<div class="observations">
+    <h4>Recent Observations</h4>
+    <app-observation-grid [query]="{taxon_id: taxon?.id}" ></app-observation-grid>
 </div>
