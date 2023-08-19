@@ -30,10 +30,18 @@
 
 .user-icon{
     border-radius: 50%;
-    width: 4rem !important;
-    height: 4rem !important;
+    width: 6rem;
+    height: 6rem;
     object-fit: cover;
     margin-right: 0.6rem;
+    flex: none;
+}
+
+@media screen and (max-width:768px) {
+    .user-icon{
+        width: 4rem;
+        height: 4rem;
+    }
 }
 
 .m-0{
@@ -72,82 +80,6 @@ p{
     grid-auto-flow: dense;
 }
 
-
-.obs-img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    max-height: 100%;
-}
-
-.grid-item{
-    position: relative;
-}
-
-.grid-item.tall{
-    grid-row: auto/ span 2;
-}
-
-.grid-item.wide{
-    grid-column: auto/ span 2;
-}
-
-
-@media screen and (min-width:768px) {
-    .grid-item.square{
-        grid-column: auto/span 2;
-        grid-row: auto/span 2;
-    }
-
-    .grid-item.popular:not(.tall):not(.wide){
-        grid-column: auto / span 3;
-        grid-row: auto /span 3;
-    }
-    .grid-item.popular.tall{
-        grid-column: auto / span 2;
-        grid-row: auto /span 3;
-    }
-    
-    .grid-item.popular.wide{
-        grid-column: auto / span 3;
-        grid-row: auto /span 2;
-    }    
-}
-
-@media screen and (max-width:768px) {
-    .grid-item.popular:not(.tall):not(.wide){
-        grid-column: auto / span 2;
-        grid-row: auto /span 2;
-    }
-}
-
-.grid-item:hover .hover-label{
-    visibility: visible;
-}
-
-.hover-label{
-    visibility: hidden;
-    background-color: var(--bg-black-semi-transparent);
-    color: white;
-    position: absolute;
-    z-index: 5;
-    line-height: 0.6rem;
-    margin: 0.2rem;
-    padding: 0.1rem;
-    font-size: x-small;
-}
-
-.taxon{    
-    top: 0;
-    right: 0;
-    text-align: end;
-}
-
-.attribution{
-    bottom: 0;
-    left: 0;
-    text-align: start;
-}
 
 .observations{
     width: 100%;
@@ -209,3 +141,11 @@ clr-dropdown-menu > .p5{
     padding: 0;
     margin: 0 0.3rem 0 0;
 }
+
+.flex-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    flex: auto; 
+    align-items: center;
+}
+

@@ -107,6 +107,7 @@ export interface Place {
     id: number;
     display_name?: string;
     point_geojson: Geojson;
+    observations_count?: number;
 }
 
 export interface CommentsCreate {
@@ -230,5 +231,4 @@ export interface Search {
     project?: Project;
     taxon?: Taxon;
     user?: User
-
 }

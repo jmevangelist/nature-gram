@@ -7,7 +7,7 @@
     [class.square]="0.8 <= (photo.original_dimensions.width/photo.original_dimensions.height) &&
     (photo.original_dimensions.width/photo.original_dimensions.height) <= 1.4 "
     (click)="openPhoto(i)">
-        <img [src]="photo.url" [attr.width]="photo.original_dimensions.width"
+        <img [src]="photo.url" class="pointer-on-hover" [attr.width]="photo.original_dimensions.width"
         [attr.height]="photo.original_dimensions.height" loading="lazy">
         <div *ngIf="first" class="attribution">{{photo.attribution}}</div>
         <div *ngIf="last&&photos.length>3" class="index">+{{photos.length-3}}</div>

@@ -1,14 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
-import { Observation, User, SpeciesCount, SpeciesTreeCount, Taxon, TaxonomyNode, TaxonomyResult } from '../inaturalist/inaturalist.interface';
+import { Observation, User, TaxonomyNode, TaxonomyResult } from '../inaturalist/inaturalist.interface';
 import { ClarityModule, ClrLoadingButton, ClrLoadingState } from '@clr/angular'
 import { HeaderComponent } from '../header/header.component';
 import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
 import { UrlifyDirective } from '../shared/urlify.directive';
 import { SquareGridDirective } from '../shared/square-grid.directive';
 import { ClarityIcons, refreshIcon } from '@cds/core/icon';
+import { SubscriptionLike } from 'rxjs';
+import { ObservationGridComponent } from '../observation-grid/observation-grid.component';
 
 @Component({
   selector: 'app-user',
@@ -20,28 +22,26 @@ import { ClarityIcons, refreshIcon } from '@cds/core/icon';
     RouterLink,
     IntersectionObserverDirective,
     UrlifyDirective,
-    SquareGridDirective
+    SquareGridDirective,
+    ObservationGridComponent
   ],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
   route: ActivatedRoute = inject(ActivatedRoute);
   inaturalistService: InaturalistService = inject(InaturalistService)
 
   user_login: string = ''
-  observations: Observation[] = []
   user: User|undefined = undefined;
   following: boolean;
   relationshipID!: number | undefined;
-  private page = 1
-  observe: boolean = true;
   taxonId!: number;
-  loadingObs: boolean = true;
-  params!: string[][];
+  obsQuery: any;
   taxonomy!: TaxonomyNode[];
+  private sub!: SubscriptionLike;
 
-  constructor(){
+  constructor(private router:Router, private activatedRoute:ActivatedRoute){
     this.user_login = this.route.snapshot.params['user_login'];
     this.following = false;
     this.inaturalistService.getUserByLogin(this.user_login)
@@ -49,19 +49,15 @@ export class UserComponent implements OnInit {
       this.user = user
       this.getTaxonomy();
     })
-    this.params = [
-      ['user_login',this.user_login],
-      ['page',this.page.toString()]]
+    this.obsQuery = {
+      user_login: this.user_login
+    }
     ClarityIcons.addIcons(refreshIcon);
   }
 
-  intersected(){
-    this.getObservations();
-  }
 
   ngOnInit(): void {
     this.inaturalistService.getRelationships(this.user_login).then((r:any)=>{
-      console.log(r)
       if(r.length){
         if(r[0].following){
           this.following = true;
@@ -71,6 +67,21 @@ export class UserComponent implements OnInit {
     }).catch((e)=>{
       console.log(e)
     })
+    this.sub = this.activatedRoute.queryParams.subscribe((qP)=>{
+      this.obsQuery = qP;
+      this.obsQuery = {
+        user_login: this.user_login
+      }
+      if(qP){
+        Object.keys(qP).forEach((k:any)=>{
+          this.obsQuery[k] = qP[k];
+        })
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   follow(button:ClrLoadingButton){
@@ -85,7 +96,6 @@ export class UserComponent implements OnInit {
     }else{
       this.inaturalistService.relationships(
         {'friend_id':this.user?.id,'following':true,'trust':false}).then((res)=>{
-          console.log(res)
           this.following = true;
           this.relationshipID = res[0].id;
         }).finally(()=>{
@@ -93,24 +103,6 @@ export class UserComponent implements OnInit {
         })
       
     }
-  }
-
-  private getObservations(){
-    this.observe = false;
-    this.loadingObs = true;
-    this.inaturalistService.getObservations(this.params)
-    .then( (observations:Observation[]) => {
-      if(observations.length == 0){
-        this.observe = false;
-      }else{
-        this.observations.push(...observations);
-        this.page++
-        this.params[1][1] = this.page.toString();
-        this.observe = true;
-      }
-    }).finally(()=>{
-      this.loadingObs = false;
-    })
   }
 
   private async getTaxonomy(){
@@ -191,31 +183,19 @@ export class UserComponent implements OnInit {
       this.taxonomy.splice(index+1);
     }
     this.taxonomy.push(t)
-
-    this.observe = true;
-    this.page = 1;
-    this.params = [
-      ['user_login',this.user_login],
-      ['page',this.page.toString()]]
+    let params:any = {};
 
     if(t.id > 0){
-      this.params.push(...[['taxon_id',t.id.toString()]])
+      params['taxon_id'] = t.id;
     }else if (t.id == -1){
-      this.params.push(...[['identified','false']])
+      params['identified'] = false;
     }
-    this.observations = [];
-
+    this.router.navigate([],{queryParams: params});    
   }
 
   resetTaxonomy(){
     this.taxonomy.length = 1;
-    this.observe = true;
-    this.page = 1;
-    this.params = [
-      ['user_login',this.user_login],
-      ['page',this.page.toString()]]
-
-    this.observations = [];
+    this.router.navigate([]); 
   }
 
 }

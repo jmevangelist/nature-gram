@@ -1,0 +1,29 @@
+<div class="search-bar">
+    <cds-icon shape="search" size="sm"></cds-icon>
+    <input type="search" class="p5" placeholder="Search" autoFocus [formControl]="searchControl" name="search" autofocus>
+    <span class="loading">
+        <span class="spinner spinner-sm" *ngIf="loading">
+            Loading...
+        </span>
+    </span>
+</div>
+
+<app-chips [chips]="sources" [multiSelect]="true" (chipSelect)="selectSource($event)"></app-chips>
+
+<div class="container" masonryGrid>
+    <div *ngFor="let s of searchResults">
+        <div class="material-card taxon" *ngIf="s.type == 'taxon' && s.taxon">
+            <app-taxon [taxon]="s.taxon"></app-taxon>
+        </div>
+        <app-project-card [project]="s.project" *ngIf="s.type == 'project' && s.project"></app-project-card>
+        <app-user-card [user]="s.user" *ngIf="s.type == 'user' && s.user"></app-user-card>
+        <app-place-card [place]="s.place" *ngIf="s.place && s.type=='place'"></app-place-card>
+    </div>
+
+</div>
+
+<span class="loading" appIntersectionObserver [observe]="observe" (intersected)="intersected()">
+    <span class="spinner spinner-md" *ngIf="loading">
+        Loading...
+    </span>
+</span>

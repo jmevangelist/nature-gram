@@ -6,6 +6,15 @@
 
 .following{
     padding: 0.3rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width:768px) {
+    .following{
+        flex-direction: column;
+    }
 }
 
 

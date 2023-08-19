@@ -1,0 +1,10 @@
+<div class="material-card" *urlify="['/naturalist',user.login]">
+    <div class="user">
+        <img class="user-icon" [src]="user.icon_url || 'assets/default.png'" >
+        <div class="user-info">
+            <h6 class="m-0">{{user.name}}</h6>
+            <p class="p5 m-0">{{user.login}}</p>
+            <p class="p7 m-0">{{user.observations_count}} observations</p>
+        </div>
+    </div>
+</div>

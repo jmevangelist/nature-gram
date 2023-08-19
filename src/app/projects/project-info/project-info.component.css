@@ -1,0 +1,60 @@
+.project-icon{
+    margin-left: .6rem;
+    transform: translateY(-30%);
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: solid;
+    border-width: 0.03rem;
+    border-color: var(--clr-card-border-color);
+    background-color: white;
+}
+
+.project-banner{
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5/1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    backdrop-filter: blur(10px);
+}
+
+.wave-bg{
+    background-image: url('/assets/wave-bg.png');
+}
+
+.banner-img{
+    object-fit:cover;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    margin:auto;
+}
+
+.project-header{
+    display: flex;
+    gap: 0.3rem;
+    padding: 0.3rem 0;
+    position: relative;
+}
+
+.project-title{
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+}
+
+.project-description{
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.project-obs{
+    padding: 0 0.6rem;
+}

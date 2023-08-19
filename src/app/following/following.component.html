@@ -1,5 +1,5 @@
 <app-header title="Following" class="sticky-top"></app-header>
-<div class="following-container">
+<div class="following-container" *ngIf="following.length">
     <div class="following">
         <div *ngFor="let u of following" class="user-container" [class.selected]="u.id==selected?.id">
             <img [src]="u.friend_user.icon_url || 'assets/default.png'" class="user-icon" (click)="select(u)">

@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates, SpeciesCount, TaxonomyResult, Project } from './inaturalist.interface';
+import { Observation, User, Taxon, Place, CommentsCreate, Comment, IdentificationsCreate, Identification, ObservationsUpdates, ResultsUpdates, SpeciesCount, TaxonomyResult, Project, ResultsSearch } from './inaturalist.interface';
 import { InaturalistFieldsService } from './inaturalist-fields.service'
 import { AuthorizationService } from '../authorization/authorization.service';
 declare const rison: any; 
@@ -89,6 +89,11 @@ export class InaturalistService {
     const url = new URL('v1/observations/taxonomy', this.base_url);
     url.search = new URLSearchParams(opt_params).toString();
     const response = await fetch(url);
+    
+    if(!response.ok){
+      throw response.status 
+    }
+
     const data = await response.json();
     return data
   }
@@ -189,6 +194,24 @@ export class InaturalistService {
 
     return data.results
 
+  }
+
+  async search(q:string,sources?:string[],page?:number):Promise<ResultsSearch>{
+    const url = new URL('v2/search',this.base_url);
+    let params = [['q',q],['fields','all']];
+    if(sources?.length){
+      params.push(...[['sources',`${sources}`]])
+    }
+    if(page){
+      params.push(...[['page',page.toString()]])
+    }
+    url.search = new URLSearchParams(params).toString();
+    let response = await fetch(url);
+    if(!response.ok){
+      throw response.status
+    }
+    let data = await response.json();
+    return data;
   }
 
   async getProjectsByUserID(id:number):Promise<Project[]>{

@@ -11,6 +11,10 @@
     gap: 0.6rem;
 }
 
+.observations{
+    padding: 0.3rem 5rem 0.3rem 0.6rem;
+}
+
 app-map{
     display: inline-block;
 }
@@ -25,7 +29,7 @@ app-map{
 }
 
 @media screen and (max-width:768px)  {
-    .container{
+    .container,.observations{
         padding: 0.6rem;
     }
 

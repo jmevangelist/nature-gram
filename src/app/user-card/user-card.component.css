@@ -1,0 +1,16 @@
+.user{
+    display: flex;
+    gap: 0.3rem;
+    padding: 0.3rem;
+}
+
+.user:hover{
+    background-color: var(--clr-color-action-50);
+}
+
+.user-icon{
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+}

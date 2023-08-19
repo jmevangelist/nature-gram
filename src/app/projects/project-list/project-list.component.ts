@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthorizationService } from '../authorization/authorization.service'
-import { InaturalistService } from '../inaturalist/inaturalist.service';
-import { Project } from '../inaturalist/inaturalist.interface';
-import { HeaderComponent } from '../header/header.component';
+import { AuthorizationService } from '../../authorization/authorization.service'
+import { InaturalistService } from '../../inaturalist/inaturalist.service';
+import { Project } from '../../inaturalist/inaturalist.interface';
+import { HeaderComponent } from '../../header/header.component';
 import { ProjectCardComponent } from '../project-card/project-card.component';
-import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
-import { ChipsComponent } from '../chips/chips.component';
-import { Chip } from '../chips/chip.interface';
+import { IntersectionObserverDirective } from '../../shared/intersection-observer.directive';
+import { ChipsComponent } from '../../chips/chips.component';
+import { Chip } from '../../chips/chip.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubscriptionLike } from 'rxjs';
 import { ClarityModule } from '@clr/angular';
@@ -50,7 +50,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
     this.observe = true;
     this.loading = true;
-    this.chips = [] // [{label:'Featured'},{label:'Recent'}];
+    this.chips = [];
   }
 
   ngOnInit(): void {
@@ -71,17 +71,16 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.chips.push(recent);
 
     this.sub = this.activatedRoute.queryParams.subscribe((qP)=>{
+      this.chips.forEach(c=>{
+        c.selected = false;
+      })
+      this.params = { page:  1 };
+
       if(Object.keys(qP).length){
-
-        this.params = { page:  1 };
-
         Object.keys(qP).forEach(k=>{
           this.params[k] = qP[k]
         })
-        this.chips.forEach(c=>{
-          c.selected = false;
-        })
-
+        
         if(qP['featured']){
           featured.selected = true;
         }else if(qP['member_id']){
@@ -91,16 +90,15 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         }else if(qP['q']){
           this.q = qP['q']
         }
-
-        this.projects.length = 0;
-        this.observe = true;
-        this.getProjects();
-
       }else{
         let chip:Chip = this.auth.me ? joined: featured;
         chip.selected = true;
-        this.select(chip);
+        this.params = this.buildParams(chip);
       }
+
+      this.projects.length = 0;
+      this.observe = true;
+      this.getProjects();
     })
   }
 

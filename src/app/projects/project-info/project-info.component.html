@@ -1,0 +1,20 @@
+<div class="project-banner"  [ngStyle]="{
+    'background-image': 'url('+bgUrl+')',
+    'background-color': project?.banner_color}">
+    <img *ngIf="project?.header_image_url" [src]="project?.header_image_url" class="banner-img">
+</div>
+<div class="project-header">
+    <img  [src]="project?.icon ?? '/assets/default.png'" class="project-icon">
+    <div>
+        <div class="project-title">
+            <h4 class="m-0">{{project?.title}}</h4>  
+            <button class="btn btn-primary btn-sm">join</button>
+        </div>
+        <p class="m-0 p5 project-description" [innerHTML]="project?.description"></p>
+    </div>
+</div>
+
+<div class="project-obs">
+    <h6 class="m-0">Latest Observations</h6>
+    <app-observation-grid [query]="{project_id: project?.id}" [retrieveOnScroll]="true" [styled]="true"></app-observation-grid>
+</div>

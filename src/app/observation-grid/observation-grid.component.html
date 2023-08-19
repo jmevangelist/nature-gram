@@ -1,0 +1,27 @@
+<div class="grid-container" squareGrid>
+    <div class="grid-item" *ngFor="let observation of observations; let last=last"
+    [class.tall]="observation.photos[0].original_dimensions.width/observation.photos[0].original_dimensions.height < 0.7 && styled"
+    [class.wide]="observation.photos[0].original_dimensions.width/observation.photos[0].original_dimensions.height > 1.4 && styled"
+    [class.square]="observation.photos[0].original_dimensions.width==observation.photos[0].original_dimensions.height && styled"
+    [class.popular]="observation.faves_count > 0 && styled">
+        <img [src]="observation.photos[0].url" loading="lazy" 
+            [width]="observation.photos[0].original_dimensions.width" 
+            [height]="observation.photos[0].original_dimensions.height" class="obs-img"
+            *urlify="['/observation',observation.uuid]">
+        <div class="taxon hover-label" *ngIf="observation.taxon else unidentified"><em>{{observation.taxon.name}}</em>
+            <span *ngIf="observation.taxon.preferred_common_name"><br>{{observation.taxon.preferred_common_name}}</span>
+        </div>
+        <ng-template #unidentified>
+            <div class="taxon hover-label">Unidentified</div>
+        </ng-template>
+        <div class="attribution hover-label">
+            <span>{{observation.photos[0].attribution}}</span>
+        </div>
+    </div>
+</div>
+
+<div class="spinner-container" appIntersectionObserver (intersected)="intersected()" [observe]="observe">
+    <span class="spinner spinner-md" [hidden]="!loadingObs">
+        Loading...
+    </span>
+</div>

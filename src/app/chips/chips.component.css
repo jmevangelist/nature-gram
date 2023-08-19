@@ -14,22 +14,22 @@
     flex-direction: row;
 }
 
-/* .chip{
-    margin: 0.2rem auto;
-} */
-
 .label{
     align-self: center;
     border-radius: 0.3rem;
     border: none;
-    background-color: hsl(198, 83%, 94%) !important;
+    background-color: var(--clr-color-action-50);
     padding: 0 0.6rem !important;
     margin: 0 .3rem .05rem 0 !important;
     height: 1.2rem !important;
 }
 
+.label:hover{
+    background-color: var(--clr-color-action-100);
+}
+
 .label-selected{
-    background-color: hsl(198, 100%, 32%) !important;
+    background-color: var(--clr-color-action-600);
     color: hsl(198, 0%, 100%) !important;
 }
 
@@ -62,5 +62,4 @@ clr-dropdown > .label > cds-icon{
 
 :host{
     display: inline;
-    /* padding: 0.2rem; */
 }
