@@ -1,7 +1,7 @@
 # NatureGram
 Endless scroll of inaturalist observations
 
-![home](readmephotos/home.png) ![following](readmephotos/following.png)
+|![home](readmephotos/home.png)|![following](readmephotos/following.png)|
 ![naturalist](readmephotos/naturalist.png)
 ![comments](readmephotos/comments_wide.png)
 
