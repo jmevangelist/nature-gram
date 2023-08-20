@@ -1,6 +1,6 @@
 <span *ngFor="let chip of chips" class="chip">            
     <clr-dropdown *ngIf="chip.options else simple" clrPosition="bottom-right">
-        <span clrDropdownTrigger [class.label-selected]="chip.selected" class="label clickable">
+        <span clrDropdownTrigger [class.label-selected]="chip.selected" class="label pointer-on-hover">
             {{chip.label}}{{ chip.selected ? ':'+chip.option : '' }}
             <cds-icon shape="angle" size="sm" direction="down"></cds-icon>
         </span>
