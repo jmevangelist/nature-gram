@@ -39,6 +39,7 @@ testem.log
 /typings
 .cache/
 /keys
+.config/*
 
 # System files
 .DS_Store

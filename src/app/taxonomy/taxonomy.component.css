@@ -1,0 +1,35 @@
+clr-dropdown-menu {
+    max-height: 15rem;
+    overflow-y: scroll;
+}
+
+clr-dropdown-menu > .dropdown-item {
+    flex: none;
+}
+
+clr-dropdown > .taxon-item > cds-icon{
+    position: relative !important;
+    right: unset;
+}
+
+clr-dropdown-menu > .p5{
+    margin-top: 0 !important;
+}
+
+.taxonomy{
+    padding: 0.3rem;
+}
+
+.taxonomy > .btn{
+    padding: 0;
+    margin: 0 0.3rem 0 0;
+}
+
+.taxon-item{
+    margin-top: 0 !important;
+    margin-right: 0.2rem;
+    padding: 0.1rem 0.3rem !important;
+    background-color: var(--clr-color-action-50);
+    border-radius: 0.2rem;
+    white-space: nowrap;
+}

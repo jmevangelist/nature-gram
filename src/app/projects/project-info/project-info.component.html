@@ -14,7 +14,8 @@
     </div>
 </div>
 
-<div class="project-obs">
-    <h6 class="m-0">Latest Observations</h6>
-    <app-observation-grid [query]="{project_id: project?.id}" [retrieveOnScroll]="true" [styled]="true"></app-observation-grid>
+<div class="project-obs" *ngIf="project">
+    <h6 class="m-0">Observations</h6>
+    <app-taxonomy [params]="{project_id: project.id}" [tailId]="taxonID"></app-taxonomy>
+    <app-observation-grid [query]="obsQuery" [retrieveOnScroll]="true" [styled]="true"></app-observation-grid>
 </div>

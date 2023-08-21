@@ -44,8 +44,6 @@ export class ObservationGridComponent implements OnInit {
   }
 
   @Input() set query(query:any){
-    console.log('set',query)
-
     this.params = {
       page: 1
     }
@@ -61,7 +59,7 @@ export class ObservationGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('onInit')
+
     this._init = true;
     if(this.retrieveOnScroll){
       delete this.params['per_page'];
@@ -82,7 +80,9 @@ export class ObservationGridComponent implements OnInit {
   retrieveObs(){
     let paramsArray:string[][] = [];
     Object.keys(this.params).forEach(k=>{
-      paramsArray.push(...[[k,this.params[k].toString()]])
+      if(this.params[k]){
+        paramsArray.push(...[[k,this.params[k].toString()]])
+      }
     })
     this.loadingObs = true;
     this.inat.getObservations(paramsArray).then(obs=>{

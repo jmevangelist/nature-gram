@@ -59,7 +59,6 @@ export class TaxonInfoComponent implements OnInit, OnDestroy {
     this.inat.getTaxa([this.id.toString()],'all').then((taxa:Taxon[])=>{
       if(taxa.length){
         this.taxon = taxa[0];
-        console.log(this.taxon)
         let photos = this.taxon.taxon_photos?.map((tp)=>tp.photo) ?? [];
         photos.forEach((p)=>{
           p.url = p.url.replace('square','original')

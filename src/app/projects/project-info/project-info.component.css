@@ -40,6 +40,8 @@
     gap: 0.3rem;
     padding: 0.3rem 0;
     position: relative;
+    max-width: var(--max-width);
+    margin:auto;
 }
 
 .project-title{
@@ -56,5 +58,17 @@
 }
 
 .project-obs{
+    width: 100%;
+    max-width: var(--max-width);
+    margin: auto;
     padding: 0 0.6rem;
+}
+
+@media screen and (max-width:768px) {
+    .project-obs{
+        padding: 0;
+    }
+    .project-obs > h6{
+        padding: 0 0.6rem;
+    }
 }
