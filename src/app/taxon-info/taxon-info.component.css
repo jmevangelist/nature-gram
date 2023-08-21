@@ -29,8 +29,8 @@ app-map{
 }
 
 @media screen and (max-width:768px)  {
-    .container,.observations{
-        padding: 0.6rem;
+    .container{
+        padding: 0 0.6rem;
     }
 
     .photos{
@@ -48,6 +48,9 @@ app-map{
     }
     .observations{
         padding: 0;
+    }
+    .observations > h4{
+        padding: 0 0.6rem;
     }
 }
 
@@ -69,7 +72,7 @@ app-map{
         display:none;
     }
     .observations{
-        padding: 0;
+        padding: 0; 
     }
 }
 
@@ -88,3 +91,6 @@ app-map{
     background-color: var(--clr-color-action-50);
 }
 
+h4{
+    margin-top: 0.5rem;
+}

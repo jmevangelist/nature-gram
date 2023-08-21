@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '../../inaturalist/inaturalist.interface';
@@ -27,6 +27,7 @@ export class ProjectInfoComponent implements OnInit {
   bgUrl: string;
   obsQuery:KeyValue;
   taxonID!: number;
+  shortDescription!: string;
 
   constructor(private route: ActivatedRoute,private location:Location){
     this.bgUrl = this.location.prepareExternalUrl('/assets/') + 'wave-bg.png';
@@ -40,10 +41,10 @@ export class ProjectInfoComponent implements OnInit {
       if(project){
         this.project = project;
         this.obsQuery['project_id'] = project.id;
+        this.shortDescription = project.description.slice(0,project.description.indexOf('\n'))
       }
     })
     this.route.queryParams.subscribe(qP=>{
-      console.log(qP)
       this.obsQuery = {
         project_id: this.project?.id
       }

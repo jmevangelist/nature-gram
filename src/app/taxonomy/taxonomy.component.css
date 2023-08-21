@@ -33,3 +33,7 @@ clr-dropdown-menu > .p5{
     border-radius: 0.2rem;
     white-space: nowrap;
 }
+
+::-webkit-scrollbar{
+    width: 0.2rem;
+}

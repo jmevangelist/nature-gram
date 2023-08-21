@@ -1,5 +1,4 @@
 .project-icon{
-    margin-left: .6rem;
     transform: translateY(-30%);
     width: 3.5rem;
     height: 3.5rem;
@@ -38,10 +37,15 @@
 .project-header{
     display: flex;
     gap: 0.3rem;
-    padding: 0.3rem 0;
+    padding: 0.3rem 0.6rem;
     position: relative;
     max-width: var(--max-width);
+    width: 100%;
     margin:auto;
+}
+
+.project-header > div{
+    flex: auto;
 }
 
 .project-title{
@@ -51,7 +55,7 @@
 }
 
 .project-description{
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;

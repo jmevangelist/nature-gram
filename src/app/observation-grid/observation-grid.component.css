@@ -17,20 +17,19 @@
     position: relative;
 }
 
-.grid-item.tall{
-    grid-row: auto/ span 2;
-}
-
-.grid-item.wide{
-    grid-column: auto/ span 2;
-}
-
-
 @media screen and (min-width:768px) {
     .grid-item.square{
         grid-column: auto/span 2;
         grid-row: auto/span 2;
     }
+
+    .grid-item.tall{
+        grid-row: auto/ span 2;
+    }
+    
+    .grid-item.wide{
+        grid-column: auto/ span 2;
+    }    
 
     .grid-item.popular:not(.tall):not(.wide){
         grid-column: auto / span 3;
@@ -52,6 +51,12 @@
         grid-column: auto / span 2;
         grid-row: auto /span 2;
     }
+    .grid-item.popular.tall{
+        grid-row: auto/ span 2;
+    }
+    .grid-item.popular.wide{
+        grid-column: auto/ span 2;
+    }   
 }
 
 .attribution{
