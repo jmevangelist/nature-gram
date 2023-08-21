@@ -58,6 +58,7 @@ p{
     display: flex;
     flex-direction: column;
     overflow-x: scroll;
+    word-wrap: break-word;
 }
 
 .clr-col-auto{
@@ -233,3 +234,8 @@ a {
         max-height: 75dvh;
     }
 } */
+
+
+::-webkit-scrollbar{
+    display:none;
+}

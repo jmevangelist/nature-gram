@@ -25,7 +25,15 @@
 }
 
 .label:hover{
+    font-weight: 500;
+}
+
+.label:not(.label-selected):hover {
     background-color: var(--clr-color-action-100);
+}
+
+.label-selected:hover{
+    background-color: var(--clr-color-action-700);
 }
 
 .label-selected{

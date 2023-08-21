@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observation, Project } from '../../inaturalist/inaturalist.interface';
+import { Project } from '../../inaturalist/inaturalist.interface';
 import { InaturalistService } from '../../inaturalist/inaturalist.service';
 import { ProjectCardComponent } from '../project-card/project-card.component';
-import { UrlifyDirective } from '../../shared/urlify.directive';
-import { SquareGridDirective } from '../../shared/square-grid.directive';
 import { ObservationGridComponent } from 'src/app/observation-grid/observation-grid.component';
+import { TaxonomyComponent } from 'src/app/taxonomy/taxonomy.component';
+import { KeyValue } from 'src/app/shared/generic.interface';
 
 @Component({
   selector: 'app-project-info',
@@ -14,7 +14,8 @@ import { ObservationGridComponent } from 'src/app/observation-grid/observation-g
   imports: [
     CommonModule,
     ProjectCardComponent,
-    ObservationGridComponent
+    ObservationGridComponent,
+    TaxonomyComponent
   ],
   templateUrl: './project-info.component.html',
   styleUrls: ['./project-info.component.css']
@@ -24,17 +25,39 @@ export class ProjectInfoComponent implements OnInit {
   project: Project | undefined;
   inat: InaturalistService;
   bgUrl: string;
+  obsQuery:KeyValue;
+  taxonID!: number;
 
   constructor(private route: ActivatedRoute,private location:Location){
     this.bgUrl = this.location.prepareExternalUrl('/assets/') + 'wave-bg.png';
     this.slug = this.route.snapshot.params['slug'];
     this.inat = inject(InaturalistService);
+    this.obsQuery = {};
   }
 
   ngOnInit(): void {
     this.getProjectDetail().then((project:Project|null)=>{
       if(project){
         this.project = project;
+        this.obsQuery['project_id'] = project.id;
+      }
+    })
+    this.route.queryParams.subscribe(qP=>{
+      console.log(qP)
+      this.obsQuery = {
+        project_id: this.project?.id
+      }
+
+      Object.keys(qP).forEach((k:string)=>{
+        this.obsQuery[k] = qP[k];
+      })
+
+      if(this.obsQuery['taxon_id']){
+        this.taxonID = Number(this.obsQuery['taxon_id']);
+      }else if(this.obsQuery['identified'] === 'false'){
+        this.taxonID = -1;
+      }else{
+        this.taxonID = 0;
       }
     })
   }

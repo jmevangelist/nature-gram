@@ -43,6 +43,12 @@ app-map{
         width: 100%;
         height: 70vw;
     }
+    .about > .observations{
+        display: none;
+    }
+    .observations{
+        padding: 0;
+    }
 }
 
 @media screen and (min-width:768px) {
@@ -58,6 +64,12 @@ app-map{
         min-width: 400px;
         width: 100%;
         height: 350px;
+    }
+    .observations:not(.about *){
+        display:none;
+    }
+    .observations{
+        padding: 0;
     }
 }
 
