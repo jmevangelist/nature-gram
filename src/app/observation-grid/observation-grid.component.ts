@@ -72,7 +72,6 @@ export class ObservationGridComponent implements OnInit {
   }
 
   intersected(){
-    console.log('intersected')
     this.observe = false;
     this.retrieveObs();
   }

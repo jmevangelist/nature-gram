@@ -1,5 +1,5 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
-import { NavigationStart, Router, RouterModule } from '@angular/router';
+import { AfterViewChecked, AfterViewInit, ApplicationRef, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
+import { NavigationStart, RouteReuseStrategy, Router, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ClarityIcons, homeIcon, cogIcon, keyIcon, searchIcon, imageGalleryIcon, briefcaseIcon } from '@cds/core/icon';
 import { palmTreeIcon } from '@cds/core/icon/shapes/palm-tree';
@@ -8,6 +8,8 @@ import { AuthorizationService } from './authorization/authorization.service';
 import { filter } from 'rxjs'
 import { CommonModule, Location } from '@angular/common';
 import { NotificationService } from './notification/notification.service';
+import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 
 @Component({
@@ -22,6 +24,7 @@ import { NotificationService } from './notification/notification.service';
     CommonModule,
   ]
 })
+
 export class AppComponent implements AfterViewChecked, AfterViewInit{
   title = 'natureGram';
   scrollVal:number[] = []
@@ -48,10 +51,10 @@ export class AppComponent implements AfterViewChecked, AfterViewInit{
   }
 
   onNavigationStart(e:NavigationStart){
-    this.scrollVal.push(this.contentArea.nativeElement.scrollTop)
-    if(e.navigationTrigger == 'popstate'){
-      this.restoredScroll = this.scrollVal[(e.restoredState?.navigationId ?? 0) ];
-    }
+    // this.scrollVal.push(this.contentArea.nativeElement.scrollTop)
+    // if(e.navigationTrigger == 'popstate'){
+    //   this.restoredScroll = this.scrollVal[(e.restoredState?.navigationId ?? 0) ];
+    // }
   }
 
   ngAfterViewInit(): void {
@@ -64,10 +67,10 @@ export class AppComponent implements AfterViewChecked, AfterViewInit{
   }
 
   ngAfterViewChecked(): void {
-    if(this.restoredScroll){
-      this.contentArea.nativeElement.scrollTo({top: this.restoredScroll })
-      this.restoredScroll = 0
-    }
+    // if(this.restoredScroll){
+    //   this.contentArea.nativeElement.scrollTo({top: this.restoredScroll })
+    //   this.restoredScroll = 0
+    // }
   }
 
   @HostListener('window:resize',['$event'])
