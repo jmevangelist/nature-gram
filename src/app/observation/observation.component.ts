@@ -15,6 +15,7 @@ import { UrlifyDirective } from '../shared/urlify.directive';
 import { MapComponent } from '../map/map.component';
 import { QualityMetricComponent } from '../quality-metric/quality-metric.component';
 import { AlbumComponent } from '../album/album.component';
+import { IntWordPipe } from '../shared/int-word.pipe';
 
 @Component({
   selector: 'app-observation',
@@ -30,7 +31,8 @@ import { AlbumComponent } from '../album/album.component';
     UrlifyDirective,
     MapComponent,
     QualityMetricComponent,
-    AlbumComponent
+    AlbumComponent,
+    IntWordPipe
   ],
   templateUrl: './observation.component.html',
   styleUrls: ['./observation.component.css']

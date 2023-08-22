@@ -38,7 +38,7 @@
                         class="naturalist-icon">
                 <div>
                     <h6 class="naturalist-login" *urlify="['/naturalist',observation.user.login]">{{observation.user.login}}</h6>
-                    <p class="p5">{{observation.user.observations_count}} observations</p>
+                    <p class="p5">{{observation.user.observations_count | intWord}} observations</p>
                 </div>
             </div>
             <div class="actions">

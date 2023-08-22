@@ -11,7 +11,7 @@
                 </ng-container>
                 <div class="p5">@{{user_login}}</div>
                 <ng-container *ngIf="user else loading">
-                    <div class="p5">{{user.observations_count}} Observations</div>
+                    <div class="p5">{{user.observations_count | intWord}} Observations</div>
                 </ng-container>
             </div>
             <button class="btn btn-primary btn-sm m-0" clrLoading #b (click)="follow(b)">
