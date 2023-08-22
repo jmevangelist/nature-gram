@@ -1,46 +1,61 @@
+import { LocationStrategy } from '@angular/common';
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy,} from '@angular/router';
 
+@Injectable()
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
-  private routeStore = new Map<string, DetachedRouteHandle>();
+    private routeStore = new Map<string, DetachedRouteHandle>();
+    private isPopState: boolean;
+    private prevRoute!: string;
 
-  private paths = [
-    'naturalist/:user_login',
-    'observation/:uuid',
-    'home',
-    'following',
-    'taxon/:id',
-    'search',
-    'projects/:slug',
-    'projects'
-]
+    constructor(location:LocationStrategy){
+        this.isPopState = false;
 
-  private getPath(route: ActivatedRouteSnapshot):string{
-    return `${route.parent?.routeConfig?.path ?? ''}${ (route.parent?.routeConfig?.path && route.routeConfig?.path) ? '/':''}${route.routeConfig?.path?? ''}`
-  }
+        location.onPopState(()=>{
+            this.isPopState = true;
+        })
 
-  shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    const path = this.getPath(route);    
-    return this.paths.includes(path)
-  }
+    }
 
-  store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-    let routeRef = route.url.toString()
-    this.routeStore.set(routeRef, handle);
-  }
+    private getRouteKey(route:ActivatedRouteSnapshot):string{
+        return route.pathFromRoot
+        .filter(u => u.url)
+        .map(u => u.url)
+        .join('/');
+    }
 
-  shouldAttach(route: ActivatedRouteSnapshot): boolean {
-    const path = this.getPath(route);
-    let routeRef = route.url.toString()    
-    let storedRoute = this.routeStore.get(routeRef)
-    return (Boolean(path) && this.paths.includes(path) && !!storedRoute)
-  }
+    shouldDetach(route: ActivatedRouteSnapshot): boolean {
+        return route.data['saveComponent']
+    }
 
-  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-    let routeRef = route.url.toString()
-    return this.routeStore.get(routeRef) ?? {};
-  }
+    store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
+        let routeRef = this.getRouteKey(route);
+        this.routeStore.set(routeRef, handle);
+    }
 
-  shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-    return future.routeConfig === curr.routeConfig;
-  }
+    shouldAttach(route: ActivatedRouteSnapshot): boolean {
+        let routeRef = this.getRouteKey(route);  
+        let storedRoute = this.routeStore.get(routeRef)
+
+        if(!this.isPopState || !storedRoute){
+            this.prevRoute = routeRef;
+            return false
+        }else if(this.prevRoute === routeRef){ 
+            this.isPopState = false;
+        }
+        this.prevRoute = routeRef;
+
+        return route.data['saveComponent']
+    }
+
+    retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
+        let routeRef = this.getRouteKey(route);
+        const handle = this.routeStore.get(routeRef) ?? {}
+        return handle 
+
+    }
+
+    shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
+        return future.routeConfig === curr.routeConfig;
+    }
 }
