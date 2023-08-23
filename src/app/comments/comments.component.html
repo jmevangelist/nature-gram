@@ -56,18 +56,14 @@
                 [clrLoading]="identBtnState" 
                 (click)="getSuggestions();isIdentifying=true">
                 ID</button>
-                <textarea type="text" class="p5" #textarea 
-                    [ngStyle]="{'height.px': textarea.scrollHeight }"
-                    [(ngModel)]="newComment" name="newcomment" rows="1" 
-                    placeholder="Comment">
-                </textarea>
+                <textarea type="text" class="p5" #textarea rows="1" 
+                [formControl]="comment" placeholder="comment"></textarea>
             </div>
         </div>  
 
-        <button class="btn btn-link btn-sm comment-btn btn-icon" [clrLoading]="submitBtnState" 
-            (click)="onSubmit()" [disabled]="!newComment && !id">
-            <cds-icon shape="check"></cds-icon></button>
-
+        <button class="btn btn-sm btn-link btn-primary comment-btn btn-icon" [clrLoading]="submitBtnState" 
+            (click)="onSubmit()" [disabled]="!comment.value && !id">
+            <cds-icon shape="play" solid="true"></cds-icon></button>
     </div>
 
     <div class='user-identification' [class.display-inline-block]="isIdentifying">

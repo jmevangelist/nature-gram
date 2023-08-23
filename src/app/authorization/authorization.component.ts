@@ -32,6 +32,7 @@ export class AuthorizationComponent {
   constructor(){
     this.authForm.controls['token'].setValue(this.authService.token)
     this.me = this.authService.me;
+    ClarityIcons.addIcons(timesIcon,bugIcon,searchIcon)
   }
 
   auth(){
@@ -58,5 +59,3 @@ export class AuthorizationComponent {
 
   
 }
-
-ClarityIcons.addIcons(timesIcon,bugIcon,searchIcon)

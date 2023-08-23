@@ -15,14 +15,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
         })
     }
 
-    private getRouteKey(route:ActivatedRouteSnapshot):string{
-        return route.pathFromRoot
-        .filter(u => u.url)
-        .map(u => u.url)
-        .join('/');
-    }
-
-    private clearRouteStore(){
+    public clearRouteStore(){
         this.routeStore.forEach(handle=>{
             if(handle){
                 (handle as any).componentRef.destroy();
@@ -31,10 +24,17 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
         this.routeStore.clear();
     }
 
+    private getRouteKey(route:ActivatedRouteSnapshot):string{
+        return route.pathFromRoot
+        .filter(u => u.url)
+        .map(u => u.url)
+        .join('/');
+    }
+
     private deleteFirstRoute(){
         let k = this.routeStore.entries().next().value
 
-        if(k[1]){
+        if(k){
             k[1].componentRef.destroy();
             this.routeStore.delete(k[0])
         }
