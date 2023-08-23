@@ -23,7 +23,8 @@ const appRoutes: Routes = [
     component: HomeComponent,
     title: 'natureGram',
     data:{
-      saveComponent: true
+      saveComponent: true,
+      root: true
     }
   },
   {

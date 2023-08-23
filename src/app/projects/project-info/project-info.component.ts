@@ -64,7 +64,7 @@ export class ProjectInfoComponent implements OnInit {
   }
 
   async getProjectDetail(page?:number):Promise<Project|null>{
-    if(!page){page = 1; console.log(page)}
+    if(!page){page = 1}
     let projects:Project[] = await this.inat.getProjects([['q',this.slug],['page',page.toString()]])
     let project:Project|undefined = projects.find( p=>p.slug == this.slug);
     if(project){

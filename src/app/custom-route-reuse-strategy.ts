@@ -10,11 +10,9 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 
     constructor(location:LocationStrategy){
         this.isPopState = false;
-
         location.onPopState(()=>{
             this.isPopState = true;
         })
-
     }
 
     private getRouteKey(route:ActivatedRouteSnapshot):string{
@@ -24,13 +22,33 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
         .join('/');
     }
 
+    private clearRouteStore(){
+        this.routeStore.forEach(handle=>{
+            if(handle){
+                (handle as any).componentRef.destroy();
+            }
+        })
+        this.routeStore.clear();
+    }
+
+    private deleteFirstRoute(){
+        let k = this.routeStore.entries().next().value
+
+        if(k[1]){
+            k[1].componentRef.destroy();
+            this.routeStore.delete(k[0])
+        }
+    }
+
     shouldDetach(route: ActivatedRouteSnapshot): boolean {
         return route.data['saveComponent']
     }
 
     store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-        let routeRef = this.getRouteKey(route);
-        this.routeStore.set(routeRef, handle);
+        if (this.routeStore.size > 10 ){
+            this.deleteFirstRoute();
+        }
+        this.routeStore.set(this.getRouteKey(route), handle);
     }
 
     shouldAttach(route: ActivatedRouteSnapshot): boolean {
@@ -39,6 +57,10 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 
         if(!this.isPopState || !storedRoute){
             this.prevRoute = routeRef;
+            if(storedRoute){
+                let handle = this.routeStore.get(routeRef);
+                (handle as any).componentRef.destroy();
+            }
             return false
         }else if(this.prevRoute === routeRef){ 
             this.isPopState = false;
@@ -49,10 +71,8 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
     }
 
     retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-        let routeRef = this.getRouteKey(route);
-        const handle = this.routeStore.get(routeRef) ?? {}
+        const handle = this.routeStore.get(this.getRouteKey(route)) ?? {}
         return handle 
-
     }
 
     shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {

@@ -61,13 +61,11 @@ export class ObservationComponent implements OnInit {
   ngOnInit(): void {
     this.inaturalistService.getObservationsByUUID([this.uuid]).then((obs:Observation[])=>{
         this.observation = obs.pop();
-        console.log(this.observation)
         if(this.observation?.quality_grade == 'research'){
           this.observation.quality_grade = 'research grade'
         }
     })
     this.inaturalistService.getObservationTaxonSummaryByUUID(this.uuid).then((data:any)=>{
-      console.log(data)
       this.taxonSummary = data;
       
     })

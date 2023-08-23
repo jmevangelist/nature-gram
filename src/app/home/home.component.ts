@@ -40,14 +40,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   notification$: Observable<number>;
   chipGroup: any[];
 
-  private currentNavigation: Navigation | null;
+  // private currentNavigation: Navigation | null;
   private sub?: SubscriptionLike;
 
   constructor(private router: Router, private view: ViewContainerRef){
     ClarityIcons.addIcons(filterGridIcon)
     this.observations = this.homeService.observations$;
     this.loading = this.homeService.loading$;
-    this.currentNavigation = this.router.getCurrentNavigation();
+    // this.currentNavigation = this.router.getCurrentNavigation();
     this.end = false;
 
     this.bellIcon = bellIcon;
@@ -57,19 +57,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if(this.currentNavigation?.trigger == 'imperative'){
-      this.homeService.refresh();
-      this.moreObservations();
-    }else if(this.currentNavigation?.trigger == 'popstate'){
-      if(this.homeService.getObservations().length == 0){
-        if(!this.homeService.busy.value){
-          this.moreObservations();
-        }
-      }
-    }
+    this.homeService.refresh();
+    this.moreObservations();
   }
 
   ngOnDestroy(): void {
+    console.log('destroy home')
     this.sub?.unsubscribe();
     this.homeService.saveDefaultFilter();
   }
