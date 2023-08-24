@@ -7,6 +7,11 @@ import { GramComponent } from '../gram/gram.component';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { SubscriptionLike } from 'rxjs';
 import { UrlifyDirective } from '../shared/urlify.directive';
+import { ObservationsComponent } from '../observations/observations.component';
+import { KeyValue } from '../shared/generic.interface';
+import { Chip } from '../chips/chip.interface';
+import { ChipsComponent } from '../chips/chips.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-following',
@@ -15,33 +20,33 @@ import { UrlifyDirective } from '../shared/urlify.directive';
     CommonModule,
     HeaderComponent,
     GramComponent,
-    UrlifyDirective
+    UrlifyDirective,
+    ObservationsComponent,
+    ChipsComponent
   ],
   templateUrl: './following.component.html',
   styleUrls: ['./following.component.css']
 })
-export class FollowingComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FollowingComponent implements OnInit {
 
   inat: InaturalistService;
   following: Relationship[];
   selected!: Relationship | undefined;
-  observations!: Observation[];
-  loading: boolean;
-  intersectionObserver!: IntersectionObserver;
-  page: number;
   auth: AuthorizationService;
   sub!: SubscriptionLike;
+  params: KeyValue;
+  filterChips: Chip[];
 
-  @ViewChildren('obs') obs!: QueryList<any>;
-
-  constructor(){
-    this.loading = true;
-    this.page = 1;
+  constructor(private router:Router,private activatedRoute:ActivatedRoute){
     this.inat = inject(InaturalistService);
     this.auth = inject(AuthorizationService);
     this.following = [];
-    this.observations = [];
-    this.createIntersectionObserver();
+    this.params = {};
+    this.filterChips = [ 
+      {label: 'All', selected: true, value: {} },
+      {label: 'Popular', value: {popular: true} },
+      {label: 'Today',value: {created_d1: new Date( Date.now() - 24*60*60*1000 ), created_d2: new Date() } }
+    ]
   }
 
   ngOnInit(): void {
@@ -49,28 +54,30 @@ export class FollowingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.inat.getRelationships('').then((relationships:Relationship[])=>{
         this.following = relationships;
         this.loadObservations()
-      }).catch(()=>{
-        this.loading = false;
       })
-    }else{
-      this.loading = false;
     }
-  }
 
-  ngAfterViewInit(): void {
-    this.sub = this.obs.changes.subscribe(this.afterObsRender.bind(this))
-  }
+    this.sub = this.activatedRoute.queryParams.subscribe((qP)=>{
+      let ids = this.following.map((f)=>f.friend_user.id)
+      if(this.selected){
+        ids = [this.selected.friend_user.id]
+      }
+      this.params = {user_id: ids}
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
+      Object.keys(qP).forEach((k:string)=>{
+        this.params[k] = qP[k];
+      })
+      if(qP['popular']){
+        this.filterChips[0].selected = false;
+        this.filterChips[1].selected = true;
+      }else if(qP['created_d1']){
+        this.filterChips[0].selected = false;
+        this.filterChips[2].selected = true;
+      }
 
-  afterObsRender(): void{
-    let last = document.querySelector('.last');
-    if(last){this.intersectionObserver.observe(last)};
-  }
+    })
 
-  trackByItems(index: number, obs: Observation): number { return obs.id; }
+  }
 
   select(following:Relationship){
     if(this.selected==following){
@@ -82,47 +89,21 @@ export class FollowingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   reload(){
-    this.observations = [];
-    this.page = 1;
     this.loadObservations();
   }
 
   loadObservations(){
-    this.loading = true;
     let ids = this.following.map((f)=>f.friend_user.id)
     if(this.selected){
       ids = [this.selected.friend_user.id]
     }
-
-    let params = [
-      ['user_id',ids.toString()],
-      ['order_by','created_at'],
-      ['per_page','10'],
-      ['page',this.page.toString()]
-    ];
-    
-    this.inat.getObservations(params).then((obs:Observation[])=>{
-      this.observations.push(...obs);
-    }).finally(()=>{
-      this.loading = false;
-      this.page++;
-    })
+    let newParams = Object.assign({},this.params)
+    newParams['user_id'] = ids
+    this.params = newParams;
   }
 
-  createIntersectionObserver(){
-    const options = {
-      rootMargin: '0px',
-      threshold: 0.05
-    }
-
-    this.intersectionObserver = new IntersectionObserver((entries,observer)=>{
-      entries.forEach((entry)=>{
-        if(entry.isIntersecting){
-          this.loadObservations()
-          observer.unobserve(entry.target)
-        }
-      })
-    })
+  onSelect(chip:Chip){
+    this.router.navigate([],{queryParams: (chip.value as KeyValue)})
   }
 
 }

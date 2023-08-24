@@ -1,0 +1,20 @@
+<ng-container [ngSwitch]="style">
+    <ng-container *ngSwitchCase="'cards'">
+        <app-gram *ngFor="let observation of observations; 
+        let last=last;trackBy:trackByItems" [observation]="observation"
+        [class.last]="last" appIntersectionObserver [observe]="last && !loadingObs && !end && retrieveOnScroll" (intersected)="intersected()">
+        </app-gram>
+    </ng-container>
+</ng-container>
+
+<div class="spinner-container">
+    <span class="spinner spinner-md" [hidden]="!loadingObs">
+        Loading...
+    </span>
+    <span class="end p5 mt-0" [hidden]="!end || !retrieveOnScroll || observations.length == 0">
+        Oh hi! You scrolled through all observations!
+    </span>
+    <span class="end p5 mt-0" *ngIf="end && observations.length == 0 && !loadingObs">
+        No observations
+    </span>
+</div>

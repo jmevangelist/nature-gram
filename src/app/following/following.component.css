@@ -6,13 +6,13 @@
     flex: auto;
 }
 
+
 .following-container{
     display:flex;
     align-items: center;
 }
 
-.following-container > .btn{
-    flex: none;
+#all{
     margin: 0;
     min-width: unset;
 }
@@ -57,18 +57,24 @@
 }
 
 .content{
-    max-width: 850px;
+    max-width: 785px;
     width: 100%;
+    padding: 0.3rem;
+}
+
+@media screen and (max-width:758px) {
+    .content{
+        padding: 0.3rem 0;
+    }
+    .filter{
+        padding-left: 0.3rem;
+    }
+}
+
+.filter{
+    padding-bottom: 0.3rem;
 }
 
 .no-token{
     margin: auto;
-}
-
-:host{
-    width: 100%;
-    max-width: 850px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
 }
