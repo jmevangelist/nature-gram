@@ -4,7 +4,6 @@ import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { BehaviorSubject, Observable, skip } from 'rxjs';
 import { PreferenceService } from '../preference/preference.service';
 import { Chip } from '../chips/chip.interface';
-import TileSource from 'ol/source/Tile';
 
 @Injectable({
     providedIn: 'root'

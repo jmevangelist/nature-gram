@@ -6,7 +6,6 @@ import { SquareGridDirective } from '../shared/square-grid.directive';
 import { UrlifyDirective } from '../shared/urlify.directive';
 import { IntersectionObserverDirective } from '../shared/intersection-observer.directive';
 import { ClarityModule } from '@clr/angular';
-import { toStringHDMS } from 'ol/coordinate';
 
 @Component({
   selector: 'app-observation-grid',
@@ -30,7 +29,6 @@ export class ObservationGridComponent implements OnInit {
   observations!: Observation[];
   @Input() retrieveOnScroll!: boolean;
   private _init:boolean;
-  private _query:any;
 
   constructor(){
     this.inat = inject(InaturalistService);
@@ -47,7 +45,6 @@ export class ObservationGridComponent implements OnInit {
     this.params = {
       page: 1
     }
-    this._query = query;
     Object.keys(query).forEach(k=>{
       this.params[k] = query[k];
     })
@@ -72,7 +69,6 @@ export class ObservationGridComponent implements OnInit {
   }
 
   intersected(){
-    console.log('intersected')
     this.observe = false;
     this.retrieveObs();
   }

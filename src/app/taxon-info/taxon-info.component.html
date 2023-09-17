@@ -6,12 +6,12 @@
     <div class="about">
         <h4><ng-container *ngIf="taxon.rank_level > 10">{{taxon.rank | titlecase}}&nbsp;</ng-container> 
             <em>{{taxon.name}}</em>&nbsp; <span class="p2">{{taxon.preferred_common_name}}</span></h4>
-        <p *ngIf="wiki" class="p5"><span [innerHTML]="wiki"></span> <span *urlify="taxon.wikipedia_url ?? ''">[wiki]</span></p>
+        <p *ngIf="wiki" class="p5 m-0"><span [innerHTML]="wiki"></span> <span *urlify="taxon.wikipedia_url ?? ''">[wiki]</span></p>
         <h4>Range and Observations</h4>
         <app-map [taxon]="taxon.id" [displayObsLayer]="true"></app-map>
         <div class="observations" *ngIf="taxon">
             <h4>Recent Observations</h4>
-            <app-observation-grid [query]="{taxon_id: taxon.id}" [max]="12" ></app-observation-grid>
+            <app-observation-grid [query]="{taxon_id: taxon.id}" [retrieveOnScroll]="true"></app-observation-grid>
         </div>
     </div>
 
@@ -32,5 +32,5 @@
 
 <div class="observations" *ngIf="taxon">
     <h4>Recent Observations</h4>
-    <app-observation-grid [query]="{taxon_id: taxon.id}" [max]="12" ></app-observation-grid>
+    <app-observation-grid [query]="{taxon_id: taxon.id}" [retrieveOnScroll]="true" ></app-observation-grid>
 </div>

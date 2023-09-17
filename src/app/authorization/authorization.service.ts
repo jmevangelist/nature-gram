@@ -2,6 +2,8 @@ import { Injectable, Injector } from '@angular/core';
 import { User } from '../inaturalist/inaturalist.interface';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from '../custom-route-reuse-strategy';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +16,7 @@ export class AuthorizationService{
     private expiredSubject: BehaviorSubject<boolean>;
     expired$: Observable<boolean>;
 
-    constructor(private injector: Injector){
+    constructor(private injector: Injector,private routeReuseStrategy: RouteReuseStrategy){
         let local_storage_auth_user = localStorage.getItem('authorized_user');
         if(local_storage_auth_user){
             this.authorized_user = JSON.parse(local_storage_auth_user)
@@ -76,7 +78,8 @@ export class AuthorizationService{
             if(user){
                 this.setMe(user)
                 this.setToken(token)
-                success = true
+                success = true;
+                (this.routeReuseStrategy as CustomRouteReuseStrategy).clearRouteStore();
             }
         }catch(e){
             console.log(e)
@@ -92,5 +95,6 @@ export class AuthorizationService{
         this.authorized_user = undefined;
         this.expired = true;
         this.expiredSubject.next(true);
+        (this.routeReuseStrategy as CustomRouteReuseStrategy).clearRouteStore();
     }
 }

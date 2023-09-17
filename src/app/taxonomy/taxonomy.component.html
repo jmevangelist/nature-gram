@@ -8,7 +8,7 @@
             <span clrDropdownTrigger class="p5 taxon-item" clrDropdownTrigger >
                 <ng-container *ngIf="s.rank_level != 100 && s.rank_level != 10 && s.rank_level !=5">
                     {{s.rank | titlecase}}&nbsp;</ng-container>
-                {{s.name | titlecase}}&nbsp;({{s.descendant_obs_count}}) 
+                {{s.name | titlecase}}&nbsp;({{s.descendant_obs_count | intWord}}) 
                 <cds-icon shape="angle" size="sm" [attr.direction]="last ? 'down':'right'"></cds-icon>
             </span>
             <clr-dropdown-menu clrPosition="bottom-left" *clrIfOpen>
@@ -16,14 +16,14 @@
                 (click)="selectTaxon(c,i)">
                 <ng-container *ngIf="c.rank_level != 100 && c.rank_level != 10 && c.rank_level !=5">
                     {{c.rank | titlecase}}&nbsp;</ng-container>
-                <em>{{c.name}}</em> ({{c.descendant_obs_count}})</span>
+                <em>{{c.name}}</em> ({{c.descendant_obs_count | intWord}})</span>
             </clr-dropdown-menu>
         </clr-dropdown>
         <ng-template #end>
             <span class="p5 taxon-item">
                 <ng-container *ngIf="s.rank_level != 100 && s.rank_level != 10 && s.rank_level !=5">
                     {{s.rank | titlecase}}&nbsp;</ng-container>
-                <em>{{s.name}}</em> ({{s.descendant_obs_count}})</span>
+                <em>{{s.name}}</em> ({{s.descendant_obs_count | intWord}})</span>
         </ng-template>
     </span>
 </div>

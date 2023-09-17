@@ -6,13 +6,13 @@
     flex: auto;
 }
 
+
 .following-container{
     display:flex;
     align-items: center;
 }
 
-.following-container > .btn{
-    flex: none;
+#all{
     margin: 0;
     min-width: unset;
 }
@@ -25,6 +25,10 @@
     min-width: 3.5rem;
     overflow-x: hidden;
     flex:none;
+}
+
+.user-container:hover > img{
+    filter:brightness(75%);
 }
 
 ::-webkit-scrollbar{
@@ -56,19 +60,31 @@
     align-items: center;
 }
 
+
+.container{
+    max-width: var(--max-width);
+    margin: auto;
+}
+
+
 .content{
-    max-width: 850px;
     width: 100%;
+    padding: 0.3rem;
+}
+
+@media screen and (max-width:758px) {
+    .content{
+        padding: 0.3rem 0;
+    }
+    .filter{
+        padding-left: 0.3rem;
+    }
+}
+
+.filter{
+    padding-bottom: 0.3rem;
 }
 
 .no-token{
     margin: auto;
-}
-
-:host{
-    width: 100%;
-    max-width: 850px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
 }

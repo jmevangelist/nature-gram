@@ -4,7 +4,7 @@ import { Comment, CommentsCreate, Identification, IdentificationsCreate, Taxon }
 import { RouterLink } from '@angular/router';
 import { DateTimeAgoPipe } from '../shared/date-time-ago.pipe';
 import { ClarityModule, ClrLoadingButton, ClrLoadingState } from '@clr/angular';
-import { ClarityIcons, checkIcon } from '@cds/core/icon';
+import { ClarityIcons, checkIcon, playIcon } from '@cds/core/icon';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InaturalistService } from '../inaturalist/inaturalist.service';
@@ -45,9 +45,10 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   openIdentification: boolean;
   suggestions: any[];
   computerVision: any[];
+  comment: FormControl;
   qTaxon: FormControl;
   isIdentifying: boolean;
-  sub: SubscriptionLike;
+  sub: SubscriptionLike[];
   id: IdentificationsCreate | undefined;
   selectedTaxon: Taxon | undefined;
   index: number;
@@ -55,6 +56,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('activity') activity!: QueryList<any>
   @ViewChild('idInput') idInput!: ElementRef;
+  @ViewChild('textarea') textarea!: ElementRef;
 
   constructor(private changeDetectRef: ChangeDetectorRef){
     this.authServ = inject(AuthorizationService);
@@ -68,17 +70,28 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.suggestions = []
     this.isIdentifying = false;
     this.computerVision = [];
+    this.comment = new FormControl('')
     this.qTaxon = new FormControl('')
     this.auto = false
     this.index = 10;
     this.observe = true;
+    this.sub = []
 
-    this.sub = from(this.qTaxon.valueChanges).pipe(
-      debounceTime(300)
-    ).subscribe(this.searchTaxa.bind(this))
+    ClarityIcons.addIcons(checkIcon,playIcon)
   }
 
   ngOnInit(): void {    
+
+    this.sub.push(from(this.qTaxon.valueChanges).pipe(
+      debounceTime(300)
+    ).subscribe(this.searchTaxa.bind(this)))
+
+    this.sub.push(this.comment.valueChanges.subscribe(()=>{
+      console.log(this.textarea.nativeElement.scrollHeight)
+      this.textarea.nativeElement.style['height'] = '';
+      let scrollHeight = this.textarea.nativeElement.scrollHeight;
+      this.textarea.nativeElement.style['height'] = scrollHeight + "px";
+    }))
 
     setTimeout(() => {
       this.combination = this.comments.concat(...this.identifications)
@@ -136,31 +149,31 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit(){  
-    if(this.newComment && !this.id){
+    if(this.comment.value && !this.id){
       this.submitBtnState = ClrLoadingState.LOADING
       let comment: CommentsCreate = {
         fields: 'string',
         comment: {
           parent_type: 'Observation',
           parent_id: this.uuid,
-          body: this.newComment
+          body: this.comment.value
         }
       }
       this.inatServ.comment(comment).then((comments:Comment[])=>{
         this.combination.push(...comments)  
       }).finally(()=>{
-        this.newComment = ''
+        this.comment.reset()
         this.submitBtnState = ClrLoadingState.DEFAULT;
       })
     }else if(this.id){
       this.submitBtnState = ClrLoadingState.LOADING
-      this.id.identification.body = this.newComment;
+      this.id.identification.body = this.comment.value;
       this.inatServ.identification(this.id).then((identifications:Identification[])=>{
         this.combination.push(...identifications)
       }).finally(()=>{
         this.qTaxon.reset();
         this.suggestions = [];
-        this.newComment = ''
+        this.comment.reset()
         this.submitBtnState = ClrLoadingState.DEFAULT;
         this.id = undefined;
         this.selectedTaxon = undefined;
@@ -209,7 +222,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
                     taxon: r
                 }
         })
-        console.log(this.suggestions)
         if(res.length == 0){
           this.qTaxon.setErrors({'invalid':'No matching taxon found'})
           this.suggestions = []
@@ -228,7 +240,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   rankup(sug:any,e:Event,ref:ClrLoadingButton){
     e.stopPropagation();
     
-    console.log(sug.taxon.ancestor_ids)
     let rankup = sug.taxon.ancestor_ids[sug.taxon.ancestor_ids.length-1]
     if(rankup == sug.taxon.id){
       rankup = sug.taxon.ancestor_ids[sug.taxon.ancestor_ids.length-2]
@@ -249,9 +260,10 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub.forEach(sub => {
+      sub.unsubscribe();
+    })
   }
 
 }
 
-ClarityIcons.addIcons(checkIcon)

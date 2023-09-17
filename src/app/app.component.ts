@@ -22,6 +22,7 @@ import { NotificationService } from './notification/notification.service';
     CommonModule,
   ]
 })
+
 export class AppComponent implements AfterViewChecked, AfterViewInit{
   title = 'natureGram';
   scrollVal:number[] = []

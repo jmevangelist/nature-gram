@@ -13,6 +13,7 @@ import { SubscriptionLike } from 'rxjs';
 import { ObservationGridComponent } from '../observation-grid/observation-grid.component';
 import { TaxonomyComponent } from '../taxonomy/taxonomy.component';
 import { KeyValue } from '../shared/generic.interface';
+import { IntWordPipe } from '../shared/int-word.pipe';
 
 @Component({
   selector: 'app-user',
@@ -26,7 +27,8 @@ import { KeyValue } from '../shared/generic.interface';
     UrlifyDirective,
     SquareGridDirective,
     ObservationGridComponent,
-    TaxonomyComponent
+    TaxonomyComponent,
+    IntWordPipe
   ],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']

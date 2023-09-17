@@ -4,7 +4,7 @@ import { Observation } from '../inaturalist/inaturalist.interface';
 import { GramComponent } from '../gram/gram.component';
 import { ClarityModule } from '@clr/angular';
 import { HomeService } from './home.service';
-import { Navigation, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Observable, SubscriptionLike } from 'rxjs';
 import { ClarityIcons, filterGridIcon, bellIcon } from '@cds/core/icon';
 import { HeaderComponent } from '../header/header.component';
@@ -39,15 +39,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   bellIcon: IconShapeTuple;
   notification$: Observable<number>;
   chipGroup: any[];
-
-  private currentNavigation: Navigation | null;
   private sub?: SubscriptionLike;
 
   constructor(private router: Router, private view: ViewContainerRef){
     ClarityIcons.addIcons(filterGridIcon)
     this.observations = this.homeService.observations$;
     this.loading = this.homeService.loading$;
-    this.currentNavigation = this.router.getCurrentNavigation();
     this.end = false;
 
     this.bellIcon = bellIcon;
@@ -57,16 +54,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if(this.currentNavigation?.trigger == 'imperative'){
-      this.homeService.refresh();
-      this.moreObservations();
-    }else if(this.currentNavigation?.trigger == 'popstate'){
-      if(this.homeService.getObservations().length == 0){
-        if(!this.homeService.busy.value){
-          this.moreObservations();
-        }
-      }
-    }
+    this.homeService.refresh();
+    this.moreObservations();
   }
 
   ngOnDestroy(): void {

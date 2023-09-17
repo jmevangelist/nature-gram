@@ -6,11 +6,12 @@ import { InaturalistToolsService } from '../inaturalist/inaturalist-tools.servic
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { Router } from '@angular/router';
 import { ClarityIcons, refreshIcon } from '@cds/core/icon';
+import { IntWordPipe } from '../shared/int-word.pipe';
 
 @Component({
   selector: 'app-taxonomy',
   standalone: true,
-  imports: [CommonModule,ClarityModule],
+  imports: [CommonModule,ClarityModule,IntWordPipe],
   templateUrl: './taxonomy.component.html',
   styleUrls: ['./taxonomy.component.css']
 })

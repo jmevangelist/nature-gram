@@ -1,0 +1,33 @@
+<!-- <ng-container [ngSwitch]="style"> -->
+    <!-- <ng-container *ngSwitchCase="'cards'"> -->
+        <div [hidden]="style!='cards'">
+            <app-gram *ngFor="let observation of obs$|async; 
+            let last=last;trackBy:trackByItems" [observation]="observation"
+            [class.last]="last" appIntersectionObserver 
+            [observe]="last && !loadingObs && !end && retrieveOnScroll" (intersected)="intersected()"
+            [id]="observation.id">
+            </app-gram>
+        </div>
+    <!-- </ng-container> -->
+    <!-- <ng-container *ngSwitchCase="'grid'"> -->
+        <div class="grid-container" squareGrid [hidden]="style!='grid'">
+            <app-observation-mini #b (click)="onObsClick(b)" class="grid-item" 
+            *ngFor="let observation of obs$|async;
+            let last=last;trackBy:trackByItems" 
+            [observation]="observation" appIntersectionObserver 
+            [observe]="last && !loadingObs && !end && retrieveOnScroll" (intersected)="intersected()"></app-observation-mini>
+        </div>
+    <!-- </ng-container> -->
+<!-- </ng-container> -->
+
+<div class="spinner-container">
+    <span class="spinner spinner-md" [hidden]="!loadingObs">
+        Loading...
+    </span>
+    <span class="end p5 mt-0" [hidden]="!end || !retrieveOnScroll || loadingObs">
+        Oh hi! You scrolled through all observations!
+    </span>
+    <span class="end p5 mt-0" *ngIf="noObs && !loadingObs">
+        No observations
+    </span>
+</div>

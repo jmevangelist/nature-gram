@@ -21,7 +21,11 @@ const appRoutes: Routes = [
   {
     path:'home',
     component: HomeComponent,
-    title: 'natureGram'
+    title: 'natureGram',
+    data:{
+      saveComponent: true,
+      root: true
+    }
   },
   {
     path:'home/preference',
@@ -41,7 +45,10 @@ const appRoutes: Routes = [
   {
     path:'naturalist/:user_login',
     component: UserComponent,
-    title:'User'
+    title:'User',
+    data:{
+      saveComponent: true
+    }
   },
   {
     path:'notifications',
@@ -51,7 +58,10 @@ const appRoutes: Routes = [
   {
     path:'observation/:uuid',
     component: ObservationComponent,
-    title:'Observation'
+    title:'Observation',
+    data:{
+      saveComponent: true
+    }
   },{
     path:'map',
     component: MapComponent,
@@ -59,8 +69,15 @@ const appRoutes: Routes = [
   },
   {
     path:'following',
+    redirectTo: 'following/all', pathMatch: 'full'
+  },
+  {
+    path:'following/:filter',
     component: FollowingComponent,
-    title:'Following'
+    title:'Following',
+    data:{
+      saveComponent: true
+    }
   },
   {
     path: 'following-list',
@@ -70,7 +87,10 @@ const appRoutes: Routes = [
   {
     path:'taxon/:id',
     component: TaxonInfoComponent,
-    title: 'Taxon'
+    title: 'Taxon',
+    data:{
+      saveComponent: true
+    }
   },
   {
     path:'projects',
@@ -80,23 +100,35 @@ const appRoutes: Routes = [
       {
         path: '',
         component: ProjectListComponent,
-        title: 'Projects'
+        title: 'Projects',
+        data:{
+          saveComponent: true
+        }
       },
       {
         path: ':slug',
         component: ProjectInfoComponent,
-        title: 'Project'
+        title: 'Project',
+        data:{
+          saveComponent: true
+        }
       }
     ]
   },{
     path:'search',
     component: SearchComponent,
-    title: 'Search'
+    title: 'Search',
+    data:{
+      saveComponent: true
+    }
   },
   {
     path:'search/:source',
     component: SearchComponent,
-    title: 'Search'
+    title: 'Search',
+    data:{
+      saveComponent: true
+    }
   }
 ];
 

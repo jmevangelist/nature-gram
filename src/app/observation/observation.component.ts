@@ -15,6 +15,7 @@ import { UrlifyDirective } from '../shared/urlify.directive';
 import { MapComponent } from '../map/map.component';
 import { QualityMetricComponent } from '../quality-metric/quality-metric.component';
 import { AlbumComponent } from '../album/album.component';
+import { IntWordPipe } from '../shared/int-word.pipe';
 
 @Component({
   selector: 'app-observation',
@@ -30,7 +31,8 @@ import { AlbumComponent } from '../album/album.component';
     UrlifyDirective,
     MapComponent,
     QualityMetricComponent,
-    AlbumComponent
+    AlbumComponent,
+    IntWordPipe
   ],
   templateUrl: './observation.component.html',
   styleUrls: ['./observation.component.css']
@@ -59,13 +61,11 @@ export class ObservationComponent implements OnInit {
   ngOnInit(): void {
     this.inaturalistService.getObservationsByUUID([this.uuid]).then((obs:Observation[])=>{
         this.observation = obs.pop();
-        console.log(this.observation)
         if(this.observation?.quality_grade == 'research'){
           this.observation.quality_grade = 'research grade'
         }
     })
     this.inaturalistService.getObservationTaxonSummaryByUUID(this.uuid).then((data:any)=>{
-      console.log(data)
       this.taxonSummary = data;
       
     })

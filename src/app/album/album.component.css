@@ -75,6 +75,11 @@
     max-height: 500px;
 }
 
+.duo:has(.wide.first) > .grid-item{
+    grid-column: auto/span 2;
+    max-height: 250px;
+}
+
 .trio{
     grid-template-columns: 1fr 1fr 1fr;
 }

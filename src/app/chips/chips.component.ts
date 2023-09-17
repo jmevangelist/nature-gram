@@ -19,6 +19,16 @@ export class ChipsComponent implements OnInit {
   @Output() chipSelect: EventEmitter<Chip>;
   @Input() multiSelect: boolean = false;
 
+  @Input() set selected(sel:string|null){
+    if(sel){
+      if(!this.multiSelect){      
+        this.chips.forEach(c=>c.selected = false)
+      }
+      let chip = this.chips.find(c=>c.label.toLocaleLowerCase() == sel.toLocaleLowerCase())
+      if(chip){ chip.selected = true}
+    }
+  }
+
   private last!: Chip | undefined;
 
   constructor(){
