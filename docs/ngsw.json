@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1692614116915,
+  "timestamp": 1694947935925,
   "index": "/nature-gram/index.html",
   "assetGroups": [
     {
@@ -14,12 +14,12 @@
         "/nature-gram/141.65e948b9713abc85.js",
         "/nature-gram/favicon.ico",
         "/nature-gram/index.html",
-        "/nature-gram/main.cdf963860f0593ce.js",
+        "/nature-gram/main.0ffe9082d719beec.js",
         "/nature-gram/manifest.webmanifest",
         "/nature-gram/polyfills.2017c4f5c37bc885.js",
-        "/nature-gram/runtime.b1b91eb817d9bfce.js",
+        "/nature-gram/runtime.9eae2b6aa754e896.js",
         "/nature-gram/scripts.9ae1ca3def9d3b64.js",
-        "/nature-gram/styles.c2825a6c9f935f7e.css"
+        "/nature-gram/styles.6ce2f556ac9932ab.css"
       ],
       "patterns": []
     },
@@ -69,13 +69,13 @@
     "/nature-gram/assets/share.svg": "1d4e113028c385b7c56d1438d8e6229aa4f51a4e",
     "/nature-gram/assets/wave-bg.png": "32f4fe2e43e757154093faac928e80aec3a08ea1",
     "/nature-gram/favicon.ico": "b05d0b57bf9a62b45e25bcb3cc0198b96d3e7251",
-    "/nature-gram/index.html": "bf57ca26b9dc547d518591c22d38a2d06e410536",
-    "/nature-gram/main.cdf963860f0593ce.js": "bb678616121bf7d06d522d68e95819516b953639",
+    "/nature-gram/index.html": "86b4e2a1b1af6b1e7238f65b3687d0d436c12a3e",
+    "/nature-gram/main.0ffe9082d719beec.js": "c613f54b3f6c4d749da50541050425bee49f1d5a",
     "/nature-gram/manifest.webmanifest": "de730ee5fd804b0328d1060955c518bacdcf58ef",
     "/nature-gram/polyfills.2017c4f5c37bc885.js": "002c49fd15baf3c646c64abd10f3fdb43cc76430",
-    "/nature-gram/runtime.b1b91eb817d9bfce.js": "4582f29e23a0be7e0c9f8e2a8f78199556ab95d0",
+    "/nature-gram/runtime.9eae2b6aa754e896.js": "cb98f1841cdb4cdbcf59fbe70cf83ff41471c2f1",
     "/nature-gram/scripts.9ae1ca3def9d3b64.js": "cbf24afa5b5eab3b694ef3734d594bbd540dc25b",
-    "/nature-gram/styles.c2825a6c9f935f7e.css": "296222b2ff87d07662745849ed7c4c2c61da734b"
+    "/nature-gram/styles.6ce2f556ac9932ab.css": "c8d10b01d5c15a8e33077b035e49a5b6babe4167"
   },
   "navigationUrls": [
     {
