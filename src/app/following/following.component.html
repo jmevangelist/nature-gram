@@ -1,19 +1,23 @@
 <app-header title="Following" class="sticky-top"></app-header>
-<div class="following-container" *ngIf="following.length">
-    <div class="following" #followingC>
-        <div *ngFor="let u of following" class="user-container" [class.selected]="u.id==selected?.id">
-            <img [src]="u.friend_user.icon_url || 'assets/default.png'" class="user-icon" (click)="select(u)">
-            <div class="p8">{{u.friend_user.login}}</div>
+<div class="container">
+    <div class="following-container">
+        <div class="following" #followingC>
+            <div *ngFor="let u of relationships$ | async" class="user-container pointer-on-hover" 
+            [class.selected]="u.friend_user.id==(selectedUser$|async)" (click)="select(u)">
+                <img [src]="u.friend_user.icon_url || 'assets/default.png'" class="user-icon">
+                <div class="p8">{{u.friend_user.login}}</div>
+            </div>
         </div>
+        <button [class.display-block]="followingC.clientWidth < followingC.scrollWidth" 
+            class="btn btn-link btn-sm display-none" id="all" 
+            *urlify="['/following-list']">All</button>
     </div>
-    <button [class.display-block]="followingC.clientWidth < followingC.scrollWidth" 
-        class="btn btn-link btn-sm display-none" id="all" 
-        *urlify="['/following-list']">All</button>
-</div>
-<div class="no-token" [hidden]="!auth.isExpired">Missing/expired token</div>
-<div class="content" *ngIf="following.length">
-    <div class="filter">
-        <app-chips [chips]="filterChips" (chipSelect)="onSelect($event)"></app-chips>
+    <div class="no-token" [hidden]="!(auth.expired$|async)">Missing/expired token</div>
+    <div class="content" *ngIf="(q$|async)">
+        <div class="filter">
+            <app-chips [chips]="filterChips" (chipSelect)="onSelect($event)" [selected]="filterSelect$|async"></app-chips>
+        </div>
+        <app-observations [query]="q$ | async" [style]="'grid'" [retrieveOnScroll]="true" [size]="1" [allowEmptyQuery]="false">
+        </app-observations>
     </div>
-    <app-observations [query]="params" [style]="'cards'" [size]="1"></app-observations>
 </div>

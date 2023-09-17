@@ -8,6 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServiceWorker } from '@angular/service-worker';
 import { isDevMode } from '@angular/core';
 import { CustomRouteReuseStrategy } from './app/custom-route-reuse-strategy';
+import {  provideHttpClient } from '@angular/common/http'
 
 bootstrapApplication(AppComponent,{
   providers: [
@@ -28,6 +29,7 @@ bootstrapApplication(AppComponent,{
     {
         provide: RouteReuseStrategy,
         useClass: CustomRouteReuseStrategy
-    }
+    },
+    provideHttpClient()
 ]
 }).catch(err => console.log(err));

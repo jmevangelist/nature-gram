@@ -27,6 +27,10 @@
     flex:none;
 }
 
+.user-container:hover > img{
+    filter:brightness(75%);
+}
+
 ::-webkit-scrollbar{
     display: none;
 }
@@ -56,8 +60,14 @@
     align-items: center;
 }
 
+
+.container{
+    max-width: var(--max-width);
+    margin: auto;
+}
+
+
 .content{
-    max-width: 785px;
     width: 100%;
     padding: 0.3rem;
 }

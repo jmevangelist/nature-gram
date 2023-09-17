@@ -1,0 +1,13 @@
+<div *ngIf="observation" class="container">
+    <img [src]="photo.url" [width]="photo.original_dimensions.width"
+ [height]="photo.original_dimensions.height">
+    <div class="taxon hover-label" *ngIf="observation.taxon else unidentified">
+        <em>{{observation.taxon.name}}</em>
+        <span class="common-name" *ngIf="observation.taxon.preferred_common_name">
+            <br>{{observation.taxon.preferred_common_name}}
+        </span>
+    </div>
+    <ng-template #unidentified>
+        <div class="taxon hover-label">Unidentified</div>
+    </ng-template>
+</div>

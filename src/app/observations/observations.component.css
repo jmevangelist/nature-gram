@@ -1,7 +1,7 @@
 .grid-container{
     display: grid;
     gap: 0.2rem;    
-    grid-template-columns: repeat( auto-fill, minmax(min(7rem,24dvw),1fr) );
+    grid-template-columns: repeat( auto-fill, minmax(min(7rem,32dvw),1fr) );
     grid-auto-flow: dense;
 }
 
@@ -18,6 +18,7 @@
 }
 
 @media screen and (min-width:768px) {
+
     .grid-item.square{
         grid-column: auto/span 2;
         grid-row: auto/span 2;
@@ -59,38 +60,10 @@
     }   
 }
 
-.attribution{
-    bottom: 0;
-    left: 0;
-    text-align: start;
-}
-
-.taxon{    
-    top: 0;
-    right: 0;
-    text-align: end;
-}
-
-
 .grid-item:hover .hover-label{
     visibility: visible;
 }
 
-.grid-item:hover .obs-img{
-    filter: brightness(80%);
-}
-
-.hover-label{
-    visibility: hidden;
-    background-color: var(--bg-black-semi-transparent);
-    color: white;
-    position: absolute;
-    z-index: 5;
-    line-height: 0.6rem;
-    margin: 0.2rem;
-    padding: 0.1rem;
-    font-size: x-small;
-}
 
 .spinner-container{
     display: flex;

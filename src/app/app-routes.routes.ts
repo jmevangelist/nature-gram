@@ -69,6 +69,10 @@ const appRoutes: Routes = [
   },
   {
     path:'following',
+    redirectTo: 'following/all', pathMatch: 'full'
+  },
+  {
+    path:'following/:filter',
     component: FollowingComponent,
     title:'Following',
     data:{

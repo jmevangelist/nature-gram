@@ -26,6 +26,13 @@ export interface Observation {
     project_observations: ProjectObservation[];
 }
 
+export interface Results{
+    total_results: number;
+    page: number;
+    per_page: number;
+    results: Observation[]|User[]|Relationship[];
+}
+
 export interface User {
     id: number;
     name?: string;
@@ -168,6 +175,13 @@ export interface Relationship {
     friend_user: User;
     id: number;
 } 
+
+export interface ResultsRelationship {
+    total_results: number;
+    page: number;
+    per_page: number;
+    results: Relationship[];
+}
 
 export interface Project {
     id: number;
