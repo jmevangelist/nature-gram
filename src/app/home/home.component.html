@@ -19,22 +19,6 @@
 </div>
 
 <div class="home">
-    <app-gram *ngFor="let observation of observations | async; let isLast = last; trackBy: trackByItems" 
-        [observation]="observation"
-        appIntersectionObserver [observe]="isLast" (intersected)="intersected()">
-    </app-gram>
-
-    <ng-container *ngIf="end">
-        <p class="end">{{ (observations | async)?.length ? 
-            'Oh hi! You scrolled through all observations!' : 'No observations'}}</p>
-        <div *ngIf="!(observations | async)?.length">
-        </div>
-    </ng-container>
-
-    <div class="spinner-container">
-        <span class="spinner spinner-md" [hidden]="!(loading|async)">
-            Loading...
-        </span>
-    </div>
-
+    <app-observations [query]="q$ | async" [style]="'cards'" [retrieveOnScroll]="true" [size]="1" [allowEmptyQuery]="false">
+    </app-observations>
 </div>
